@@ -16,15 +16,17 @@ public class DroneBlueSteeeveLeft {
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(new Pose2d(-35, 60, Math.toRadians(270)))
                                 .forward(25)
-                                .turn(Math.toRadians(90))
+                                .turn(Math.toRadians(-90))
+                                .back(20)
 //   --------------------------------------------------------------------------------------------
-//   place the purple pixel after the turn
+//   place the purple pixel at this point
 //   --------------------------------------------------------------------------------------------
-                                .turn(Math.toRadians(180))
 //                                .splineTo(new Vector2d(-31, 34),Math.toRadians(180))
 //                                .splineTo(new Vector2d(-24, 35),Math.toRadians(180))
-                                .back(82)
-
+                                .back(62)
+//   --------------------------------------------------------------------------------------------
+//   now in position to put the yellow pixel on the backdrop
+//   --------------------------------------------------------------------------------------------
 //                                .turn(Math.toRadians(90))
 //                                .forward(30)
 //                                .turn(Math.toRadians(90))

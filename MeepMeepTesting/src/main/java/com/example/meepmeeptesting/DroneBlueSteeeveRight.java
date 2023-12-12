@@ -23,6 +23,9 @@ public class DroneBlueSteeeveRight {
 //                                .splineTo(new Vector2d(-31, 34),Math.toRadians(180))
 //                                .splineTo(new Vector2d(-24, 35),Math.toRadians(180))
                                 .back(82)
+//   --------------------------------------------------------------------------------------------
+//   now in position to put the yellow pixel on the backdrop
+//   --------------------------------------------------------------------------------------------
 
 //                                .turn(Math.toRadians(90))
 //                                .forward(30)
