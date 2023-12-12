@@ -17,13 +17,14 @@ public class DroneBlueSteeeveLeft {
                         drive.trajectorySequenceBuilder(new Pose2d(-35, 60, Math.toRadians(270)))
                                 .forward(25)
                                 .turn(Math.toRadians(-90))
-                                .back(20)
+                                .back(22)
+                                .turn(Math.toRadians(-360))
 //   --------------------------------------------------------------------------------------------
 //   place the purple pixel at this point
 //   --------------------------------------------------------------------------------------------
 //                                .splineTo(new Vector2d(-31, 34),Math.toRadians(180))
 //                                .splineTo(new Vector2d(-24, 35),Math.toRadians(180))
-                                .back(62)
+                                .back(60)
 //   --------------------------------------------------------------------------------------------
 //   now in position to put the yellow pixel on the backdrop
 //   --------------------------------------------------------------------------------------------
