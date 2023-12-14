@@ -60,6 +60,5 @@ public class DroneBlueSteeeveLeftStageDoor {
                 .addEntity(myBot)
                 .start();
 
-        meeMeep.
     }
 }
