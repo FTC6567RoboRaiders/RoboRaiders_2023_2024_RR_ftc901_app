@@ -17,11 +17,11 @@ public class DroneBlueSteeeveLeftStageDoor {
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(new Pose2d(-35, 60, Math.toRadians(270)))
                                 .forward(25)
-                                .turn(Math.toRadians(90))
+                                .turn(Math.toRadians(-90))
 //   --------------------------------------------------------------------------------------------
 //   place the purple pixel at this point
 //   --------------------------------------------------------------------------------------------
-                                .turn(Math.toRadians(-90))
+                                .turn(Math.toRadians(90))
                                 .forward(22)
                                 .turn(Math.toRadians(-90))
                                 .back(84)
