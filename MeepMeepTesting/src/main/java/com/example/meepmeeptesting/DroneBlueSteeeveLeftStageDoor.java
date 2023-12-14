@@ -25,15 +25,19 @@ public class DroneBlueSteeeveLeftStageDoor {
                                 .forward(22)
                                 .turn(Math.toRadians(-90))
                                 .back(84)
-                                .strafeRight(20)
-                                .strafeLeft(20)
+                                .strafeRight(28)
+// deposit yellow pixel
+                                .strafeLeft(28)
                                 .forward(84)
-                                .splineTo(new Vector2d(-61, 23.5),Math.toRadians(180))
-//                                .splineTo(new Vector2d(-35, 13), Math.toRadians(180))
-                                .splineToConstantHeading(new Vector2d(-50, 13), Math.toRadians(180))
-                                .back(99)
+                                .splineToConstantHeading(new Vector2d(-55, 23.5),Math.toRadians(0))
+                                .forward(5)
+// grab two more pixels
+                                .back(5)
+                                .splineToConstantHeading(new Vector2d(-35, 13), Math.toRadians(0))
+                                .back(84)
                                 .strafeRight(20)
                                 .strafeLeft(20)
+// deposit two pixels
 //                                .splineTo(new Vector2d(-24, 35),Math.toRadians(180))
 //                                .back(60)
 //   --------------------------------------------------------------------------------------------
@@ -55,5 +59,7 @@ public class DroneBlueSteeeveLeftStageDoor {
                 .setBackgroundAlpha(0.95f)
                 .addEntity(myBot)
                 .start();
+
+        meeMeep.
     }
 }
