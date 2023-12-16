@@ -62,7 +62,7 @@ public class firstTournAuto extends LinearOpMode {
             telemetry.setAutoClear(false);
             telemetry.addLine().addData("Autonomous", "Selections");
             telemetry.addLine().addData("Alliance:", isRed ? "Red  " : "Blue  ").addData("  Robot Start Location:", droneSide ? "Drone" : "Stage");
-            telemetry.addLine().addData("Drive Side: ", driveInner ? "Inner" : "Outer");
+            telemetry.addLine().addData("Drive Side: ", driveInner ? "Inner" : "Wall");
             telemetry.addLine().addData("Wait for Partner:", waitForPartner ? "Yes" : "No");
             telemetry.update();
 

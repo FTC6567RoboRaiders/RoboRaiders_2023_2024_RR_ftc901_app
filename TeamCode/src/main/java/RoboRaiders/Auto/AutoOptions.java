@@ -40,6 +40,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
  *
  */
 
+// current list of options: alliance colour, starting side, drive path, wait for partner
+
 public class AutoOptions {
 
     private LinearOpMode op;
@@ -97,7 +99,7 @@ public class AutoOptions {
     public boolean selectDrivePath() {
 
         // create paths
-        String[] paths = new String[]{"Inner", "Outer"};
+        String[] paths = new String[]{"Inner", "Wall"};
 
         // let driver make selection: index = 0 means first selection, index = 1 means second selection
         int index = makeSelection("robot drive path", paths);
