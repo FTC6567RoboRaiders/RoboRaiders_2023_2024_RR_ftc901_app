@@ -3,6 +3,7 @@ package RoboRaiders.Robots;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -69,10 +70,10 @@ public class NotPirsus {
         bDeadwheel = hwMap.get(DcMotorEx.class, "bDeadwheel");
 
 
-        lFMotor.setDirection(DcMotor.Direction.FORWARD);
-        rFMotor.setDirection(DcMotor.Direction.REVERSE);
-        lRMotor.setDirection(DcMotor.Direction.FORWARD);
-        rRMotor.setDirection(DcMotor.Direction.REVERSE);
+        lFMotor.setDirection(DcMotor.Direction.REVERSE);
+        rFMotor.setDirection(DcMotor.Direction.FORWARD);
+        lRMotor.setDirection(DcMotor.Direction.REVERSE);
+        rRMotor.setDirection(DcMotor.Direction.FORWARD);
 
         lFMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rFMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
