@@ -38,7 +38,7 @@ public class NotPirsusDriveTrainEncoderTest extends LinearOpMode {
             telemetry.addData("Status ", "opModeIsActive");
 
 
-            robot.setDriveMotorPower(0.5, 0.50, 0.50, 0.50);   // Set power to 50%
+            robot.setDriveMotorPower(0.25, 0.25, 0.25, 0.25);   // Set power to 50%
             telemetry.addData("Left Rear Drive Encoder Counts", "(%.0f)",robot.getBackLeftDriveEncoderCounts());
             telemetry.addData("Left Front Drive Encoder Counts", "(%.0f)",robot.getFrontLeftDriveEncoderCounts());
             telemetry.addData("Right Rear Drive Encoder Counts", "(%.0f)", robot.getBackRightDriveEncoderCounts());

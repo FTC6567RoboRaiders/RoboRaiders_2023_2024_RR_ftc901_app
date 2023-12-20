@@ -35,7 +35,7 @@ public class NotPirsus {
     public IMU imu;
 
     public IMU.Parameters parameters = new IMU.Parameters(
-            new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.RIGHT, RevHubOrientationOnRobot.UsbFacingDirection.FORWARD)
+            new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.RIGHT, RevHubOrientationOnRobot.UsbFacingDirection.UP)
     );
 
     public Orientation angles;
