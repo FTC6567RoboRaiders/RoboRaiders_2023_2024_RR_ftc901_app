@@ -97,7 +97,8 @@ public class TrackingWheelLateralDistanceTuner extends LinearOpMode {
 
         while (!isStopRequested() && !tuningFinished) {
             Pose2d vel = new Pose2d(0, 0, -gamepad1.right_stick_x);
-            drive.setDrivePower(vel);
+            drive.setMotorPowers(gamepad1.right_stick_x,gamepad1.right_stick_x,-gamepad1.right_stick_x,-gamepad1.right_stick_x); //* force robot to spinaroo
+            //drive.setDrivePower(vel);
 
             drive.update();
 

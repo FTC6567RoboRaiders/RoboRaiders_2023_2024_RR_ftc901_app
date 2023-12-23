@@ -78,16 +78,16 @@ public class LiftPidTest extends LinearOpMode {
     }
     /**
      * Tuner method to tune the PID variables for lift
-     * @param wantedDistance
+     * @param targetDistance - the target distance to travel or extend the lift
      * @param direction 0.0 - extend the lift, 1.0 retract the lift
      */
-    public void encoderDrivePIDTuner(double wantedDistance, double direction) {
+    public void encoderDrivePIDTuner(double targetDistance, double direction) {
 
         myLiftBot.resetEncoders();
         myLiftBot.runWithEncoders();
         rrPID.initialize();   // re-initialized the pid variables that we care about
 
-        double targetEncoderCount = Math.abs(myLiftBot.liftCalculateCounts(wantedDistance));
+        double targetEncoderCount = Math.abs(myLiftBot.liftCalculateCounts(targetDistance));
         double currentEncoderCount = myLiftBot.getAverageEncoderCount();
 
         if (direction == 1.0) direction = -1.0; // Retract the lift, motor powers are negative
