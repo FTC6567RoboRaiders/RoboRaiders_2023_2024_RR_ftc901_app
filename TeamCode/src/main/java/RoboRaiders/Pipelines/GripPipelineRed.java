@@ -1,5 +1,6 @@
 package RoboRaiders.Pipelines;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
@@ -23,6 +24,8 @@ import java.util.List;
 */
 public class GripPipelineRed {
 
+	private WebcamName webcam1;
+
 	//Outputs
 	private Mat hsvThresholdOutput = new Mat();
 	private ArrayList<MatOfPoint> findContoursOutput = new ArrayList<MatOfPoint>();
@@ -32,6 +35,8 @@ public class GripPipelineRed {
 	static {
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 	}
+
+
 
 	/**
 	 * This is the primary method that runs the entire pipeline and updates the outputs.

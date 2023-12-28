@@ -7,19 +7,31 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.configuration.WebcamConfiguration;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.util.Encoder;
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import RoboRaiders.Utilities.Logger.Logger;
+import RoboRaiders.Pipelines.GripPipelineRed;
+import RoboRaiders.Pipelines.GripPipelineBlue;
 
 
 
 public class NotPirsus {
+
+    OpenCvCamera camera;
+    int cameraMonitorViewId;
+
+    public WebcamName webcam1;
 
     public DcMotorEx lFMotor = null;
     public DcMotorEx rFMotor = null;
@@ -68,6 +80,10 @@ public class NotPirsus {
         lDeadwheel = hwMap.get(DcMotorEx.class, "lDeadwheel");
         rDeadwheel = hwMap.get(DcMotorEx.class, "rDeadwheel");
         bDeadwheel = hwMap.get(DcMotorEx.class, "bDeadwheel");
+
+        webcam1 = hwMap.get(WebcamName.class, "Webcam 1");
+        cameraMonitorViewId = hwMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hwMap.appContext.getPackageName());
+        camera = OpenCvCameraFactory.getInstance().createWebcam(hwMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
 
 
         lFMotor.setDirection(DcMotor.Direction.REVERSE);

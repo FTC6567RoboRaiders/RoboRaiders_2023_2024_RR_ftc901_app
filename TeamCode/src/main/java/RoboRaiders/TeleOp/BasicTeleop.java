@@ -54,7 +54,7 @@ public class BasicTeleop extends OpMode {
     @Override
     public void init() {
 
-        // initialise robot and tell user that the robot is initialized
+        // initialise robot and tell user that the robot is initialised
         robot.initialize(hardwareMap);
         telemetry.addData("Robot Initialized waiting your command", true);
         telemetry.update();

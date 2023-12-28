@@ -151,7 +151,7 @@ public class GripPipelineBlueII {
 	 * @param maxWidth maximum width
 	 * @param minHeight minimum height
 	 * @param maxHeight maximimum height
-	 * @param Solidity the minimum and maximum solidity of a contour
+	 * @param solidity the minimum and maximum solidity of a contour
 	 * @param minVertexCount minimum vertex Count of the contours
 	 * @param maxVertexCount maximum vertex Count
 	 * @param minRatio minimum ratio of width to height
