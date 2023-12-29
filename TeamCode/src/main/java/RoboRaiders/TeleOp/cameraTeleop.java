@@ -18,9 +18,12 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.util.Encoder;
+import org.opencv.core.MatOfPoint;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
+
+import java.util.ArrayList;
 
 import RoboRaiders.Robots.NotPirsus;
 import RoboRaiders.Utilities.Logger.Logger;
@@ -59,7 +62,9 @@ public class cameraTeleop extends OpMode {
     }
 
     public void doCamera() {
+        ArrayList<MatOfPoint> foundCountours = robot.stevesPipeline.getFoundContours();
 
+        // more work to do here now
 
 
     }

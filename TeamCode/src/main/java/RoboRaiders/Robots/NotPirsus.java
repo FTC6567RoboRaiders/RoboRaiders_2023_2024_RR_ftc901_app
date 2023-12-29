@@ -20,6 +20,7 @@ import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
+import RoboRaiders.Pipelines.StevesPipeline;
 import RoboRaiders.Utilities.Logger.Logger;
 import RoboRaiders.Pipelines.GripPipelineRed;
 import RoboRaiders.Pipelines.GripPipelineBlue;
@@ -61,6 +62,9 @@ public class NotPirsus {
     public boolean firstTimeCalled = true;
 
 
+    // Vision Variables
+    public StevesPipeline stevesPipeline;
+
     public NotPirsus() {
 
     }
@@ -80,10 +84,6 @@ public class NotPirsus {
         lDeadwheel = hwMap.get(DcMotorEx.class, "lDeadwheel");
         rDeadwheel = hwMap.get(DcMotorEx.class, "rDeadwheel");
         bDeadwheel = hwMap.get(DcMotorEx.class, "bDeadwheel");
-
-        webcam1 = hwMap.get(WebcamName.class, "Webcam 1");
-        cameraMonitorViewId = hwMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hwMap.appContext.getPackageName());
-        camera = OpenCvCameraFactory.getInstance().createWebcam(hwMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
 
 
         lFMotor.setDirection(DcMotor.Direction.REVERSE);
@@ -114,6 +114,30 @@ public class NotPirsus {
 //        parameters.angleUnit = IMU.AngleUnit.RADIANS;
         //parameters.mode = BNO055IMU.SensorMode.IMU;
         imu.initialize(parameters);
+
+
+        // Vision processing
+        webcam1 = hwMap.get(WebcamName.class, "Webcam 1");
+        cameraMonitorViewId = hwMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hwMap.appContext.getPackageName());
+        camera = OpenCvCameraFactory.getInstance().createWebcam(hwMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+
+        camera.setPipeline(stevesPipeline);
+
+        camera.openCameraDeviceAsync(new  OpenCvCamera.AsyncCameraOpenListener()
+        {
+            @Override
+            public void onOpened()
+            {
+                camera.startStreaming(800,448, OpenCvCameraRotation.UPRIGHT);
+            }
+
+            @Override
+            public void onError(int errorCode)
+            {
+                // For now do nothing when we have an error
+            }
+        });
+
 
     }
 
