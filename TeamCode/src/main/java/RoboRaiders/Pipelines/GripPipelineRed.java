@@ -32,9 +32,9 @@ public class GripPipelineRed {
 	private ArrayList<MatOfPoint> filterContoursOutput = new ArrayList<MatOfPoint>();
 	private ArrayList<MatOfPoint> convexHullsOutput = new ArrayList<MatOfPoint>();
 
-	static {
-		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-	}
+//	static {
+//		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+//	}
 
 
 

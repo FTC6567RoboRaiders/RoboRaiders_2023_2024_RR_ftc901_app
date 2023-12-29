@@ -1,6 +1,7 @@
 package RoboRaiders.TeleOp;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -30,13 +31,13 @@ import RoboRaiders.Utilities.Logger.Logger;
 import RoboRaiders.Pipelines.GripPipelineRed;
 import RoboRaiders.Pipelines.GripPipelineBlue;
 
-@TeleOp(name = "Camera Teleop")
+@Autonomous(name = "Camera")
 
 public class cameraTeleop extends OpMode {
 
     public NotPirsus robot = new NotPirsus();
-    public GripPipelineRed redPipeline = new GripPipelineRed();
-    public GripPipelineBlue bluePipeline = new GripPipelineBlue();
+//    public GripPipelineRed redPipeline = new GripPipelineRed();
+//    public GripPipelineBlue bluePipeline = new GripPipelineBlue();
 
     @Override
     public void init() {
