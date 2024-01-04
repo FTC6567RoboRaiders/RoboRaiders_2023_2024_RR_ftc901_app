@@ -46,6 +46,8 @@ public class BasicScrimAuto extends LinearOpMode {
 
         waitForStart();
         while(opModeIsActive()){
+            telemetry.addData("findContoursOutputSize", pipeline.getFindContoursOutputSize());
+            telemetry.addData("filterContoursOutputSize", pipeline.getFilterContoursOutputSize());
             if(pipeline.contourFound()) {
                 telemetry.addData("yes", 1);
             }
