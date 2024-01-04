@@ -174,7 +174,8 @@ public class StevesPipeline extends OpenCvPipeline {
 
     // Return the contours that were found in filterCountours
     public ArrayList<MatOfPoint> getFoundContours() { return filterContoursOutput; }
-
+    public int getFindContoursOutputSize() { return findContoursOutput.size(); }
+    public int getFilterContoursOutputSize() { return filterContoursOutput.size(); }
     public boolean contourFound() {
 
         if(filterContoursOutput.size() == 0) {
