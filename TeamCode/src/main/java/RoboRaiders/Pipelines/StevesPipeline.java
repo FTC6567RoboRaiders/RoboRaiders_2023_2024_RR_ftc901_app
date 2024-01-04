@@ -25,7 +25,7 @@ public class StevesPipeline extends OpenCvPipeline {
     private ArrayList<MatOfPoint> findContoursOutput = new ArrayList<MatOfPoint>();
     private ArrayList<MatOfPoint> filterContoursOutput = new ArrayList<MatOfPoint>();
     private ArrayList<MatOfPoint> filterContoursContours;
-    private ArrayList<MatOfPoint> foundContours;
+    private ArrayList<MatOfPoint> foundCountours;
 
     //HSV values for blue and red we want
     private double[] blueHSVThresholdHue = {56.38682136602451, 180.0};
@@ -175,8 +175,6 @@ public class StevesPipeline extends OpenCvPipeline {
     // Return the contours that were found in filterCountours
     public ArrayList<MatOfPoint> getFoundContours() { return filterContoursOutput; }
 
-    public int getFindContoursOutputSize() { return findContoursOutput.size(); }
-    public int getFilterContoursOutputSize() { return filterContoursOutput.size(); }
     public boolean contourFound() {
 
         if(filterContoursOutput.size() == 0) {
