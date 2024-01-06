@@ -50,6 +50,25 @@ public class StevesPipeline extends OpenCvPipeline {
     double filterContoursMaxRatio = 1000.0;
 
 
+    @Override
+    public void onViewportTapped()
+    {
+        /*
+         * Note that this method is invoked from the UI thread
+         * so whatever we do here, we must do quickly.
+         */
+
+        int currentStageNum = stageToRenderToViewport.ordinal();
+
+        int nextStageNum = currentStageNum + 1;
+
+        if(nextStageNum >= stages.length)
+        {
+            nextStageNum = 0;
+        }
+
+        stageToRenderToViewport = stages[nextStageNum];
+    }
 
     @Override
     public Mat processFrame(Mat input) {
@@ -86,6 +105,8 @@ public class StevesPipeline extends OpenCvPipeline {
 
         return input;
     }
+
+
 
     /**
      * Segment an image based on hue, saturation, and value ranges.
