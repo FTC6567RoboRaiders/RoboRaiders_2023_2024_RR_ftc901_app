@@ -14,23 +14,28 @@ import org.openftc.easyopencv.OpenCvPipeline;
 import java.util.ArrayList;
 import java.util.List;
 
+import RoboRaiders.Utilities.Logger.Logger;
+
 public class StevesPipeline extends OpenCvPipeline {
 
     private boolean findCountoursExternalOnly = false;
 
     private Mat hsvThresholdOutput = new Mat();
-    private Mat hsvThresholdInput;
-    private Mat findCountoursInput;
+    private Mat hsvThresholdInput = new Mat();
+    private Mat findCountoursInput = new Mat();
+    private Mat contoursOnFrameMat = new Mat();
+    private Mat filteredContoursOnFrameMat = new Mat();
+
 
     private ArrayList<MatOfPoint> findContoursOutput = new ArrayList<MatOfPoint>();
     private ArrayList<MatOfPoint> filterContoursOutput = new ArrayList<MatOfPoint>();
     private ArrayList<MatOfPoint> filterContoursContours;
-    private ArrayList<MatOfPoint> foundCountours;
+    private ArrayList<MatOfPoint> foundContours;
 
     //HSV values for blue and red we want
-    private double[] blueHSVThresholdHue = {56.38682136602451, 180.0};
-    private double[] blueHSVThresholdSaturation = {99.609375, 255.0};
-    private double[] blueHSVThresholdValue = {100.71614583333334, 255.0};
+    private double[] blueHSVThresholdHue = {56.0, 180.0};
+    private double[] blueHSVThresholdSaturation = {100.0, 255.0};
+    private double[] blueHSVThresholdValue = {101.0, 255.0};
 
     private double[] redHSVThresholdHue = {0.0, 20.473209195046536};
     private double[] redHSVThresholdSaturation = {109.79460707021325, 255.0};
@@ -50,6 +55,17 @@ public class StevesPipeline extends OpenCvPipeline {
     double filterContoursMaxRatio = 1000.0;
 
 
+    enum Stage
+    {
+        HSV_OVERLAYED,
+        CONTOURS_OVERLAYED_ON_FRAME,
+        FILTERED_CONTOURS_OVERLAYED_ON_FRAME,
+        RAW_IMAGE,
+    }
+
+    private Stage stageToRenderToViewport = Stage.FILTERED_CONTOURS_OVERLAYED_ON_FRAME;
+    private Stage[] stages = Stage.values();
+
     @Override
     public void onViewportTapped()
     {
@@ -58,9 +74,14 @@ public class StevesPipeline extends OpenCvPipeline {
          * so whatever we do here, we must do quickly.
          */
 
+        Logger L = new Logger(String.valueOf("******** CAMERA TEST *******"));
+
         int currentStageNum = stageToRenderToViewport.ordinal();
 
         int nextStageNum = currentStageNum + 1;
+
+        L.Debug("currentStageNum", currentStageNum);
+        L.Debug("nextStageNum", nextStageNum);
 
         if(nextStageNum >= stages.length)
         {
@@ -68,6 +89,8 @@ public class StevesPipeline extends OpenCvPipeline {
         }
 
         stageToRenderToViewport = stages[nextStageNum];
+
+        L.Debug("stageToRenderToViewport.ordinal()", stageToRenderToViewport.ordinal());
     }
 
     @Override
@@ -103,7 +126,55 @@ public class StevesPipeline extends OpenCvPipeline {
                 filterContoursMaxRatio,
                 filterContoursOutput);
 
-        return input;
+
+        switch (stageToRenderToViewport)
+        {
+            case HSV_OVERLAYED:
+            {
+                return hsvThresholdOutput;
+            }
+
+            case CONTOURS_OVERLAYED_ON_FRAME:
+            {
+                //Imgproc.findContours(thresholdMat, stickerContours, new Mat(), Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE);
+                //Imgproc.drawContours(contoursOnFrameMat,stickerContours,-1,new Scalar(250,0,0),2);
+                input.copyTo(contoursOnFrameMat);
+                for(MatOfPoint foundContour : findContoursOutput){
+
+                    // Get bounding rect of contour
+                    Rect rect = Imgproc.boundingRect(foundContour);
+                    Imgproc.rectangle(contoursOnFrameMat, rect.tl(), rect.br(), new Scalar(0,0,255),2); // Draw rect
+
+                }
+
+                return contoursOnFrameMat;
+            }
+
+            case FILTERED_CONTOURS_OVERLAYED_ON_FRAME:
+            {
+                input.copyTo(filteredContoursOnFrameMat);
+                for(MatOfPoint filteredContour : filterContoursOutput){
+
+                    // Get bounding rect of contour
+                    Rect rect = Imgproc.boundingRect(filteredContour);
+                    Imgproc.rectangle(filteredContoursOnFrameMat, rect.tl(), rect.br(), new Scalar(0,255,0),2); // Draw rect
+
+                }
+
+                return filteredContoursOnFrameMat;
+            }
+
+            case RAW_IMAGE:
+            {
+                return input;
+            }
+
+            default:
+            {
+                return input;
+            }
+        }
+
     }
 
 
