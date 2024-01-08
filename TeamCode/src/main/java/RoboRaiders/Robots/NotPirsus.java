@@ -16,7 +16,7 @@ import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
-import RoboRaiders.Pipelines.StevesPipeline;
+import RoboRaiders.Pipelines.StevesPipeline2;
 import RoboRaiders.Utilities.Logger.Logger;
 
 
@@ -56,7 +56,7 @@ public class NotPirsus {
 
 
     // Vision Variables
-    public StevesPipeline stevesPipeline = new ;
+    public StevesPipeline2 stevesPipeline = new StevesPipeline2();
 
     public NotPirsus() {
 

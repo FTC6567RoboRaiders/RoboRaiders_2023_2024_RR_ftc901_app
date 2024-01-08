@@ -43,8 +43,8 @@ public class cameraTeleop extends OpMode {
 
 
     public void doCamera() {
-        ArrayList<MatOfPoint> foundCountoursBlue = robot.stevesPipeline.getFoundContoursBlue();
-        ArrayList<MatOfPoint> foundCountoursRed = robot.stevesPipeline.getFoundContoursRed();
+//        ArrayList<MatOfPoint> foundContoursBlue = robot.stevesPipeline.getFoundContoursBlue();
+//        ArrayList<MatOfPoint> foundContoursRed = robot.stevesPipeline.getFoundContoursRed();
 
         // more work to do here now
 
