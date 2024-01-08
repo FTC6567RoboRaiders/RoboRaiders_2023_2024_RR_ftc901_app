@@ -16,7 +16,7 @@ import java.util.List;
 
 import RoboRaiders.Utilities.Logger.Logger;
 
-public class StevesPipeline extends OpenCvPipeline {
+public class StevesPipeline2 extends OpenCvPipeline {
 
     private boolean findCountoursExternalOnly = false;
 
@@ -100,16 +100,16 @@ public class StevesPipeline extends OpenCvPipeline {
 
         // find the blue objects in frame, to find red, just change up the hue saturation and value
         hsvThreshold(hsvThresholdInput,
-                     redHSVThresholdHue,
-                     redHSVThresholdSaturation,
-                     redHSVThresholdValue,
-                     hsvThresholdOutput);
+                redHSVThresholdHue,
+                redHSVThresholdSaturation,
+                redHSVThresholdValue,
+                hsvThresholdOutput);
 
         // find the contours
         findCountoursInput = hsvThresholdOutput;
         findContours(findCountoursInput,
-                      findCountoursExternalOnly,
-                      findContoursOutput);
+                findCountoursExternalOnly,
+                findContoursOutput);
 
         filterContoursContours = findContoursOutput;
         filterContours(filterContoursContours,
@@ -257,7 +257,7 @@ public class StevesPipeline extends OpenCvPipeline {
             }
             final double solid = 100 * area / Imgproc.contourArea(mopHull);
             if (solid < solidity[0] || solid > solidity[1]) continue;
-            if (contour.rows() < minVertexCount || contour.rows() > maxVertexCount)	continue;
+            if (contour.rows() < minVertexCount || contour.rows() > maxVertexCount)    continue;
             final double ratio = bb.width / (double)bb.height;
             if (ratio < minRatio || ratio > maxRatio) continue;
             output.add(contour);

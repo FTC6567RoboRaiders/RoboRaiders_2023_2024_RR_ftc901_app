@@ -6,9 +6,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
-import RoboRaiders.Pipelines.GripPipelineBlue;
-import RoboRaiders.Pipelines.GripPipelineRed;
-import RoboRaiders.Pipelines.StevesPipeline;
+
+import RoboRaiders.Pipelines.StevesPipeline2;
 import RoboRaiders.Robots.NotPirsus;
 
 @Autonomous
@@ -18,7 +17,7 @@ public class BasicScrimAuto extends LinearOpMode {
 
     VisionPortal visionPortal;
     AprilTagProcessor aprilTag;
-    public StevesPipeline pipeline = new StevesPipeline();
+    public StevesPipeline2 pipeline = new StevesPipeline2();
 
     private boolean isRed = false;
     private boolean droneSide = false;
@@ -46,8 +45,8 @@ public class BasicScrimAuto extends LinearOpMode {
 
         waitForStart();
         while(opModeIsActive()){
-            telemetry.addData("findContoursOutputSize", pipeline.getFindContoursOutputSize());
-            telemetry.addData("filterContoursOutputSize", pipeline.getFilterContoursOutputSize());
+            telemetry.addData("findContoursOutputSizeBlue", pipeline.getFindContoursOutputSize());
+            telemetry.addData("filterContoursOutputSizeBlue", pipeline.getFilterContoursOutputSize());
             if(pipeline.contourFound()) {
                 telemetry.addData("yes", 1);
             }
