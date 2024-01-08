@@ -55,24 +55,25 @@ public class CameraBot {
         camera.openCameraDevice();
 
         stevesPipeline = new StevesPipeline();
-        camera.setPipeline(stevesPipeline);
-        camera.startStreaming(640,480, OpenCvCameraRotation.UPRIGHT);
+//        camera.setPipeline(stevesPipeline);
+//        camera.startStreaming(640,480, OpenCvCameraRotation.UPRIGHT);
 //        camera.startStreaming(800,448, OpenCvCameraRotation.UPRIGHT);
 
-//        camera.openCameraDeviceAsync(new  OpenCvCamera.AsyncCameraOpenListener()
-//        {
-//            @Override
-//            public void onOpened()
-//            {
-//                camera.startStreaming(800,448, OpenCvCameraRotation.UPRIGHT);
-//            }
-//
-//            @Override
-//            public void onError(int errorCode)
-//            {
-//                // For now do nothing when we have an error
-//            }
-//        });
+        camera.openCameraDeviceAsync(new  OpenCvCamera.AsyncCameraOpenListener()
+        {
+            @Override
+            public void onOpened()
+            {
+                camera.setPipeline(stevesPipeline);
+                camera.startStreaming(640,480, OpenCvCameraRotation.UPRIGHT);
+            }
+
+            @Override
+            public void onError(int errorCode)
+            {
+                // For now do nothing when we have an error
+            }
+        });
 
     }
 

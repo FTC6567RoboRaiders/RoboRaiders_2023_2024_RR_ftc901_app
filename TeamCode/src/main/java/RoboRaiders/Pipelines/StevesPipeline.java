@@ -100,9 +100,9 @@ public class StevesPipeline extends OpenCvPipeline {
 
         // find the blue objects in frame, to find red, just change up the hue saturation and value
         hsvThreshold(hsvThresholdInput,
-                     blueHSVThresholdHue,
-                     blueHSVThresholdSaturation,
-                     blueHSVThresholdValue,
+                     redHSVThresholdHue,
+                     redHSVThresholdSaturation,
+                     redHSVThresholdValue,
                      hsvThresholdOutput);
 
         // find the contours
