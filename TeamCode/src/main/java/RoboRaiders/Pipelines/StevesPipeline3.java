@@ -16,26 +16,40 @@ import java.util.List;
 
 import RoboRaiders.Utilities.Logger.Logger;
 
-public class StevesPipeline2 extends OpenCvPipeline {
+public class StevesPipeline3 extends OpenCvPipeline {
 
-    private boolean findCountoursExternalOnly = false;
-
-    private Mat hsvThresholdOutput = new Mat();
-    private Mat hsvThresholdInput = new Mat();
-    private Mat findCountoursInput = new Mat();
     private Mat contoursOnFrameMat = new Mat();
     private Mat filteredContoursOnFrameMat = new Mat();
+    private boolean findCountoursExternalOnly = false;
 
+    private Mat redHSVThresholdInput = new Mat();
+    private Mat blueHSVThresholdInput = new Mat();
 
-    private ArrayList<MatOfPoint> findContoursOutput = new ArrayList<MatOfPoint>();
-    private ArrayList<MatOfPoint> filterContoursOutput = new ArrayList<MatOfPoint>();
-    private ArrayList<MatOfPoint> filterContoursContours;
-    private ArrayList<MatOfPoint> foundContours;
+    private Mat blueHSVThresholdOutput = new Mat();
+    private Mat blueFindContoursInput = new Mat();
+    private Mat blueContoursOnFrameMat = new Mat();
+    private Mat blueFilteredContoursOnFrameMat = new Mat();
+
+    private Mat redHSVThresholdOutput = new Mat();
+    private Mat redFindContoursInput = new Mat();
+    private Mat redContoursOnFrameMat = new Mat();
+    private Mat redFilteredContoursOnFrameMat = new Mat();
+
+    private ArrayList<MatOfPoint> blueFindContoursOutput = new ArrayList<MatOfPoint>();
+    private ArrayList<MatOfPoint> blueFilterContoursOutput = new ArrayList<MatOfPoint>();
+    private ArrayList<MatOfPoint> blueFilterContoursContours;
+    private ArrayList<MatOfPoint> blueFoundContours;
+
+    private ArrayList<MatOfPoint> redFindContoursOutput = new ArrayList<MatOfPoint>();
+    private ArrayList<MatOfPoint> redFilterContoursOutput = new ArrayList<MatOfPoint>();
+    private ArrayList<MatOfPoint> redFilterContoursContours;
+    private ArrayList<MatOfPoint> redFoundContours;
 
     //HSV values for blue and red we want
     private double[] blueHSVThresholdHue = {56.0, 180.0};
     private double[] blueHSVThresholdSaturation = {100.0, 255.0};
     private double[] blueHSVThresholdValue = {101.0, 255.0};
+
 
     private double[] redHSVThresholdHue = {0.0, 20.473209195046536};
     private double[] redHSVThresholdSaturation = {109.79460707021325, 255.0};
@@ -96,23 +110,23 @@ public class StevesPipeline2 extends OpenCvPipeline {
     @Override
     public Mat processFrame(Mat input) {
 
-        hsvThresholdInput = input;     // save the original image
+        input.copyTo(blueHSVThresholdInput); // save the original image
 
         // find the blue objects in frame, to find red, just change up the hue saturation and value
-        hsvThreshold(hsvThresholdInput,
-                redHSVThresholdHue,
-                redHSVThresholdSaturation,
-                redHSVThresholdValue,
-                hsvThresholdOutput);
+        hsvThreshold(blueHSVThresholdInput,
+                blueHSVThresholdHue,
+                blueHSVThresholdSaturation,
+                blueHSVThresholdValue,
+                blueHSVThresholdOutput);
 
         // find the contours
-        findCountoursInput = hsvThresholdOutput;
-        findContours(findCountoursInput,
+        blueHSVThresholdOutput.copyTo(blueFindContoursInput);
+        findContours(blueFindContoursInput,
                 findCountoursExternalOnly,
-                findContoursOutput);
+                blueFindContoursOutput);
 
-        filterContoursContours = findContoursOutput;
-        filterContours(filterContoursContours,
+        blueFilterContoursContours = blueFindContoursOutput;   // Array of MatofPoint
+        filterContours(blueFilterContoursContours,
                 filterContoursMinArea,
                 filterContoursMinPerimeter,
                 filterContoursMinWidth,
@@ -124,14 +138,44 @@ public class StevesPipeline2 extends OpenCvPipeline {
                 filterContoursMinVertices,
                 filterContoursMinRatio,
                 filterContoursMaxRatio,
-                filterContoursOutput);
+                blueFilterContoursOutput);
+
+
+        input.copyTo(redHSVThresholdInput);
+        hsvThreshold(redHSVThresholdInput,
+                redHSVThresholdHue,
+                redHSVThresholdSaturation,
+                redHSVThresholdValue,
+                redHSVThresholdOutput);
+
+        // find the contours
+        redHSVThresholdOutput.copyTo(redFindContoursInput);;
+        findContours(redFindContoursInput,
+                findCountoursExternalOnly,
+                redFindContoursOutput);
+
+
+        redFilterContoursContours = redFindContoursOutput;   // Array of MatofPoint
+        filterContours(redFilterContoursContours,
+                filterContoursMinArea,
+                filterContoursMinPerimeter,
+                filterContoursMinWidth,
+                filterContoursMaxWidth,
+                filterContoursMinHeight,
+                filterContoursMaxHeight,
+                filterContoursSolidity,
+                filterContoursMaxVertices,
+                filterContoursMinVertices,
+                filterContoursMinRatio,
+                filterContoursMaxRatio,
+                redFilterContoursOutput);
 
 
         switch (stageToRenderToViewport)
         {
             case HSV_OVERLAYED:
             {
-                return hsvThresholdOutput;
+                return redHSVThresholdOutput;
             }
 
             case CONTOURS_OVERLAYED_ON_FRAME:
@@ -139,11 +183,19 @@ public class StevesPipeline2 extends OpenCvPipeline {
                 //Imgproc.findContours(thresholdMat, stickerContours, new Mat(), Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE);
                 //Imgproc.drawContours(contoursOnFrameMat,stickerContours,-1,new Scalar(250,0,0),2);
                 input.copyTo(contoursOnFrameMat);
-                for(MatOfPoint foundContour : findContoursOutput){
+                for(MatOfPoint foundContour : blueFindContoursOutput){
 
                     // Get bounding rect of contour
-                    Rect rect = Imgproc.boundingRect(foundContour);
-                    Imgproc.rectangle(contoursOnFrameMat, rect.tl(), rect.br(), new Scalar(0,0,255),2); // Draw rect
+                    Rect rect1 = Imgproc.boundingRect(foundContour);
+                    Imgproc.rectangle(contoursOnFrameMat, rect1.tl(), rect1.br(), new Scalar(255,0,0),2); // Draw rect
+
+                }
+
+                for(MatOfPoint foundContour : redFindContoursOutput){
+
+                    // Get bounding rect of contour
+                    Rect rect2 = Imgproc.boundingRect(foundContour);
+                    Imgproc.rectangle(contoursOnFrameMat, rect2.tl(), rect2.br(), new Scalar(255,0,0),2); // Draw rect
 
                 }
 
@@ -152,12 +204,25 @@ public class StevesPipeline2 extends OpenCvPipeline {
 
             case FILTERED_CONTOURS_OVERLAYED_ON_FRAME:
             {
-                input.copyTo(filteredContoursOnFrameMat);
-                for(MatOfPoint filteredContour : filterContoursOutput){
+                input.copyTo(redFilteredContoursOnFrameMat);
+                for(MatOfPoint blueFilteredContour : blueFilterContoursOutput){
 
                     // Get bounding rect of contour
-                    Rect rect = Imgproc.boundingRect(filteredContour);
-                    Imgproc.rectangle(filteredContoursOnFrameMat, rect.tl(), rect.br(), new Scalar(0,255,0),2); // Draw rect
+                    Rect rect3 = Imgproc.boundingRect(blueFilteredContour);
+                    Imgproc.rectangle(filteredContoursOnFrameMat, rect3.tl(), rect3.br(), new Scalar(0,0,255),2); // Draw rect
+                    Imgproc.putText(filteredContoursOnFrameMat,String.valueOf("Blue"),rect3.tl(),Imgproc.FONT_HERSHEY_COMPLEX,1.0,new Scalar(0,0,255) );
+
+
+                }
+
+                redFilteredContoursOnFrameMat.copyTo(filteredContoursOnFrameMat);
+
+                for(MatOfPoint redFilteredContour : redFilterContoursOutput){
+
+                    // Get bounding rect of contour
+                    Rect rect4 = Imgproc.boundingRect(redFilteredContour);
+                    Imgproc.rectangle(filteredContoursOnFrameMat, rect4.tl(), rect4.br(), new Scalar(255,0,0),4);// Draw rect
+                    Imgproc.putText(filteredContoursOnFrameMat,String.valueOf("Red"),rect4.tl(),Imgproc.FONT_HERSHEY_COMPLEX,1.0,new Scalar(255,0,0) );
 
                 }
 
@@ -265,18 +330,18 @@ public class StevesPipeline2 extends OpenCvPipeline {
     }
 
     // Return the contours that were found in filterCountours
-    public ArrayList<MatOfPoint> getFoundContours() { return filterContoursOutput; }
-    public int getFindContoursOutputSize() { return findContoursOutput.size(); }
-    public int getFilterContoursOutputSize() { return filterContoursOutput.size(); }
-    public boolean contourFound() {
-
-        if(filterContoursOutput.size() == 0) {
-            return false;
-        }
-        else {
-            return true;
-        }
-
-    }
+//    public ArrayList<MatOfPoint> getFoundContours() { return filterContoursOutput; }
+//    public int getFindContoursOutputSize() { return findContoursOutput.size(); }
+//    public int getFilterContoursOutputSize() { return filterContoursOutput.size(); }
+//    public boolean contourFound() {
+//
+//        if(filterContoursOutput.size() == 0) {
+//            return false;
+//        }
+//        else {
+//            return true;
+//        }
+//
+//    }
 
 }

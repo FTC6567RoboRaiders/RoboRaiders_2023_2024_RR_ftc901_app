@@ -45,15 +45,15 @@ public class BasicScrimAuto extends LinearOpMode {
 
         waitForStart();
         while(opModeIsActive()){
-            telemetry.addData("findContoursOutputSizeBlue", pipeline.getFindContoursOutputSize());
-            telemetry.addData("filterContoursOutputSizeBlue", pipeline.getFilterContoursOutputSize());
-            if(pipeline.contourFound()) {
-                telemetry.addData("yes", 1);
-            }
-            else {
-                telemetry.addData("no", 0);
-            }
-            telemetry.update();
+//            telemetry.addData("findContoursOutputSizeBlue", pipeline.getFindContoursOutputSize());
+//            telemetry.addData("filterContoursOutputSizeBlue", pipeline.getFilterContoursOutputSize());
+//            if(pipeline.contourFound()) {
+//                telemetry.addData("yes", 1);
+//            }
+//            else {
+//                telemetry.addData("no", 0);
+//            }
+//            telemetry.update();
 
         }
 
