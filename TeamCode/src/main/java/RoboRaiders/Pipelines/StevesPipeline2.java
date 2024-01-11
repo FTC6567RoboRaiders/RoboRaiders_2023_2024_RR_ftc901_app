@@ -27,17 +27,30 @@ public class StevesPipeline2 extends OpenCvPipeline {
     private Mat filteredContoursOnFrameMat = new Mat();
 
 
+    //Second Red Hue Range
+    private Mat hsvThresholdOutput2 = new Mat();
+    private Mat hsvThresholdInput2 = new Mat();
+    private Mat findCountoursInput2 = new Mat();
+    private Mat contoursOnFrameMat2 = new Mat();
+    private Mat filteredContoursOnFrameMat2 = new Mat();
+
+
+
     private ArrayList<MatOfPoint> findContoursOutput = new ArrayList<MatOfPoint>();
+    private ArrayList<MatOfPoint> findContoursOutput2 = new ArrayList<MatOfPoint>();
     private ArrayList<MatOfPoint> filterContoursOutput = new ArrayList<MatOfPoint>();
+    private ArrayList<MatOfPoint> filterContoursOutput2 = new ArrayList<MatOfPoint>();
     private ArrayList<MatOfPoint> filterContoursContours;
+    private ArrayList<MatOfPoint> filterContoursContours2;
     private ArrayList<MatOfPoint> foundContours;
 
-    //HSV values for blue and red we want
+    // HSV values for blue and red we want
     private double[] blueHSVThresholdHue = {56.0, 180.0};
     private double[] blueHSVThresholdSaturation = {100.0, 255.0};
     private double[] blueHSVThresholdValue = {101.0, 255.0};
 
     private double[] redHSVThresholdHue = {0.0, 20.473209195046536};
+    private double[] redHSVThresholdHue2 = {140.0, 180.0};
     private double[] redHSVThresholdSaturation = {109.79460707021325, 255.0};
     private double[] redHSVThresholdValue = {0.0, 255.0};
 
@@ -104,14 +117,24 @@ public class StevesPipeline2 extends OpenCvPipeline {
                 redHSVThresholdSaturation,
                 redHSVThresholdValue,
                 hsvThresholdOutput);
+        hsvThreshold(hsvThresholdInput,
+                redHSVThresholdHue2,
+                redHSVThresholdSaturation,
+                redHSVThresholdValue,
+                hsvThresholdOutput2);
 
         // find the contours
         findCountoursInput = hsvThresholdOutput;
         findContours(findCountoursInput,
                 findCountoursExternalOnly,
                 findContoursOutput);
+        findCountoursInput2 = hsvThresholdOutput2;
+        findContours(findCountoursInput2,
+                findCountoursExternalOnly,
+                findContoursOutput2);
 
         filterContoursContours = findContoursOutput;
+        filterContoursContours2 = findContoursOutput2;
         filterContours(filterContoursContours,
                 filterContoursMinArea,
                 filterContoursMinPerimeter,
@@ -125,6 +148,20 @@ public class StevesPipeline2 extends OpenCvPipeline {
                 filterContoursMinRatio,
                 filterContoursMaxRatio,
                 filterContoursOutput);
+
+        filterContours(filterContoursContours2,
+                filterContoursMinArea,
+                filterContoursMinPerimeter,
+                filterContoursMinWidth,
+                filterContoursMaxWidth,
+                filterContoursMinHeight,
+                filterContoursMaxHeight,
+                filterContoursSolidity,
+                filterContoursMaxVertices,
+                filterContoursMinVertices,
+                filterContoursMinRatio,
+                filterContoursMaxRatio,
+                filterContoursOutput2);
 
 
         switch (stageToRenderToViewport)
@@ -161,6 +198,13 @@ public class StevesPipeline2 extends OpenCvPipeline {
 
                 }
 
+                for(MatOfPoint filteredContour : filterContoursOutput2){
+
+                    // Get bounding rect of contour
+                    Rect rect1 = Imgproc.boundingRect(filteredContour);
+                    Imgproc.rectangle(filteredContoursOnFrameMat, rect1.tl(), rect1.br(), new Scalar(255,0,0),2); // Draw rect
+
+                }
                 return filteredContoursOnFrameMat;
             }
 
