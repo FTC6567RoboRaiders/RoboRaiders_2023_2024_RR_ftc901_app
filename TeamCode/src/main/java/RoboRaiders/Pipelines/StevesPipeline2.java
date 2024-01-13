@@ -70,7 +70,7 @@ public class StevesPipeline2 extends OpenCvPipeline {
     public double rectangleSaverTopX = 900.0;
     public double rectangleSaverTopY = 900.0;
 
-    public double saveMe;
+
 
 
 
@@ -217,8 +217,7 @@ public class StevesPipeline2 extends OpenCvPipeline {
 
                 }
 
-                final double saveX = rectangleTopPointX();
-                final double saveY = rectangleTopPointY();
+
                 return filteredContoursOnFrameMat;
             }
 
