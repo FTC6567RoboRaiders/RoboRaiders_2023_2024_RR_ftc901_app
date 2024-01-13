@@ -9,6 +9,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 import RoboRaiders.Pipelines.StevesPipeline2;
 import RoboRaiders.Robots.NotPirsus;
+import RoboRaiders.Utilities.Logger.Logger;
 
 @Autonomous
 public class BasicScrimAuto extends LinearOpMode {
@@ -42,18 +43,11 @@ public class BasicScrimAuto extends LinearOpMode {
 
         robot.resetEncoders();
         robot.runWithEncoders();
-
+        telemetry.addData("TOP LEFT X VALUE:", pipeline.rectangleTopPointX());
+        telemetry.addData("BOTTOM RIGHT X VALUE:", pipeline.rectangleSaverTopY);
+        telemetry.update();
         waitForStart();
         while(opModeIsActive()){
-//            telemetry.addData("findContoursOutputSizeBlue", pipeline.getFindContoursOutputSize());
-//            telemetry.addData("filterContoursOutputSizeBlue", pipeline.getFilterContoursOutputSize());
-//            if(pipeline.contourFound()) {
-//                telemetry.addData("yes", 1);
-//            }
-//            else {
-//                telemetry.addData("no", 0);
-//            }
-//            telemetry.update();
 
         }
 

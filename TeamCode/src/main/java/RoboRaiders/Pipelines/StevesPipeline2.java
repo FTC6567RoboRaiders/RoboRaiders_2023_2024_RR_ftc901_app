@@ -67,6 +67,12 @@ public class StevesPipeline2 extends OpenCvPipeline {
     double filterContoursMinRatio = 0.0;
     double filterContoursMaxRatio = 1000.0;
 
+    public double rectangleSaverTopX = 900.0;
+    public double rectangleSaverTopY = 900.0;
+
+    public double saveMe;
+
+
 
     enum Stage
     {
@@ -182,6 +188,7 @@ public class StevesPipeline2 extends OpenCvPipeline {
                     Rect rect = Imgproc.boundingRect(foundContour);
                     Imgproc.rectangle(contoursOnFrameMat, rect.tl(), rect.br(), new Scalar(0,0,255),2); // Draw rect
 
+
                 }
 
                 return contoursOnFrameMat;
@@ -195,6 +202,10 @@ public class StevesPipeline2 extends OpenCvPipeline {
                     // Get bounding rect of contour
                     Rect rect = Imgproc.boundingRect(filteredContour);
                     Imgproc.rectangle(filteredContoursOnFrameMat, rect.tl(), rect.br(), new Scalar(0,255,0),2); // Draw rect
+                    rectangleSaverTopX = rect.tl().x;
+                    rectangleSaverTopY = rect.tl().y;
+
+
 
                 }
 
@@ -205,6 +216,9 @@ public class StevesPipeline2 extends OpenCvPipeline {
                     Imgproc.rectangle(filteredContoursOnFrameMat, rect1.tl(), rect1.br(), new Scalar(255,0,0),2); // Draw rect
 
                 }
+
+                final double saveX = rectangleTopPointX();
+                final double saveY = rectangleTopPointY();
                 return filteredContoursOnFrameMat;
             }
 
@@ -312,15 +326,17 @@ public class StevesPipeline2 extends OpenCvPipeline {
     public ArrayList<MatOfPoint> getFoundContours() { return filterContoursOutput; }
     public int getFindContoursOutputSize() { return findContoursOutput.size(); }
     public int getFilterContoursOutputSize() { return filterContoursOutput.size(); }
-    public boolean contourFound() {
 
-        if(filterContoursOutput.size() == 0) {
-            return false;
-        }
-        else {
-            return true;
-        }
 
+    public double rectangleTopPointX(){
+        Logger Loggest = new Logger(String.valueOf("******** CAMERATEST *******"));
+        Loggest.Debug("RECTANGLE SAVER OTHER X: ", rectangleSaverTopX);
+        return rectangleSaverTopX;
+    }
+    public double rectangleTopPointY(){
+        Logger Logging = new Logger(String.valueOf("******** CAMERA TET *******"));
+        Logging.Debug("RECTANGLE SAVER OTHER Y: ", rectangleSaverTopY);
+        return rectangleSaverTopY;
     }
 
 }

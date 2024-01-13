@@ -37,6 +37,9 @@ public class CameraBot {
     // Vision Variables
     public StevesPipeline2 stevesPipeline;
 
+//    public getRectPos() {
+//    }
+
     public CameraBot() {
 
     }
@@ -57,8 +60,7 @@ public class CameraBot {
         stevesPipeline = new StevesPipeline2();
 
 
-        camera.openCameraDeviceAsync(new  OpenCvCamera.AsyncCameraOpenListener()
-        {
+        camera.openCameraDeviceAsync(new  OpenCvCamera.AsyncCameraOpenListener() {
             @Override
             public void onOpened()
             {
@@ -72,6 +74,7 @@ public class CameraBot {
                 // For now do nothing when we have an error
             }
         });
+
 
     }
 
