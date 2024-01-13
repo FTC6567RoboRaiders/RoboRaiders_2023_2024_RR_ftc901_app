@@ -43,9 +43,8 @@ public class BasicScrimAuto extends LinearOpMode {
 
         robot.resetEncoders();
         robot.runWithEncoders();
-        telemetry.addData("TOP LEFT X VALUE:", pipeline.rectangleTopPointX());
-        telemetry.addData("BOTTOM RIGHT X VALUE:", pipeline.rectangleSaverTopY);
-        telemetry.update();
+        pipeline.returnX();
+        pipeline.returnY();
         waitForStart();
         while(opModeIsActive()){
 

@@ -216,7 +216,9 @@ public class StevesPipeline2 extends OpenCvPipeline {
                     Imgproc.rectangle(filteredContoursOnFrameMat, rect1.tl(), rect1.br(), new Scalar(255,0,0),2); // Draw rect
 
                 }
-
+                Logger brit = new Logger(String.valueOf("******** CAMERA TEST *******"));
+                brit.Debug("THIS IS THE X VALUE IN THE CASE", rectangleSaverTopX);
+                brit.Debug("THIS IS THE Y VALUE IN THE CASE", rectangleSaverTopY);
 
                 return filteredContoursOnFrameMat;
             }
@@ -230,6 +232,7 @@ public class StevesPipeline2 extends OpenCvPipeline {
             {
                 return input;
             }
+
         }
 
     }
@@ -326,16 +329,22 @@ public class StevesPipeline2 extends OpenCvPipeline {
     public int getFindContoursOutputSize() { return findContoursOutput.size(); }
     public int getFilterContoursOutputSize() { return filterContoursOutput.size(); }
 
+    public double returnX(){
 
-    public double rectangleTopPointX(){
-        Logger Loggest = new Logger(String.valueOf("******** CAMERATEST *******"));
-        Loggest.Debug("RECTANGLE SAVER OTHER X: ", rectangleSaverTopX);
+        Logger britX = new Logger(String.valueOf("******** CAMERA TEST *******"));
+        britX.Debug("THIS IS THE X VALUE OUTSIDE OF THE CASE", rectangleSaverTopX);
+
         return rectangleSaverTopX;
     }
-    public double rectangleTopPointY(){
-        Logger Logging = new Logger(String.valueOf("******** CAMERA TET *******"));
-        Logging.Debug("RECTANGLE SAVER OTHER Y: ", rectangleSaverTopY);
+    public double returnY(){
+
+        Logger britY = new Logger(String.valueOf("******** CAMERA TEST *******"));
+
+        britY.Debug("THIS IS THE Y VALUE OUTSIDE OF THE CASE", rectangleSaverTopY);
         return rectangleSaverTopY;
     }
+
+
+
 
 }
