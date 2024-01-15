@@ -70,6 +70,15 @@ public class StevesPipeline2 extends OpenCvPipeline {
 
     public int rectangleSaverTopX = 900;
     public int rectangleSaverTopY = 900;
+    public int rectangleSaverBottomX = 900;
+    public int rectangleSaverBottomY = 900;
+
+    public int i = 0;
+
+    public int tTX = 0;
+    public int tTY = 0;
+    public int tBX = 0;
+    public int tBY = 0;
 
 
 
@@ -214,10 +223,13 @@ public class StevesPipeline2 extends OpenCvPipeline {
                     Imgproc.rectangle(filteredContoursOnFrameMat, rect.tl(), rect.br(), new Scalar(0,255,0),2); // Draw rect
                     rectangleSaverTopX = (int)rect.tl().x;
                     rectangleSaverTopY = (int)rect.tl().y;
+                    rectangleSaverBottomX = (int)rect.br().x;
+                    rectangleSaverBottomY = (int)rect.br().y;
 
                     myRobot.setX(rectangleSaverTopX);
                     myRobot.setY(rectangleSaverTopY);
-
+                    myRobot.setBX(rectangleSaverBottomX);
+                    myRobot.setBY(rectangleSaverBottomY);
 
 
                 }
@@ -229,16 +241,32 @@ public class StevesPipeline2 extends OpenCvPipeline {
                     Imgproc.rectangle(filteredContoursOnFrameMat, rect1.tl(), rect1.br(), new Scalar(255,0,0),2); // Draw rect
                     rectangleSaverTopX = (int)rect1.tl().x;
                     rectangleSaverTopY = (int)rect1.tl().y;
+                    rectangleSaverBottomX = (int)rect1.br().x;
+                    rectangleSaverBottomY = (int)rect1.br().y;
 
                     myRobot.setX(rectangleSaverTopX);
                     myRobot.setY(rectangleSaverTopY);
+                    myRobot.setBX(rectangleSaverBottomX);
+                    myRobot.setBY(rectangleSaverBottomY);
 
                 }
                 Logger brit = new Logger(String.valueOf("******** CAMERA TEST *******"));
                 brit.Debug("THIS IS THE X VALUE IN THE CASE", rectangleSaverTopX);
                 brit.Debug("THIS IS THE Y VALUE IN THE CASE", rectangleSaverTopY);
 
+                tTX += rectangleSaverTopX;
+                tTY += rectangleSaverTopY;
 
+                tBX += rectangleSaverBottomX;
+                tBY += rectangleSaverBottomY;
+
+                i++;
+
+                myRobot.setX(tTX/i);
+                myRobot.setY(tTY/i);
+
+                myRobot.setBX(tBX/i);
+                myRobot.setBY(tBY/i);
 
                 return filteredContoursOnFrameMat;
             }

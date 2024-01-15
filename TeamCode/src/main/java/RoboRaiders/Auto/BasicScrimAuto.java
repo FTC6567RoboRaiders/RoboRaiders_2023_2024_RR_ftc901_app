@@ -45,13 +45,16 @@ public class BasicScrimAuto extends LinearOpMode {
         robot.runWithEncoders();
         int[] redCoords = new int[2];
         redCoords = robot.getRed();
-        telemetry.addData("X and Y COORDINATE: ", String.valueOf(robot.getX()) + ", " + String.valueOf(robot.getY()));
-        telemetry.update();
+
         waitForStart();
         while(opModeIsActive()){
 
-            telemetry.addData("X and Y COORDINATE During Run: ", String.valueOf(robot.getX()) + ", " + String.valueOf(robot.getY()));
+            telemetry.addLine().addData("Top Left X and Y COORDINATE During Run: ", String.valueOf(robot.getX()) + ", " + String.valueOf(robot.getY()));
+            telemetry.addLine().addData("Bottom Right X and Y COORDINATE During Run: ", String.valueOf(robot.getBX()) + ", " + String.valueOf(robot.getBY()));
+
+            telemetry.addLine().addData("NUMBER OF TIMES CALLED: ", String.valueOf(robot.stevesPipeline.i));
             telemetry.update();
+
 
         }
 

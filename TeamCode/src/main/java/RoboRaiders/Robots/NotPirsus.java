@@ -59,6 +59,9 @@ public class NotPirsus {
 
     public int xCoord;
     public int yCoord;
+    public int xBCoord;
+    public int yBCoord;
+
 
 
     // Vision Variables
@@ -378,12 +381,27 @@ public class NotPirsus {
     public void setY(int yVal){
         yCoord = yVal;
     }
+    public void setBX(int xBVal){
+        xBCoord = xBVal;
+    }
+    public void setBY(int yBVal){
+        yBCoord = yBVal;
+    }
 
     public int getX(){
         return xCoord;
     }
     public int getY(){
         return yCoord;
+    }
+    public int getBX(){
+        return xBCoord;
+    }
+    public int getBY(){
+        return yBCoord;
+    }
+    public int positionBlue(){
+        return 0;
     }
 
 }
