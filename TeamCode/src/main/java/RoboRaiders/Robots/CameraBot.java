@@ -57,7 +57,7 @@ public class CameraBot {
         camera = OpenCvCameraFactory.getInstance().createWebcam(hwMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
 //        camera.openCameraDevice();
 
-        stevesPipeline = new StevesPipeline2();
+//        stevesPipeline = new StevesPipeline2(this);
 
 
         camera.openCameraDeviceAsync(new  OpenCvCamera.AsyncCameraOpenListener() {

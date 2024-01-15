@@ -14,6 +14,7 @@ import org.openftc.easyopencv.OpenCvPipeline;
 import java.util.ArrayList;
 import java.util.List;
 
+import RoboRaiders.Robots.NotPirsus;
 import RoboRaiders.Utilities.Logger.Logger;
 
 public class StevesPipeline2 extends OpenCvPipeline {
@@ -67,8 +68,9 @@ public class StevesPipeline2 extends OpenCvPipeline {
     double filterContoursMinRatio = 0.0;
     double filterContoursMaxRatio = 1000.0;
 
-    public double rectangleSaverTopX = 900.0;
-    public double rectangleSaverTopY = 900.0;
+    public int rectangleSaverTopX = 900;
+    public int rectangleSaverTopY = 900;
+
 
 
 
@@ -84,6 +86,14 @@ public class StevesPipeline2 extends OpenCvPipeline {
 
     private Stage stageToRenderToViewport = Stage.FILTERED_CONTOURS_OVERLAYED_ON_FRAME;
     private Stage[] stages = Stage.values();
+
+
+    NotPirsus myRobot;
+
+    public StevesPipeline2(NotPirsus myRobot){
+        this.myRobot = myRobot;
+
+    }
 
     @Override
     public void onViewportTapped()
@@ -202,8 +212,11 @@ public class StevesPipeline2 extends OpenCvPipeline {
                     // Get bounding rect of contour
                     Rect rect = Imgproc.boundingRect(filteredContour);
                     Imgproc.rectangle(filteredContoursOnFrameMat, rect.tl(), rect.br(), new Scalar(0,255,0),2); // Draw rect
-                    rectangleSaverTopX = rect.tl().x;
-                    rectangleSaverTopY = rect.tl().y;
+                    rectangleSaverTopX = (int)rect.tl().x;
+                    rectangleSaverTopY = (int)rect.tl().y;
+
+                    myRobot.setX(rectangleSaverTopX);
+                    myRobot.setY(rectangleSaverTopY);
 
 
 
@@ -214,11 +227,18 @@ public class StevesPipeline2 extends OpenCvPipeline {
                     // Get bounding rect of contour
                     Rect rect1 = Imgproc.boundingRect(filteredContour);
                     Imgproc.rectangle(filteredContoursOnFrameMat, rect1.tl(), rect1.br(), new Scalar(255,0,0),2); // Draw rect
+                    rectangleSaverTopX = (int)rect1.tl().x;
+                    rectangleSaverTopY = (int)rect1.tl().y;
+
+                    myRobot.setX(rectangleSaverTopX);
+                    myRobot.setY(rectangleSaverTopY);
 
                 }
                 Logger brit = new Logger(String.valueOf("******** CAMERA TEST *******"));
                 brit.Debug("THIS IS THE X VALUE IN THE CASE", rectangleSaverTopX);
                 brit.Debug("THIS IS THE Y VALUE IN THE CASE", rectangleSaverTopY);
+
+
 
                 return filteredContoursOnFrameMat;
             }
@@ -329,14 +349,14 @@ public class StevesPipeline2 extends OpenCvPipeline {
     public int getFindContoursOutputSize() { return findContoursOutput.size(); }
     public int getFilterContoursOutputSize() { return filterContoursOutput.size(); }
 
-    public double returnX(){
+    public int returnX(){
 
         Logger britX = new Logger(String.valueOf("******** CAMERA TEST *******"));
         britX.Debug("THIS IS THE X VALUE OUTSIDE OF THE CASE", rectangleSaverTopX);
 
         return rectangleSaverTopX;
     }
-    public double returnY(){
+    public int returnY(){
 
         Logger britY = new Logger(String.valueOf("******** CAMERA TEST *******"));
 

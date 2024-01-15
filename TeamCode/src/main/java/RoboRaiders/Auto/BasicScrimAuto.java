@@ -18,7 +18,7 @@ public class BasicScrimAuto extends LinearOpMode {
 
     VisionPortal visionPortal;
     AprilTagProcessor aprilTag;
-    public StevesPipeline2 pipeline = new StevesPipeline2();
+//    public StevesPipeline2 pipeline = new StevesPipeline2();
 
     private boolean isRed = false;
     private boolean droneSide = false;
@@ -43,8 +43,10 @@ public class BasicScrimAuto extends LinearOpMode {
 
         robot.resetEncoders();
         robot.runWithEncoders();
-        pipeline.returnX();
-        pipeline.returnY();
+        int[] redCoords = new int[2];
+        redCoords = robot.getRed();
+        telemetry.addData("X and Y COORDINATE: ", String.valueOf(robot.getX()) + ", " + String.valueOf(robot.getY()));
+        telemetry.update();
         waitForStart();
         while(opModeIsActive()){
 

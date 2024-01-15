@@ -54,9 +54,15 @@ public class NotPirsus {
     public static double robotHeading;
     public boolean firstTimeCalled = true;
 
+    public int redX;
+    public int redY;
+
+    public int xCoord;
+    public int yCoord;
+
 
     // Vision Variables
-    public StevesPipeline2 stevesPipeline = new StevesPipeline2();
+    public StevesPipeline2 stevesPipeline = new StevesPipeline2(this);
 
     public NotPirsus() {
 
@@ -121,7 +127,14 @@ public class NotPirsus {
             @Override
             public void onOpened()
             {
-                camera.startStreaming(800,448, OpenCvCameraRotation.UPRIGHT);
+                camera.startStreaming(640,480, OpenCvCameraRotation.UPRIGHT);
+                redX = stevesPipeline.returnX();
+                redY = stevesPipeline.returnY();
+                Logger Log = new Logger(String.valueOf("******** CAMERA TEST *******"));
+                Log.Debug("RED X COORDINATE: ", redX);
+                Log.Debug("RED Y COORDINATE: ", redY);
+
+
             }
 
             @Override
@@ -350,6 +363,26 @@ public class NotPirsus {
         iza_lastHeading = iza_newHeading;
 
         return integratedZAxis;
+    }
+
+    public int[] getRed(){
+        int[] vals = new int[]{redX, redY};
+        return vals;
+    }
+
+    public void setX(int xVal){
+        xCoord = xVal;
+
+    }
+    public void setY(int yVal){
+        yCoord = yVal;
+    }
+
+    public int getX(){
+        return xCoord;
+    }
+    public int getY(){
+        return yCoord;
     }
 
 }
