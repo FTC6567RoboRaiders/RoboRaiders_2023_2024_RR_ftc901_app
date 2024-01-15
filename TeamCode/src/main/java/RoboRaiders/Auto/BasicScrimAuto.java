@@ -50,6 +50,9 @@ public class BasicScrimAuto extends LinearOpMode {
         waitForStart();
         while(opModeIsActive()){
 
+            telemetry.addData("X and Y COORDINATE During Run: ", String.valueOf(robot.getX()) + ", " + String.valueOf(robot.getY()));
+            telemetry.update();
+
         }
 
     }

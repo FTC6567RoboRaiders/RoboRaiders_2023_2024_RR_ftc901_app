@@ -144,6 +144,7 @@ public class NotPirsus {
             }
 
         });
+        //calculation location - call calc location
 
 
     }
