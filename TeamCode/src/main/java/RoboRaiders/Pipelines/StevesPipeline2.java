@@ -47,8 +47,8 @@ public class StevesPipeline2 extends OpenCvPipeline {
 
     // HSV values for blue and red we want
     private double[] blueHSVThresholdHue = {56.0, 180.0};
-    private double[] blueHSVThresholdSaturation = {100.0, 255.0};
-    private double[] blueHSVThresholdValue = {101.0, 255.0};
+    private double[] blueHSVThresholdSaturation = {50.0, 255.0};
+    private double[] blueHSVThresholdValue = {50.0, 255.0};
 
     private double[] redHSVThresholdHue = {0.0, 20.473209195046536};
     private double[] redHSVThresholdHue2 = {140.0, 180.0};
@@ -138,28 +138,28 @@ public class StevesPipeline2 extends OpenCvPipeline {
 
         // find the blue objects in frame, to find red, just change up the hue saturation and value
         hsvThreshold(hsvThresholdInput,
-                redHSVThresholdHue,
-                redHSVThresholdSaturation,
-                redHSVThresholdValue,
+                blueHSVThresholdHue,
+                blueHSVThresholdSaturation,
+                blueHSVThresholdValue,
                 hsvThresholdOutput);
-        hsvThreshold(hsvThresholdInput,
-                redHSVThresholdHue2,
-                redHSVThresholdSaturation,
-                redHSVThresholdValue,
-                hsvThresholdOutput2);
+//        hsvThreshold(hsvThresholdInput,
+//                redHSVThresholdHue2,
+//                redHSVThresholdSaturation,
+//                redHSVThresholdValue,
+//                hsvThresholdOutput2);
 
         // find the contours
         findCountoursInput = hsvThresholdOutput;
         findContours(findCountoursInput,
                 findCountoursExternalOnly,
                 findContoursOutput);
-        findCountoursInput2 = hsvThresholdOutput2;
-        findContours(findCountoursInput2,
-                findCountoursExternalOnly,
-                findContoursOutput2);
+//        findCountoursInput2 = hsvThresholdOutput2;
+//        findContours(findCountoursInput2,
+//                findCountoursExternalOnly,
+//                findContoursOutput2);
 
         filterContoursContours = findContoursOutput;
-        filterContoursContours2 = findContoursOutput2;
+//        filterContoursContours2 = findContoursOutput2;
         filterContours(filterContoursContours,
                 filterContoursMinArea,
                 filterContoursMinPerimeter,
@@ -173,20 +173,20 @@ public class StevesPipeline2 extends OpenCvPipeline {
                 filterContoursMinRatio,
                 filterContoursMaxRatio,
                 filterContoursOutput);
-
-        filterContours(filterContoursContours2,
-                filterContoursMinArea,
-                filterContoursMinPerimeter,
-                filterContoursMinWidth,
-                filterContoursMaxWidth,
-                filterContoursMinHeight,
-                filterContoursMaxHeight,
-                filterContoursSolidity,
-                filterContoursMaxVertices,
-                filterContoursMinVertices,
-                filterContoursMinRatio,
-                filterContoursMaxRatio,
-                filterContoursOutput2);
+//
+//        filterContours(filterContoursContours2,
+//                filterContoursMinArea,
+//                filterContoursMinPerimeter,
+//                filterContoursMinWidth,
+//                filterContoursMaxWidth,
+//                filterContoursMinHeight,
+//                filterContoursMaxHeight,
+//                filterContoursSolidity,
+//                filterContoursMaxVertices,
+//                filterContoursMinVertices,
+//                filterContoursMinRatio,
+//                filterContoursMaxRatio,
+//                filterContoursOutput2);
 
 
         switch (stageToRenderToViewport)
@@ -234,22 +234,22 @@ public class StevesPipeline2 extends OpenCvPipeline {
 
                 }
 
-                for(MatOfPoint filteredContour : filterContoursOutput2){
-
-                    // Get bounding rect of contour
-                    Rect rect1 = Imgproc.boundingRect(filteredContour);
-                    Imgproc.rectangle(filteredContoursOnFrameMat, rect1.tl(), rect1.br(), new Scalar(255,0,0),2); // Draw rect
-                    rectangleSaverTopX = (int)rect1.tl().x;
-                    rectangleSaverTopY = (int)rect1.tl().y;
-                    rectangleSaverBottomX = (int)rect1.br().x;
-                    rectangleSaverBottomY = (int)rect1.br().y;
-
-                    myRobot.setX(rectangleSaverTopX);
-                    myRobot.setY(rectangleSaverTopY);
-                    myRobot.setBX(rectangleSaverBottomX);
-                    myRobot.setBY(rectangleSaverBottomY);
-
-                }
+//                for(MatOfPoint filteredContour : filterContoursOutput2) {
+//
+//                    // Get bounding rect of contour
+//                    Rect rect1 = Imgproc.boundingRect(filteredContour);
+//                    Imgproc.rectangle(filteredContoursOnFrameMat, rect1.tl(), rect1.br(), new Scalar(255,0,0),2); // Draw rect
+//                    rectangleSaverTopX = (int)rect1.tl().x;
+//                    rectangleSaverTopY = (int)rect1.tl().y;
+//                    rectangleSaverBottomX = (int)rect1.br().x;
+//                    rectangleSaverBottomY = (int)rect1.br().y;
+//
+//                    myRobot.setX(rectangleSaverTopX);
+//                    myRobot.setY(rectangleSaverTopY);
+//                    myRobot.setBX(rectangleSaverBottomX);
+//                    myRobot.setBY(rectangleSaverBottomY);
+//
+//                }
                 Logger brit = new Logger(String.valueOf("******** CAMERA TEST *******"));
                 brit.Debug("THIS IS THE X VALUE IN THE CASE", rectangleSaverTopX);
                 brit.Debug("THIS IS THE Y VALUE IN THE CASE", rectangleSaverTopY);
@@ -267,6 +267,19 @@ public class StevesPipeline2 extends OpenCvPipeline {
 
                 myRobot.setBX(tBX/i);
                 myRobot.setBY(tBY/i);
+
+                if( i == 10){
+                    tTX = 0;
+                    tTY = 0;
+                    tBX = 0;
+                    tBY = 0;
+
+                    myRobot.setX(0);
+                    myRobot.setY(0);
+                    myRobot.setBX(0);
+                    myRobot.setBY(0);
+                    i = 0;
+                }
 
                 return filteredContoursOnFrameMat;
             }
