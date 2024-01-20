@@ -102,12 +102,18 @@ public class TournAuto extends LinearOpMode {
                     .setCamera(BuiltinCameraDirection.BACK)
                     .addProcessor(aprilTag)
                     .build();
-
         }
 
     }
 
+    public void initColourPortal() {
+
+        // how?
+
+    }
+
     public int propPosition() {
+
         if(stevesPipeline.returnX() <= 319) {
             return 1;
         }
