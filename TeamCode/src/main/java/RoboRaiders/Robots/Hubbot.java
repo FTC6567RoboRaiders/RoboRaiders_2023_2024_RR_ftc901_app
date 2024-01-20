@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.view.View;
 
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -41,6 +42,9 @@ public class Hubbot {
     // to amplify/attentuate the measured values.
     final double SCALE_FACTOR = 255;
     public int relativeLayoutId;
+
+    RevBlinkinLedDriver blinkinLedDriver;
+    RevBlinkinLedDriver.BlinkinPattern pattern;
     public Hubbot() {
 
     }
@@ -89,6 +93,9 @@ public class Hubbot {
 
         relativeLayoutId = hwMap.appContext.getResources().getIdentifier("RelativeLayout", "id", hwMap.appContext.getPackageName());
 
+        blinkinLedDriver = hwMap.get(RevBlinkinLedDriver.class, "blinkin");
+        pattern = RevBlinkinLedDriver.BlinkinPattern.DARK_RED;
+        blinkinLedDriver.setPattern(pattern);
 
     }
     public int[] getRGB() {
@@ -137,5 +144,13 @@ public class Hubbot {
             }
         });
     }
+
+    public void setPattern(RevBlinkinLedDriver.BlinkinPattern pattern)
+    {
+        blinkinLedDriver.setPattern(pattern);
+        this.pattern = pattern;
+    }
+
+    public RevBlinkinLedDriver.BlinkinPattern getPattern() { return this.pattern; }
 }
 

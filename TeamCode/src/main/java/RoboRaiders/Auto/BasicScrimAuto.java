@@ -49,8 +49,10 @@ public class BasicScrimAuto extends LinearOpMode {
         waitForStart();
         while(opModeIsActive()){
 
+
             telemetry.addLine().addData("Top Left X and Y COORDINATE During Run: ", String.valueOf(robot.getX()) + ", " + String.valueOf(robot.getY()));
             telemetry.addLine().addData("Bottom Right X and Y COORDINATE During Run: ", String.valueOf(robot.getBX()) + ", " + String.valueOf(robot.getBY()));
+
 
             telemetry.addLine().addData("NUMBER OF TIMES CALLED: ", String.valueOf(robot.stevesPipeline.i));
             telemetry.addLine().addData("POSITION:", bluePosition());
