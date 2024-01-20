@@ -2,6 +2,7 @@ package RoboRaiders.TeleOp;
 
 import android.graphics.Color;
 
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
@@ -15,6 +16,11 @@ import RoboRaiders.Robots.Hubbot;
 @Autonomous(name = "HubBot")
 
 public class HubTeleop extends OpMode {
+
+    public static final int[] PURPLE = { 195, 210 };
+    public static final int[] YELLOW = { 80, 110 };
+    public static final int[] GREEN = { 125, 145 };
+    public static final int[] WHITE = { 155, 170 };
 
     public Hubbot robot = new Hubbot();
 
@@ -92,8 +98,19 @@ public class HubTeleop extends OpMode {
                  .addData("Value", "%.3f", hsvValues[2]);
         telemetry.addData("Alpha", "%.3f", colors.alpha);
 
+
         telemetry.update();
         //robot.changeBackground(hsvValues);
+
+        if ((int)hsvValues[0] >= PURPLE[0] && (int)hsvValues[0] <= PURPLE[1]) robot.setPattern(RevBlinkinLedDriver.BlinkinPattern.VIOLET);
+        else
+            if ((int)hsvValues[0] >= YELLOW[0] && (int)hsvValues[0] <= YELLOW[1]) robot.setPattern(RevBlinkinLedDriver.BlinkinPattern.YELLOW);
+            else
+                if ((int)hsvValues[0] >= GREEN[0] &&(int)hsvValues[0] <= GREEN[1]) robot.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
+                else
+                    if ((int)hsvValues[0] >= WHITE[0] && (int)hsvValues[0] <= WHITE[1]) robot.setPattern(RevBlinkinLedDriver.BlinkinPattern.WHITE);
+                    else robot.setPattern(RevBlinkinLedDriver.BlinkinPattern.DARK_RED);
+
     }
 
 }

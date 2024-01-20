@@ -41,14 +41,14 @@ public class DroneLauncherTest extends LinearOpMode {
             telemetry.addData("----------------------------------------------------------","");
             telemetry.addData("**** Press GamePad1.LeftBumper to Launch Drone ****", "");
             telemetry.addData("==========================================================","");
-            telemetry.addData("Press GamePad1.A to Increase The Motor Power", "");
-            telemetry.addData("Press GamePad1.B to Decrease The Motor Power", "");
-            telemetry.addData("Press GamePad1.X to Increase Amount To Increment/Decrement","");
+            telemetry.addData("Press GamePad1.A to Increase the Motor Power", "");
+            telemetry.addData("Press GamePad1.B to Decrease the Motor Power", "");
+            telemetry.addData("Press GamePad1.X to Increase Amount to Increment/Decrement","");
             telemetry.addData("Press GamePad1.Y to Decrease Amount to Increment/Decrement","");
             telemetry.addData("----------------------------------------------------------","");
             telemetry.addData("Drone Motor Power: ", "%5.2f", motorPower);
             telemetry.addData("Motor Power Increments/Decrements by: ","%5.2f", incrementor);
-            telemetry.addData(">", "Press Stop to end test." );
+            telemetry.addData(">", "Press Stop to End Test." );
             telemetry.update();
 
             // When gp1.a is pushed, advance/increment the servo position by incrementor
@@ -85,7 +85,7 @@ public class DroneLauncherTest extends LinearOpMode {
             }
 
             // When the gamepad1.left_bumper is pushed, apply power to the drone motor
-            if (gamepad1.left_bumper)  droneMotor.setPower(motorPower);
+            if (gamepad1.left_bumper)  droneMotor.setPower(-motorPower);
             else droneMotor.setPower(0.0);
         }
 
