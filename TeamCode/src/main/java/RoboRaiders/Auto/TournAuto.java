@@ -72,12 +72,12 @@ public class TournAuto extends LinearOpMode {
 //                break;
 //        }
 
-            // intake and deposit loop
-            while((elapsedTime / 1000000000) >= 5) {
-
-
-
-            }
+//            // intake and deposit loop
+//            while((elapsedTime / 1000000000) >= 5) {
+//
+//
+//
+//            }
 
         }
 
