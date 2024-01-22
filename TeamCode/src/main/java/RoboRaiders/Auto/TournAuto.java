@@ -23,7 +23,7 @@ public class TournAuto extends LinearOpMode {
     public VisionPortal visionPortal;
     public AprilTagProcessor aprilTag;
     public AprilTagDetection desiredTag = null;
-    public StevesPipeline2 stevesPipeline;
+//    public StevesPipeline2 stevesPipeline = new StevesPipeline2();
     public int position;
     public long startTime;
     public long elapsedTime;
@@ -44,7 +44,7 @@ public class TournAuto extends LinearOpMode {
 
         initColorPortal();
 
-        position = propPosition();
+//        position = propPosition();
 
         initAprilTagPortal();
         initColorPortal();
@@ -56,6 +56,8 @@ public class TournAuto extends LinearOpMode {
         while(opModeIsActive()) {
 
             telemetryAprilTag();
+
+            telemetry.update();
 
             // spike mark positions
 //         switch (position) {
@@ -151,18 +153,18 @@ public class TournAuto extends LinearOpMode {
 
     }
 
-    public int propPosition() {
-
-        if(stevesPipeline.returnX() <= 319) {
-            return 1;
-        }
-        else if(stevesPipeline.returnX() >= 320) {
-            return 2;
-        }
-        else {
-            return 0;
-        }
-
-    }
+//    public int propPosition() {
+//
+//        if(stevesPipeline.returnX() <= 319) {
+//            return 1;
+//        }
+//        else if(stevesPipeline.returnX() >= 320) {
+//            return 2;
+//        }
+//        else {
+//            return 0;
+//        }
+//
+//    }
 
 }
