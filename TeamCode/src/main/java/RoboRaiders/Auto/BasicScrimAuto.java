@@ -64,7 +64,7 @@ public class BasicScrimAuto extends LinearOpMode {
 
 
     }
-    public int bluePosition(){
+    public int bluePosition () {
         if(robot.getX() >= 0 && robot.getX()<= 375){
             return 1; //Center Position
         }
@@ -76,7 +76,8 @@ public class BasicScrimAuto extends LinearOpMode {
         }
 
     }
-    public int redPosition(){
+
+    public int redPosition() {
         if(robot.getX() >= 95 && robot.getX()<= 275){
             return 1; //Center Position
         }
