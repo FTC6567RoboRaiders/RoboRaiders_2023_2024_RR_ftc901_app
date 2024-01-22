@@ -47,15 +47,18 @@ public class TournAuto extends LinearOpMode {
         position = propPosition();
 
         initAprilTagPortal();
-
-        telemetryAprilTag();
+        initColorPortal();
 
         waitForStart();
 
         elapsedTime = System.nanoTime() - startTime;
 
-//        // spike mark positions
-//        switch (position) {
+        while(opModeIsActive()) {
+
+            telemetryAprilTag();
+
+            // spike mark positions
+//         switch (position) {
 //            // move to left spikemark
 //            case 0:
 //                break;
@@ -69,12 +72,16 @@ public class TournAuto extends LinearOpMode {
 //                break;
 //        }
 
-        // intake and deposit loop
-        while((elapsedTime / 1000000000) >= 5) {
+            // intake and deposit loop
+            while((elapsedTime / 1000000000) >= 5) {
 
 
+
+            }
 
         }
+
+
 
     }
 
