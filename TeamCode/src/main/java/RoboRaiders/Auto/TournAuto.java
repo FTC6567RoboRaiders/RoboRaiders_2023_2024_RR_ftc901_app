@@ -46,9 +46,11 @@ public class TournAuto extends LinearOpMode {
 
         position = propPosition();
 
-        waitForStart();
+        initAprilTagPortal();
 
         telemetryAprilTag();
+
+        waitForStart();
 
         elapsedTime = System.nanoTime() - startTime;
 
@@ -66,8 +68,6 @@ public class TournAuto extends LinearOpMode {
 //            default:
 //                break;
 //        }
-
-        initAprilTagPortal();
 
         // intake and deposit loop
         while((elapsedTime / 1000000000) >= 5) {
