@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
+import com.qualcomm.robotcore.hardware.ServoControllerEx;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
@@ -18,6 +19,7 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import RoboRaiders.Pipelines.StevesPipeline2;
+import RoboRaiders.Tests.RRBlinkinDriver;
 
 
 public class Hubbot {
@@ -43,8 +45,11 @@ public class Hubbot {
     final double SCALE_FACTOR = 255;
     public int relativeLayoutId;
 
-    RevBlinkinLedDriver blinkinLedDriver;
+    //RevBlinkinLedDriver blinkinLedDriver;
+    RRBlinkinDriver blinkinLedDriver;
     RevBlinkinLedDriver.BlinkinPattern pattern;
+
+    RevBlinkinLedDriver.BlinkinPattern[] elements = RevBlinkinLedDriver.BlinkinPattern.values();
     public Hubbot() {
 
     }
@@ -93,7 +98,7 @@ public class Hubbot {
 
         relativeLayoutId = hwMap.appContext.getResources().getIdentifier("RelativeLayout", "id", hwMap.appContext.getPackageName());
 
-        blinkinLedDriver = hwMap.get(RevBlinkinLedDriver.class, "blinkin");
+        blinkinLedDriver = hwMap.get(RRBlinkinDriver.class, "blinkin");
         pattern = RevBlinkinLedDriver.BlinkinPattern.DARK_RED;
         blinkinLedDriver.setPattern(pattern);
 
@@ -152,5 +157,19 @@ public class Hubbot {
     }
 
     public RevBlinkinLedDriver.BlinkinPattern getPattern() { return this.pattern; }
+
+    public ServoControllerEx getController() { return blinkinLedDriver.getController(); }
+    public int getPort() { return blinkinLedDriver.getPort(); }
+    public double getControllerPosition() { return blinkinLedDriver.getControllerPosition(); }
+    public void setControllerPosition( double pwm ) {
+        int port = this.getPort();
+        ServoControllerEx controller = this.getController();
+        controller.setServoPosition(port,pwm);
+
+    }
+    public RevBlinkinLedDriver.BlinkinPattern getPattern(double pwm) {
+        return elements[blinkinLedDriver.getOrdinal(pwm)];
+    }
+    public int getOrdinal(double pwm) { return blinkinLedDriver.getOrdinal(pwm); }
 }
 
