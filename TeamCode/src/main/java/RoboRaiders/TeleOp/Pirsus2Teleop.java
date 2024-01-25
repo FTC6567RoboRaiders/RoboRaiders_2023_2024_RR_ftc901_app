@@ -99,9 +99,8 @@ public class Pirsus2Teleop extends OpMode {
         else if(rStickG < -1.0){
             rStickG = -1.0;
         }
-        else{
-            robot.useLift(rStickG);
-        }
+
+        robot.useLift(rStickG);
 
     }
 
