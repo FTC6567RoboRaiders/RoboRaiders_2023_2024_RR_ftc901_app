@@ -3,7 +3,7 @@ package RoboRaiders.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import RoboRaiders.Robots.Pirsus;
+import RoboRaiders.Robots.Pirsus2;
 
 
 // This line establishes this op mode as a teleop op mode and allows for it to be displayed
@@ -11,7 +11,7 @@ import RoboRaiders.Robots.Pirsus;
 @TeleOp (name = "Pirsus2 Teleop")
 
 public class Pirsus2Teleop extends OpMode {
-    public Pirsus robot = new Pirsus();
+    public Pirsus2 robot = new Pirsus2();
 
 
     public double lTriggerG;
@@ -21,7 +21,8 @@ public class Pirsus2Teleop extends OpMode {
     public long startTime;
     public long elapsedTime;
     public boolean endGame = false;  //This checks whether we have elapsed enough time to be in endgame
-
+    public boolean bButtonG;
+    public boolean lBumperB;
 
 
 
@@ -39,6 +40,7 @@ public class Pirsus2Teleop extends OpMode {
     public void start() {
 
         //Timer for drone launch safety
+        startTime = System.nanoTime();
 
 
     }
@@ -47,6 +49,16 @@ public class Pirsus2Teleop extends OpMode {
 
         rTriggerG = gamepad2.right_trigger;
         lTriggerG = gamepad2.left_trigger;
+
+        bButtonG = gamepad2.b;
+        lBumperB = gamepad2.left_bumper;
+
+        elapsedTime = System.nanoTime() - startTime;
+
+        if((elapsedTime / 1000000000) >= 90) {
+            endGame = true;
+        }
+
 
     }
 
@@ -65,5 +77,20 @@ public class Pirsus2Teleop extends OpMode {
         }
     }
 
-}
+    public void doDroneLaunch() {
 
+        if (endGame && bButtonG && lBumperB) {
+            robot.fireDroneTrigger(0.0);
+        }
+    }
+
+    public void doLift(){
+
+    }
+
+    public void doDeposit(){
+
+    }
+
+
+}
