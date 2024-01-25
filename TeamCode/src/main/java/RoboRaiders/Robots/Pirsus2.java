@@ -28,11 +28,16 @@ public class Pirsus2 {
 
     public DcMotorEx launchMotor = null;
 
-    public DcMotorEx liftMotor = null;
+
 
     public DcMotorEx armMotor = null;
     public Servo bucketPositioner = null;
     public Servo bucketDoorServo = null;
+
+    //Lift
+    public DcMotorEx liftMotorUp = null;
+    public DcMotorEx liftMotorDown = null;
+
 
 
     public IMU imu;
@@ -95,7 +100,8 @@ public class Pirsus2 {
         bucketDoorServo = hwMap.get(Servo.class, "bucketDoorServo");
 
         // lift servo
-        liftMotor = hwMap.get(DcMotorEx.class, "liftMotor");
+        liftMotorUp = hwMap.get(DcMotorEx.class, "liftMotorUp");
+        liftMotorDown = hwMap.get(DcMotorEx.class, "liftMotorDown");
 
 
         // defines the directions the motors will spin
@@ -105,6 +111,7 @@ public class Pirsus2 {
         rRMotor.setDirection(DcMotor.Direction.FORWARD);
 
         intakeMotor.setDirection(DcMotor.Direction.FORWARD);
+
 
         lFMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rFMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -184,7 +191,7 @@ public class Pirsus2 {
      * This method will set the power for the drive motors
      *
      * @param leftFront  power setting for the left front motor
-     * @param rightFront power setting for the right front motor
+     * @param rightFront po`wer setting for the right front motor
      * @param leftBack   power setting for the left back motor
      * @param rightBack  power setting for the right back motor
      */
@@ -201,14 +208,7 @@ public class Pirsus2 {
             firstTimeCalled = false;
         }
 
-        if (leftFront != 0.0 && rightFront != 0.0 && leftBack != 0.0 && rightBack != 0.0) {
-            lclLogger.Debug("************* TestRobot Set Drive Motor Power TestRobot Set Drive Motor Power **********");
-            lclLogger.Debug("DT Motor Powers       (LF, RF, LB, RB): ", leftFront, rightFront, leftBack, rightBack);
-            lclLogger.Debug("Retrieved DT Powers   (LF, RF, LB, RB): ", lFMotor.getPower(), rFMotor.getPower(), lRMotor.getPower(), rRMotor.getPower());
-            lclLogger.Debug("Retrieved DT Currents (LF, RF, LB, RB): ", lFMotor.getCurrent(CurrentUnit.AMPS), rFMotor.getCurrent(CurrentUnit.AMPS), lRMotor.getCurrent(CurrentUnit.AMPS), rRMotor.getCurrent(CurrentUnit.AMPS));
-            lclLogger.Debug("Encoder Counts (LF, RF, LB, RB): ", lFMotor.getCurrentPosition(), rFMotor.getCurrentPosition(), lRMotor.getCurrentPosition(), rRMotor.getCurrentPosition());
-            lclLogger.Debug("************* TestRobot Set Drive Motor Power TestRobot Set Drive Motor Power **********");
-        }
+
 
     }
 
@@ -468,16 +468,19 @@ public class Pirsus2 {
         bucketPositioner.setPosition(bucketPosition);
     }
 
-    public void liftUp() {
-        liftMotor.setPower(-0.75);
+    public void raiseLift() {
+        liftMotorUp.setPower(0.75);
+        liftMotorDown.setPower(-0.75);
     }
 
-    public void liftDown() {
-        liftMotor.setPower(0.75);
+    public void lowerLift() {
+        liftMotorUp.setPower(-0.75);
+        liftMotorDown.setPower(0.75);
     }
 
     public void liftStop() {
-        liftMotor.setPower(0.0);
+        liftMotorUp.setPower(0.0);
+        liftMotorDown.setPower(0.0);
     }
 
     public void bucketDoorOpen() {
