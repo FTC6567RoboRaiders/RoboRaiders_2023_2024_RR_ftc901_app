@@ -26,7 +26,7 @@ public class Pirsus2 {
     public DcMotorEx rIntakeMotor = null;
     public DcMotorEx lIntakeMotor = null;
 
-    public Servo launchTrigger = null;
+    public DcMotorEx launchMotor = null;
 
     public DcMotorEx liftMotor = null;
 
@@ -88,7 +88,7 @@ public class Pirsus2 {
         lIntakeMotor = hwMap.get(DcMotorEx.class, "lIntakeMotor");
 
         // drone launch catch
-        launchTrigger = hwMap.get(Servo.class, "launchTrigger");
+        launchMotor = hwMap.get(DcMotorEx.class, "launchMotor");
 
         // intake motor and servos
         armMotor = hwMap.get(DcMotorEx.class, "armMotor");
@@ -456,8 +456,8 @@ public class Pirsus2 {
 
     }
 
-    public void fireDroneTrigger(double servoPosition) {
-        launchTrigger.setPosition(servoPosition);
+    public void fireDrone() {
+        launchMotor.setPower(1.0);
     }
 
     public int getArmEncoders() {
