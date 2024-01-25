@@ -22,7 +22,7 @@ public class Pirsus2Teleop extends OpMode {
     public long elapsedTime;
     public boolean endGame = false;  //This checks whether we have elapsed enough time to be in endgame
     public boolean bButtonG;
-    public boolean lBumperB;
+    public boolean lBumperG;
 
 
 
@@ -51,7 +51,7 @@ public class Pirsus2Teleop extends OpMode {
         lTriggerG = gamepad2.left_trigger;
 
         bButtonG = gamepad2.b;
-        lBumperB = gamepad2.left_bumper;
+        lBumperG = gamepad2.left_bumper;
 
         elapsedTime = System.nanoTime() - startTime;
 
@@ -79,8 +79,8 @@ public class Pirsus2Teleop extends OpMode {
 
     public void doDroneLaunch() {
 
-        if (endGame && bButtonG && lBumperB) {
-            robot.fireDroneTrigger(0.0);
+        if (endGame && bButtonG && lBumperG) {
+            robot.fireDrone();
         }
     }
 

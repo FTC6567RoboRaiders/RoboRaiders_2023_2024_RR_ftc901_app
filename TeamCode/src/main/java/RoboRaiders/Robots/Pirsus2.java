@@ -23,8 +23,8 @@ public class Pirsus2 {
     public DcMotorEx lRMotor = null;
     public DcMotorEx rRMotor = null;
 
-    public DcMotorEx rIntakeMotor = null;
-    public DcMotorEx lIntakeMotor = null;
+    public DcMotorEx intakeMotor = null;
+
 
     public DcMotorEx launchMotor = null;
 
@@ -84,8 +84,7 @@ public class Pirsus2 {
         rRMotor = hwMap.get(DcMotorEx.class, "rRMotor");
 
         // intake motors
-        rIntakeMotor = hwMap.get(DcMotorEx.class, "rIntakeMotor");
-        lIntakeMotor = hwMap.get(DcMotorEx.class, "lIntakeMotor");
+        intakeMotor = hwMap.get(DcMotorEx.class, "rIntakeMotor");
 
         // drone launch catch
         launchMotor = hwMap.get(DcMotorEx.class, "launchMotor");
@@ -105,16 +104,14 @@ public class Pirsus2 {
         lRMotor.setDirection(DcMotor.Direction.REVERSE);
         rRMotor.setDirection(DcMotor.Direction.FORWARD);
 
-        rIntakeMotor.setDirection(DcMotor.Direction.FORWARD);
-        lIntakeMotor.setDirection(DcMotor.Direction.REVERSE);
+        intakeMotor.setDirection(DcMotor.Direction.FORWARD);
 
         lFMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rFMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         lRMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rRMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        rIntakeMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        lIntakeMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        intakeMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
@@ -126,8 +123,8 @@ public class Pirsus2 {
         rRMotor.setPower(0.0);
         lRMotor.setPower(0.0);
 
-        rIntakeMotor.setPower(0.0);
-        lIntakeMotor.setPower(0.0);
+        intakeMotor.setPower(0.0);
+
 
         armMotor.setPower(0.0);
 
@@ -143,8 +140,8 @@ public class Pirsus2 {
         lRMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rRMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        rIntakeMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        lIntakeMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        intakeMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
 
         armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
@@ -451,8 +448,7 @@ public class Pirsus2 {
 
     public void setIntakeMotorPower(double intakePower) {
 
-        lIntakeMotor.setPower(intakePower);
-        rIntakeMotor.setPower(intakePower);
+        intakeMotor.setPower(intakePower);
 
     }
 
