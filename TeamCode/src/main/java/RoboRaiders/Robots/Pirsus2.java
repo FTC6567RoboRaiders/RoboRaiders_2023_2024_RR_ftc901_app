@@ -31,13 +31,16 @@ public class Pirsus2 {
 
 
     public DcMotorEx armMotor = null;
-    public Servo bucketPositioner = null;
-    public Servo bucketDoorServo = null;
+
 
     //Lift
     public DcMotorEx liftMotorUp = null;
     public DcMotorEx liftMotorDown = null;
 
+    //Deposit
+    public Servo flipServo = null;
+    public Servo doorServo = null;
+    public Servo scrubServo = null;
 
 
     public IMU imu;
@@ -96,12 +99,16 @@ public class Pirsus2 {
 
         // intake motor and servos
         armMotor = hwMap.get(DcMotorEx.class, "armMotor");
-        bucketPositioner = hwMap.get(Servo.class, "bucketPositioner");
-        bucketDoorServo = hwMap.get(Servo.class, "bucketDoorServo");
+
 
         // lift servo
         liftMotorUp = hwMap.get(DcMotorEx.class, "liftMotorUp");
         liftMotorDown = hwMap.get(DcMotorEx.class, "liftMotorDown");
+
+        flipServo = hwMap.get(Servo.class, "flipServo");
+        scrubServo = hwMap.get(Servo.class, "scrubServo");
+        doorServo = hwMap.get(Servo.class, "doorServo");
+
 
 
         // defines the directions the motors will spin
@@ -152,7 +159,7 @@ public class Pirsus2 {
 
         armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        bucketDoorOpen();
+
 
 
         // Define and initialize sensors
@@ -464,9 +471,14 @@ public class Pirsus2 {
         armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
-    public void adjustBucketPosition(double bucketPosition) {
-        bucketPositioner.setPosition(bucketPosition);
+    public void scrub(double scrubSide){
+        scrubServo.setPosition(scrubSide);
     }
+
+    public void doorOpen(){
+
+    }
+
 
     public void useLift(double power) {
         liftMotorUp.setPower(power);
@@ -474,12 +486,7 @@ public class Pirsus2 {
     }
 
 
-    public void bucketDoorOpen() {
-        bucketDoorServo.setPosition(1.0);
-    }
-    public void bucketDoorClose() {
-        bucketDoorServo.setPosition(0.0);
-    }
+
 
 
 

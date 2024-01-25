@@ -32,6 +32,7 @@ public class Pirsus2Teleop extends OpMode {
 
 
 
+
     @Override
     public void init() {
 
@@ -58,6 +59,8 @@ public class Pirsus2Teleop extends OpMode {
 
         bButtonG = gamepad2.b;
         lBumperG = gamepad2.left_bumper;
+
+
 
         rStickG = gamepad2.right_stick_y;
 
@@ -105,7 +108,7 @@ public class Pirsus2Teleop extends OpMode {
     }
 
     public void doDeposit(){
-
+        //If dpad right pushed, set servo to 1.0 position, if dpad left, do -1.0
     }
 
 
