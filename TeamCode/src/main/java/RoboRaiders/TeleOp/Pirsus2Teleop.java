@@ -24,6 +24,10 @@ public class Pirsus2Teleop extends OpMode {
     public boolean bButtonG;
     public boolean lBumperG;
 
+    //Lift
+    public double rStickG;
+
+
 
 
 
@@ -55,13 +59,15 @@ public class Pirsus2Teleop extends OpMode {
         bButtonG = gamepad2.b;
         lBumperG = gamepad2.left_bumper;
 
+        rStickG = gamepad2.right_stick_y;
+
         elapsedTime = System.nanoTime() - startTime;
 
         if((elapsedTime / 1000000000) >= 90) {
             endGame = true;
         }
 
-
+        doLift();
     }
 
     public void doIntake(){
@@ -87,7 +93,7 @@ public class Pirsus2Teleop extends OpMode {
     }
 
     public void doLift(){
-
+        robot.useLift(rStickG);
     }
 
     public void doDeposit(){

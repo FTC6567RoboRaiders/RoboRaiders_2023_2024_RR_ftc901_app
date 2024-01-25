@@ -473,15 +473,6 @@ public class Pirsus2 {
         liftMotorDown.setPower(-power);
     }
 
-//    public void lowerLift() {
-//        liftMotorUp.setPower(-0.75);
-//        liftMotorDown.setPower(0.75);
-//    }
-//
-//    public void liftStop() {
-//        liftMotorUp.setPower(0.0);
-//        liftMotorDown.setPower(0.0);
-//    }
 
     public void bucketDoorOpen() {
         bucketDoorServo.setPosition(1.0);
