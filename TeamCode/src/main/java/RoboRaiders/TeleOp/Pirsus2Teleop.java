@@ -13,6 +13,18 @@ import RoboRaiders.Robots.Pirsus;
 public class Pirsus2Teleop extends OpMode {
     public Pirsus robot = new Pirsus();
 
+
+    public double lTriggerG;
+    public double rTriggerG;
+
+    //Timer
+    public long startTime;
+    public long elapsedTime;
+    public boolean endGame = false;  //This checks whether we have elapsed enough time to be in endgame
+
+
+
+
     @Override
     public void init() {
 
@@ -33,6 +45,24 @@ public class Pirsus2Teleop extends OpMode {
     @Override
     public void loop() {
 
+        rTriggerG = gamepad2.right_trigger;
+        lTriggerG = gamepad2.left_trigger;
+
+    }
+
+    public void doIntake(){
+
+        if(rTriggerG > 0.0) {
+            robot.setIntakeMotorPower(rTriggerG);
+        }
+
+        else if(lTriggerG > 0.0) {
+            robot.setIntakeMotorPower(-lTriggerG);
+        }
+
+        else {
+            robot.setIntakeMotorPower(0.0);
+        }
     }
 
 }
