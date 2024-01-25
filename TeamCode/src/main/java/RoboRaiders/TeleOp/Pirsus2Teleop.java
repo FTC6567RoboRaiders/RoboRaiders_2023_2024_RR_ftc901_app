@@ -93,7 +93,16 @@ public class Pirsus2Teleop extends OpMode {
     }
 
     public void doLift(){
-        robot.useLift(rStickG);
+        if(rStickG > 1.0){
+            rStickG = 1.0;
+        }
+        else if(rStickG < -1.0){
+            rStickG = -1.0;
+        }
+        else{
+            robot.useLift(rStickG);
+        }
+
     }
 
     public void doDeposit(){
