@@ -1,4 +1,4 @@
-package RoboRaiders.TeleOp;
+package RoboRaiders.Tests;
 
 import android.graphics.Color;
 
@@ -15,7 +15,7 @@ import RoboRaiders.Robots.Hubbot;
 
 @Autonomous(name = "HubBot")
 
-public class HubTeleop extends OpMode {
+public class HubAuto extends OpMode {
 
     public static final int[] PURPLE = { 195, 210 };
     public static final int[] YELLOW = { 80, 110 };
