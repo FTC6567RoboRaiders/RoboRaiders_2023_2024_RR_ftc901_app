@@ -30,7 +30,7 @@ public class HubTeleop extends LinearOpMode {
         while (opModeIsActive()) {
 
             robot.setControllerPosition(pwm);
-            sleep(1000);                                             // Let's wait 1/2 a second, why? because I said so
+            sleep(100);                                             // Let's wait 1/2 a second, why? because I said so
             telemetry.addData("RR Blinkin Class Test", "");
             telemetry.addData("Press GamePad1.A to Increment to the next Blinkin Setting", "");
             telemetry.addData("Press GamePad1.B to Decrement to the previous Blinkin Setting", "");
