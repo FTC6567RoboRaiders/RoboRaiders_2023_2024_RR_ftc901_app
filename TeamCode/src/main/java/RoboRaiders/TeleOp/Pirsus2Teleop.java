@@ -2,6 +2,7 @@ package RoboRaiders.TeleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.Range;
 
 import RoboRaiders.Robots.Pirsus2;
 
@@ -11,11 +12,22 @@ import RoboRaiders.Robots.Pirsus2;
 @TeleOp (name = "Pirsus2 Teleop")
 
 public class Pirsus2Teleop extends OpMode {
+
     public Pirsus2 robot = new Pirsus2();
 
+    public double lFPower;
+    public double rFPower;
+    public double lRPower;
+    public double rRPower;
 
     public double lTriggerG;
     public double rTriggerG;
+    public boolean dpadR;
+    public boolean dpadL;
+    public boolean dpadU;
+    public boolean dpadD;
+    public boolean xButton;
+    public boolean aButton;
 
     //Timer
     public long startTime;
@@ -26,6 +38,8 @@ public class Pirsus2Teleop extends OpMode {
 
     //Lift
     public double rStickG;
+
+    public double botHeading;
 
 
 
@@ -43,24 +57,31 @@ public class Pirsus2Teleop extends OpMode {
 
 
     }
+
     @Override
     public void start() {
 
         //Timer for drone launch safety
         startTime = System.nanoTime();
 
-
     }
+
     @Override
     public void loop() {
 
         rTriggerG = gamepad2.right_trigger;
         lTriggerG = gamepad2.left_trigger;
 
+        dpadR = gamepad2.dpad_right;
+        dpadL = gamepad2.dpad_left;
+        dpadU = gamepad2.dpad_up;
+        dpadD = gamepad2.dpad_down;
+
         bButtonG = gamepad2.b;
         lBumperG = gamepad2.left_bumper;
 
-
+        xButton = gamepad2.x;
+        aButton = gamepad2.a;
 
         rStickG = gamepad2.right_stick_y;
 
@@ -70,10 +91,40 @@ public class Pirsus2Teleop extends OpMode {
             endGame = true;
         }
 
+        // driver
+        doDrive();
+
+        // gunner
         doLift();
+        doDoor();
+        doDroneLaunch();
+        doIntakeDeposit();
+        doWave();
+
     }
 
-    public void doIntake(){
+    public void doDrive() {
+
+        botHeading = robot.getHeading();
+
+        double y = gamepad1.left_stick_y; // Remember, this is reversed!`
+        double x = -gamepad1.left_stick_x; // Counteract imperfect strafing
+        double rx = gamepad1.right_stick_x;
+
+        double rotX = x * Math.cos(botHeading) - y * Math.sin(botHeading);
+        double rotY = x * Math.sin(botHeading) + y * Math.cos(botHeading);
+
+        double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
+        lFPower = (rotY + rotX + rx) / denominator;
+        rFPower = (rotY - rotX - rx) / denominator;
+        lRPower = (rotY - rotX + rx) / denominator;
+        rRPower = (rotY + rotX - rx) / denominator;
+
+        robot.setDriveMotorPower(lFPower, rFPower, lRPower, rRPower);
+
+    }
+
+    public void doIntakeDeposit() {
 
         if(rTriggerG > 0.0) {
             robot.setIntakeMotorPower(rTriggerG);
@@ -86,6 +137,7 @@ public class Pirsus2Teleop extends OpMode {
         else {
             robot.setIntakeMotorPower(0.0);
         }
+
     }
 
     public void doDroneLaunch() {
@@ -93,13 +145,15 @@ public class Pirsus2Teleop extends OpMode {
         if (endGame && bButtonG && lBumperG) {
             robot.fireDrone();
         }
+
     }
 
-    public void doLift(){
-        if(rStickG > 1.0){
+    public void doLift() {
+
+        if(rStickG > 1.0) {
             rStickG = 1.0;
         }
-        else if(rStickG < -1.0){
+        else if(rStickG < -1.0) {
             rStickG = -1.0;
         }
 
@@ -107,9 +161,38 @@ public class Pirsus2Teleop extends OpMode {
 
     }
 
-    public void doDeposit(){
-        //If dpad right pushed, set servo to 1.0 position, if dpad left, do -1.0
+    public void doWave() {
+
+        if(dpadR) {
+            robot.useScrub(1.0);
+        }
+        else if(dpadL) {
+            robot.useScrub(-1.0);
+        }
+
     }
 
+    // fix these values later
+    public void doDoor() {
+
+        if(xButton) {
+            robot.useDoor(0);
+        }
+        else if(aButton) {
+            robot.useDoor(1.0);
+        }
+
+    }
+
+    public void doFlip() {
+
+        if() {
+            robot.setFlipServo(0);
+        }
+        else if() {
+            robot.setFlipServo(1.0);
+        }
+
+    }
 
 }

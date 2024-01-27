@@ -454,9 +454,7 @@ public class Pirsus2 {
     }
 
     public void setIntakeMotorPower(double intakePower) {
-
         intakeMotor.setPower(intakePower);
-
     }
 
     public void fireDrone() {
@@ -475,14 +473,21 @@ public class Pirsus2 {
         scrubServo.setPosition(scrubSide);
     }
 
-    public void doorOpen(){
-
-    }
-
-
     public void useLift(double power) {
         liftMotorUp.setPower(power);
         liftMotorDown.setPower(-power);
+    }
+
+    public void useScrub(double pos) {
+        scrubServo.setPosition(pos);
+    }
+
+    public void useDoor(double pos) {
+        doorServo.setPosition(pos);
+    }
+
+    public void setFlipServo(double pos) {
+        flipServo.setPosition(pos);
     }
 
 
