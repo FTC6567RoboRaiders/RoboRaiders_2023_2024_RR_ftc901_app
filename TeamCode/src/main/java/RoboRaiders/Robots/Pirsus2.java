@@ -30,15 +30,16 @@ public class Pirsus2 {
 
 
 
-    public DcMotorEx armMotor = null;
+
 
 
     //Lift
-    public DcMotorEx liftMotorUp = null;
-    public DcMotorEx liftMotorDown = null;
+    public DcMotorEx liftMotorRight = null;
+    public DcMotorEx liftMotorLeft = null;
 
     //Deposit
-    public Servo flipServo = null;
+    public Servo flipServo1 = null;
+    public Servo flipServo2 = null;
     public Servo doorServo = null;
     public Servo scrubServo = null;
 
@@ -92,22 +93,23 @@ public class Pirsus2 {
         rRMotor = hwMap.get(DcMotorEx.class, "rRMotor");
 
         // intake motors
-        intakeMotor = hwMap.get(DcMotorEx.class, "rIntakeMotor");
+        intakeMotor = hwMap.get(DcMotorEx.class, "intakeMotor");
 
         // drone launch catch
         launchMotor = hwMap.get(DcMotorEx.class, "launchMotor");
 
         // intake motor and servos
-        armMotor = hwMap.get(DcMotorEx.class, "armMotor");
+
 
 
         // lift servo
-        liftMotorUp = hwMap.get(DcMotorEx.class, "liftMotorUp");
-        liftMotorDown = hwMap.get(DcMotorEx.class, "liftMotorDown");
+        liftMotorRight = hwMap.get(DcMotorEx.class, "liftMotorRight");
+        liftMotorLeft = hwMap.get(DcMotorEx.class, "liftMotorLeft");
 
-        flipServo = hwMap.get(Servo.class, "flipServo");
-        scrubServo = hwMap.get(Servo.class, "scrubServo");
-        doorServo = hwMap.get(Servo.class, "doorServo");
+//        flipServo1 = hwMap.get(Servo.class, "flipServo1");
+//        flipServo2 = hwMap.get(Servo.class, "flipServo2");
+//        scrubServo = hwMap.get(Servo.class, "scrubServo");
+//        doorServo = hwMap.get(Servo.class, "doorServo");
 
 
 
@@ -127,7 +129,7 @@ public class Pirsus2 {
 
         intakeMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
 
 
         //have the motors on the drivetrain break here.
@@ -140,7 +142,7 @@ public class Pirsus2 {
         intakeMotor.setPower(0.0);
 
 
-        armMotor.setPower(0.0);
+
 
 
         // Stop and reset encoders
@@ -157,7 +159,7 @@ public class Pirsus2 {
         intakeMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
-        armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
 
 
 
@@ -223,9 +225,6 @@ public class Pirsus2 {
      * Setting Power for the arm motor on robot
      * @param power
      */
-    public void setArmMotorPower(double power){
-        armMotor.setPower(power);
-    }
 
 
     /**
@@ -449,9 +448,6 @@ public class Pirsus2 {
     //
     //**********************************************************************************************
 
-    public void runArmWithEncoders() {
-        armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-    }
 
     public void setIntakeMotorPower(double intakePower) {
         intakeMotor.setPower(intakePower);
@@ -461,21 +457,16 @@ public class Pirsus2 {
         launchMotor.setPower(1.0);
     }
 
-    public int getArmEncoders() {
-        return armMotor.getCurrentPosition();
-    }
 
-    public void resetArmMotorEncoders() {
-        armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-    }
+
 
     public void scrub(double scrubSide){
         scrubServo.setPosition(scrubSide);
     }
 
     public void useLift(double power) {
-        liftMotorUp.setPower(power);
-        liftMotorDown.setPower(-power);
+        liftMotorRight.setPower(power);
+        liftMotorLeft.setPower(-power);
     }
 
     public void useScrub(double pos) {
@@ -487,7 +478,8 @@ public class Pirsus2 {
     }
 
     public void setFlipServo(double pos) {
-        flipServo.setPosition(pos);
+        flipServo1.setPosition(pos);
+        flipServo2.setPosition(-pos);
     }
 
 

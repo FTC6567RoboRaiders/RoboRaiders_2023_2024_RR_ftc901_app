@@ -91,6 +91,9 @@ public class Pirsus2Teleop extends OpMode {
             endGame = true;
         }
 
+        telemetry.addLine().addData("IMU HEADING:",  robot.getHeading());
+        telemetry.update();
+
         // driver
         doDrive();
 
@@ -98,8 +101,9 @@ public class Pirsus2Teleop extends OpMode {
         doLift();
         doDoor();
         doDroneLaunch();
-        doIntakeDeposit();
-        doWave();
+        doIntake();
+        doScrub();
+        doFlip();
 
     }
 
@@ -124,19 +128,23 @@ public class Pirsus2Teleop extends OpMode {
 
     }
 
-    public void doIntakeDeposit() {
+    public void doIntake() {
 
         if(rTriggerG > 0.0) {
             robot.setIntakeMotorPower(rTriggerG);
         }
-
         else if(lTriggerG > 0.0) {
             robot.setIntakeMotorPower(-lTriggerG);
         }
-
         else {
             robot.setIntakeMotorPower(0.0);
         }
+
+    }
+
+    public void doEntrapment() {
+
+
 
     }
 
@@ -161,7 +169,7 @@ public class Pirsus2Teleop extends OpMode {
 
     }
 
-    public void doWave() {
+    public void doScrub() {
 
         if(dpadR) {
             robot.useScrub(1.0);
@@ -176,7 +184,7 @@ public class Pirsus2Teleop extends OpMode {
     public void doDoor() {
 
         if(xButton) {
-            robot.useDoor(0);
+            robot.useDoor(0.0);
         }
         else if(aButton) {
             robot.useDoor(1.0);
@@ -184,13 +192,16 @@ public class Pirsus2Teleop extends OpMode {
 
     }
 
+    // fix these values later
     public void doFlip() {
 
-        if() {
-            robot.setFlipServo(0);
+        if(dpadU) {
+            robot.setFlipServo(0.0);
         }
-        else if() {
+        else if(dpadD) {
             robot.setFlipServo(1.0);
+            robot.useDoor(0.0);
+            robot.useScrub(0.5);
         }
 
     }

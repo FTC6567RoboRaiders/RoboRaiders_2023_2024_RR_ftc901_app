@@ -3,7 +3,8 @@ package RoboRaiders.Tests;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import RoboRaiders.Robots.Pirsus;
+
+import RoboRaiders.Robots.Pirsus2;
 
 @Autonomous (name="Encoder Test - Straight", group="Drive Train")
 
@@ -16,7 +17,7 @@ import RoboRaiders.Robots.Pirsus;
  */
 public class DriveTrainEncoderTest extends LinearOpMode {
 
-    public Pirsus robot = new Pirsus();
+    public Pirsus2 robot = new Pirsus2();
 
     @Override
     public void runOpMode() throws InterruptedException {
