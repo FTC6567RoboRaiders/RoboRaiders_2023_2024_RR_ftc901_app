@@ -87,12 +87,14 @@ public class Pirsus2Teleop extends OpMode {
 
         elapsedTime = System.nanoTime() - startTime;
 
+        // So the last 30 seconds of the 2 minute teleop (driver controlled) portion of the game
+        // is referred to as endgame.  Once the timer is at 90 seconds and beyond, indicate that
+        // the robot is in endGame
         if((elapsedTime / 1000000000) >= 90) {
-            endGame = true;
+            endGame = true;     // Robot is in endgame
         }
 
-        telemetry.addLine().addData("IMU HEADING:",  robot.getHeading());
-        telemetry.update();
+
 
         // driver
         doDrive();
@@ -111,18 +113,28 @@ public class Pirsus2Teleop extends OpMode {
 
         botHeading = robot.getHeading();
 
-        double y = gamepad1.left_stick_y; // Remember, this is reversed!`
-        double x = -gamepad1.left_stick_x; // Counteract imperfect strafing
+        double y = -gamepad1.left_stick_y; // Remember, this is reversed!`
+        double x = gamepad1.left_stick_x; // Counteract imperfect strafing
         double rx = gamepad1.right_stick_x;
 
-        double rotX = x * Math.cos(botHeading) - y * Math.sin(botHeading);
-        double rotY = x * Math.sin(botHeading) + y * Math.cos(botHeading);
+        double rotX = x * Math.cos(-botHeading) - y * Math.sin(-botHeading);
+        double rotY = x * Math.sin(-botHeading) + y * Math.cos(-botHeading);
 
         double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
         lFPower = (rotY + rotX + rx) / denominator;
         rFPower = (rotY - rotX - rx) / denominator;
         lRPower = (rotY - rotX + rx) / denominator;
         rRPower = (rotY + rotX - rx) / denominator;
+
+        telemetry.addLine().addData("lFPower: ",  lFPower);
+        telemetry.addLine().addData("rFPower: ",  rFPower);
+        telemetry.addLine().addData("lRPower: ",  lRPower);
+        telemetry.addLine().addData("rRPower: ",  rRPower);
+        telemetry.addLine().addData("x, y, rx: ",  String.valueOf(x) + ", " + String.valueOf(y) + ", " + String.valueOf(rx));
+        telemetry.addLine().addData("rotX, rotY: ",  String.valueOf(rotX) + ", " + String.valueOf(rotY));
+        telemetry.addLine().addData("IMU HEADING:",  robot.getHeading());
+        telemetry.update();
+
 
         robot.setDriveMotorPower(lFPower, rFPower, lRPower, rRPower);
 
@@ -150,8 +162,10 @@ public class Pirsus2Teleop extends OpMode {
 
     public void doDroneLaunch() {
 
+        // As a safety measure only allow te drone launch mechanism to function during endgame AND
+        // when the gamepad2 B button is pushed AND the gamepad 2 left bumper is pushed
         if (endGame && bButtonG && lBumperG) {
-            robot.fireDrone();
+            robot.fireDrone();    // cleared for takeoff - roger!!
         }
 
     }

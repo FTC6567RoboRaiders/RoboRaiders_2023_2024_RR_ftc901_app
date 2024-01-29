@@ -1,5 +1,6 @@
 package RoboRaiders.Robots;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -50,10 +51,13 @@ public class Pirsus2 {
     public HardwareMap hwMap = null;
 
     /* Public Variables */
-    public IMU.Parameters parameters = new IMU.Parameters(
+//    public IMU.Parameters parameters = new IMU.Parameters(
+//            new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.LEFT, RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD)
+//    );
+
+        public IMU.Parameters parameters = new IMU.Parameters(
             new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.RIGHT, RevHubOrientationOnRobot.UsbFacingDirection.FORWARD)
     );
-
 //    public BNO055IMU.Parameters parameters = new BNO055IMU.Parameters(
 //            new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.RIGHT, RevHubOrientationOnRobot.UsbFacingDirection.FORWARD)
 //    );
@@ -166,6 +170,7 @@ public class Pirsus2 {
 
         // Define and initialize sensors
         imu = hwMap.get(IMU.class, "imu");
+
 //        parameters.angleUnit = IMU.AngleUnit.RADIANS;
         //parameters.mode = BNO055IMU.SensorMode.IMU;
         imu.initialize(parameters);
@@ -386,7 +391,7 @@ public class Pirsus2 {
 
         float heading;
 
-        angles = imu.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES); // this sets up the how we want the IMU to report data
+        angles = imu.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS); // this sets up the how we want the IMU to report data
         heading = Math.abs(angles.firstAngle); // heading is equal to the absolute value of the first angle
 //        heading = Math.abs(imu.getRobotOrientation().firstAngle);
 
