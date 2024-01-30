@@ -56,7 +56,7 @@ public class Pirsus2 {
 //    );
 
         public IMU.Parameters parameters = new IMU.Parameters(
-            new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.RIGHT, RevHubOrientationOnRobot.UsbFacingDirection.FORWARD)
+            new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.LEFT, RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD)
     );
 //    public BNO055IMU.Parameters parameters = new BNO055IMU.Parameters(
 //            new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.RIGHT, RevHubOrientationOnRobot.UsbFacingDirection.FORWARD)
@@ -392,7 +392,7 @@ public class Pirsus2 {
         float heading;
 
         angles = imu.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS); // this sets up the how we want the IMU to report data
-        heading = Math.abs(angles.firstAngle); // heading is equal to the absolute value of the first angle
+        heading = angles.firstAngle; // heading is equal to the absolute value of the first angle
 //        heading = Math.abs(imu.getRobotOrientation().firstAngle);
 
         return heading;
