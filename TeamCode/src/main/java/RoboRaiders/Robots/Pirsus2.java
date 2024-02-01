@@ -29,11 +29,6 @@ public class Pirsus2 {
 
     public DcMotorEx launchMotor = null;
 
-
-
-
-
-
     //Lift
     public DcMotorEx liftMotorRight = null;
     public DcMotorEx liftMotorLeft = null;
