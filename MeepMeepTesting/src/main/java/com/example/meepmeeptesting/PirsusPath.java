@@ -15,7 +15,7 @@ public class PirsusPath {
         // blue/drone side - (-35, 60)
         // blue/stage side - (12, 60)
         // red/drone side - (-35, -60)
-        // red/stage side - (12, -60
+        // red/stage side - (12, -60)
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
@@ -27,6 +27,7 @@ public class PirsusPath {
 //   --------------------------------------------------------------------------------------------
 //   place the purple pixel after forward
 //   --------------------------------------------------------------------------------------------
+                                        .waitSeconds(3)
                                         .splineTo(new Vector2d(3, 2), Math.toRadians(0))
 //                                .splineTo(new Vector2d(-31, 34),Math.toRadians(180))
 //                                .splineTo(new Vector2d(-24, 35),Math.toRadians(180))
