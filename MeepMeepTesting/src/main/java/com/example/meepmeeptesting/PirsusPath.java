@@ -21,20 +21,18 @@ public class PirsusPath {
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
                 .setDimensions(13,17)    // Set the dimensions of the robot
-                .followTrajectorySequence(drive ->
-                                drive.trajectorySequenceBuilder(new Pose2d(-35, 60, Math.toRadians(90)))
-                                        .back(25)
-//   --------------------------------------------------------------------------------------------
-//   place the purple pixel after forward
-//   --------------------------------------------------------------------------------------------
-                                        .waitSeconds(3)
-                                        .splineTo(new Vector2d(3, 2), Math.toRadians(0))
-//                                .splineTo(new Vector2d(-31, 34),Math.toRadians(180))
-//                                .splineTo(new Vector2d(-24, 35),Math.toRadians(180))
-                                        .back(75)
-//   --------------------------------------------------------------------------------------------
-//   now in position to put the yellow pixel on the backdrop
-//   --------------------------------------------------------------------------------------------
+                .followTrajectorySequence(drive -> drive.trajectorySequenceBuilder(new Pose2d(-35, 60, Math.toRadians(90)))
+                                .back(48.5) // move off wall
+                                .waitSeconds(2) // placeholder for dropping purple
+                                .back(1) // fixes spline going forward issue
+                                .splineTo(new Vector2d(0, 11.5), Math.toRadians(0)) // spline to door
+                                .back(24) // drive to stage
+                                .splineToConstantHeading(new Vector2d(47, 35), Math.toRadians(0)) // spline to stage
+                                .waitSeconds(4)
+                                // end cupcake auto
+
+                                .splineToConstantHeading(new Vector2d(18, 11.5), Math.toRadians(0)) // spline to pixels
+                                .forward(75)
 
 //                                .turn(Math.toRadians(90))
 //                                .forward(30)
