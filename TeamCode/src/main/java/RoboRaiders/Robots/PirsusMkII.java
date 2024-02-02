@@ -10,26 +10,47 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 import RoboRaiders.Utilities.Logger.Logger;
 
-public class PirsusMkII {
 
+public class PirsusMkII {
+    /* Robot Motors, Servos, CR Servos and Sensors */
     public DcMotorEx lFMotor = null;
     public DcMotorEx rFMotor = null;
     public DcMotorEx lRMotor = null;
     public DcMotorEx rRMotor = null;
 
+    public DcMotorEx intakeMotor = null;
+
+
+    public DcMotorEx launchMotor = null;
+
+    //Lift
+    public DcMotorEx liftMotorRight = null;
+    public DcMotorEx liftMotorLeft = null;
+
+    //Deposit
+    public Servo flipServo1 = null;
+    public Servo flipServo2 = null;
+    public Servo doorServo = null;
+    public Servo scrubServo = null;
+
+
     public IMU imu;
 
+    /* Local OpMode Members */
     public HardwareMap hwMap = null;
 
-    public IMU.Parameters parameters = new IMU.Parameters(
-            new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.RIGHT, RevHubOrientationOnRobot.UsbFacingDirection.FORWARD)
-    );
+    /* Public Variables */
+//    public IMU.Parameters parameters = new IMU.Parameters(
+//            new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.LEFT, RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD)
+//    );
 
+    public IMU.Parameters parameters = new IMU.Parameters(
+            new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.LEFT, RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD)
+    );
     //    public BNO055IMU.Parameters parameters = new BNO055IMU.Parameters(
 //            new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.RIGHT, RevHubOrientationOnRobot.UsbFacingDirection.FORWARD)
 //    );
@@ -43,7 +64,14 @@ public class PirsusMkII {
     public static double robotHeading;
     public boolean firstTimeCalled = true;
 
-    public PirsusMkII() {}
+    /* Camera */
+
+    /**
+     * Constructor for Robot class, current does nothing but is needed since every class needs a constructor
+     */
+    public PirsusMkII() {
+
+    }
 
     /**
      * This method will initialize the robot
@@ -61,6 +89,25 @@ public class PirsusMkII {
         lRMotor = hwMap.get(DcMotorEx.class, "lRMotor");
         rRMotor = hwMap.get(DcMotorEx.class, "rRMotor");
 
+        // intake motors
+        intakeMotor = hwMap.get(DcMotorEx.class, "intakeMotor");
+
+        // drone launch catch
+        launchMotor = hwMap.get(DcMotorEx.class, "launchMotor");
+
+        // intake motor and servos
+
+
+
+        // lift servo
+        liftMotorRight = hwMap.get(DcMotorEx.class, "liftMotorRight");
+        liftMotorLeft = hwMap.get(DcMotorEx.class, "liftMotorLeft");
+
+//        flipServo1 = hwMap.get(Servo.class, "flipServo1");
+//        flipServo2 = hwMap.get(Servo.class, "flipServo2");
+//        scrubServo = hwMap.get(Servo.class, "scrubServo");
+//        doorServo = hwMap.get(Servo.class, "doorServo");
+
 
 
         // defines the directions the motors will spin
@@ -69,12 +116,16 @@ public class PirsusMkII {
         lRMotor.setDirection(DcMotor.Direction.REVERSE);
         rRMotor.setDirection(DcMotor.Direction.FORWARD);
 
+        intakeMotor.setDirection(DcMotor.Direction.FORWARD);
 
 
         lFMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rFMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         lRMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rRMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        intakeMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
 
 
 
@@ -85,6 +136,14 @@ public class PirsusMkII {
         rRMotor.setPower(0.0);
         lRMotor.setPower(0.0);
 
+        intakeMotor.setPower(0.0);
+
+
+
+
+
+        // Stop and reset encoders
+        resetEncoders();
 
 
         // Set all motors to run without encoders.
@@ -94,15 +153,29 @@ public class PirsusMkII {
         lRMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rRMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+        intakeMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+
+
+
+
 
 
         // Define and initialize sensors
         imu = hwMap.get(IMU.class, "imu");
+
 //        parameters.angleUnit = IMU.AngleUnit.RADIANS;
         //parameters.mode = BNO055IMU.SensorMode.IMU;
         imu.initialize(parameters);
 
     }
+
+
+    //**********************************************************************************************
+    //
+    // DRIVE TRAIN METHODS
+    //
+    //**********************************************************************************************
 
     /**
      * This method will set the power for the drive motors
@@ -125,7 +198,7 @@ public class PirsusMkII {
      * This method will set the power for the drive motors
      *
      * @param leftFront  power setting for the left front motor
-     * @param rightFront power setting for the right front motor
+     * @param rightFront po`wer setting for the right front motor
      * @param leftBack   power setting for the left back motor
      * @param rightBack  power setting for the right back motor
      */
@@ -142,17 +215,22 @@ public class PirsusMkII {
             firstTimeCalled = false;
         }
 
-        if (leftFront != 0.0 && rightFront != 0.0 && leftBack != 0.0 && rightBack != 0.0) {
-            lclLogger.Debug("************* TestRobot Set Drive Motor Power TestRobot Set Drive Motor Power **********");
-            lclLogger.Debug("DT Motor Powers       (LF, RF, LB, RB): ", leftFront, rightFront, leftBack, rightBack);
-            lclLogger.Debug("Retrieved DT Powers   (LF, RF, LB, RB): ", lFMotor.getPower(), rFMotor.getPower(), lRMotor.getPower(), rRMotor.getPower());
-            lclLogger.Debug("Retrieved DT Currents (LF, RF, LB, RB): ", lFMotor.getCurrent(CurrentUnit.AMPS), rFMotor.getCurrent(CurrentUnit.AMPS), lRMotor.getCurrent(CurrentUnit.AMPS), rRMotor.getCurrent(CurrentUnit.AMPS));
-            lclLogger.Debug("Encoder Counts (LF, RF, LB, RB): ", lFMotor.getCurrentPosition(), rFMotor.getCurrentPosition(), lRMotor.getCurrentPosition(), rRMotor.getCurrentPosition());
-            lclLogger.Debug("************* TestRobot Set Drive Motor Power TestRobot Set Drive Motor Power **********");
-        }
+
 
     }
 
+    /**
+     * Setting Power for the arm motor on robot
+     * @param power
+     */
+
+
+    /**
+     * calculates the number of encoder counts to travel a given distance for the drive train motors
+     *
+     * @param distance
+     * @return
+     */
     public double driveTrainCalculateCounts(double distance) {
 
         double COUNTS;
@@ -306,8 +384,8 @@ public class PirsusMkII {
 
         float heading;
 
-        angles = imu.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES); // this sets up the how we want the IMU to report data
-        heading = Math.abs(angles.firstAngle); // heading is equal to the absolute value of the first angle
+        angles = imu.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS); // this sets up the how we want the IMU to report data
+        heading = angles.firstAngle; // heading is equal to the absolute value of the first angle
 //        heading = Math.abs(imu.getRobotOrientation().firstAngle);
 
         return heading;
@@ -355,6 +433,70 @@ public class PirsusMkII {
 
         return integratedZAxis;
     }
+
+    //**********************************************************************************************
+    //
+    // END IMU METHODS
+    //
+    //**********************************************************************************************
+
+    //**********************************************************************************************
+    //
+    // GUNNER METHODS
+    //
+    //**********************************************************************************************
+
+
+    public void setIntakeMotorPower(double intakePower) {
+        intakeMotor.setPower(intakePower);
+    }
+
+    public void fireDrone() {
+        launchMotor.setPower(1.0);
+    }
+
+
+
+
+    public void scrub(double scrubSide){
+        scrubServo.setPosition(scrubSide);
+    }
+
+    public void useLift(double power) {
+        liftMotorRight.setPower(power);
+        liftMotorLeft.setPower(-power);
+    }
+
+    public void useScrub(double pos) {
+        scrubServo.setPosition(pos);
+    }
+
+    public void useDoor(double pos) {
+        doorServo.setPosition(pos);
+    }
+
+    public void setFlipServo(double pos) {
+        flipServo1.setPosition(pos);
+        flipServo2.setPosition(-pos);
+    }
+
+
+
+
+
+
+    //**********************************************************************************************
+    //
+    // END GUNNER METHODS
+    //
+    //**********************************************************************************************
+
+    //**********************************************************************************************
+    //
+    // CAMERA METHODS
+    //
+    //**********************************************************************************************
+
 
 
 }
