@@ -13,7 +13,7 @@ public class DroneBlueSteeeveLeftStageDoor {
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
-                .setDimensions(13,17)    // Set the dimensions of the robot
+                .setDimensions(14,12)    // Set the dimensions of the robot
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(new Pose2d(-35, 60, Math.toRadians(270)))
                                 .forward(25)
