@@ -7,7 +7,7 @@ import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
 import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 import java.util.Random;
 
-public class PirsusPathBlueDrone {
+public class TestPath {
     public static void main(String[] args) {
 
         MeepMeep meepMeep = new MeepMeep(800);
@@ -23,13 +23,12 @@ public class PirsusPathBlueDrone {
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
                 .setDimensions(13,17)    // Set the dimensions of the robot
                 .followTrajectorySequence(drive -> drive.trajectorySequenceBuilder(new Pose2d(-35, 60, Math.toRadians(90)))
-                                .back(47.5) // move off wall
+                                .lineToLinearHeading(new Pose2d(-34, 30, Math.toRadians(0))) // move off wall
                                 .waitSeconds(2) // placeholder for dropping purple
 //                                .back(1) // fixes spline going forward issue
-//                                .lineToLinearHeading(new Pose2d(0, 11.5, Math.toRadians(0))) // spline to door
-//                                .back(24) // drive to stage
-                                .turn(Math.toRadians(90))
-                                .back(59)
+                                .lineToLinearHeading(new Pose2d(-35, 11.5, Math.toRadians(180)))
+//                                .splineTo(new Vector2d(0, 11.5), Math.toRadians(0)) // spline to door
+                                .back(58) // drive to stage
                                 .splineToConstantHeading(new Vector2d(47, 35), Math.toRadians(0)) // spline to stage
                                 .waitSeconds(2) // placeholder for dropping yellow
                                 // end initial cycle

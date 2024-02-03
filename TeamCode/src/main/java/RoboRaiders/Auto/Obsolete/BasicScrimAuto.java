@@ -1,4 +1,4 @@
-package RoboRaiders.Auto;
+package RoboRaiders.Auto.Obsolete;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;

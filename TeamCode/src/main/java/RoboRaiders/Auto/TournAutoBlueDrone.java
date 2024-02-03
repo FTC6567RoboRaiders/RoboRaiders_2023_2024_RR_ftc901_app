@@ -24,7 +24,7 @@ import RoboRaiders.Auto.RRTrajectorySteps.SpikeToLoopBridge;
 import RoboRaiders.Robots.PirsusMkII;
 
 @Autonomous
-public class TournAuto extends LinearOpMode {
+public class TournAutoBlueDrone extends LinearOpMode {
 
     public PirsusMkII robot = new PirsusMkII();
     public SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
@@ -32,7 +32,7 @@ public class TournAuto extends LinearOpMode {
     public VisionPortal visionPortal;
     public AprilTagProcessor aprilTag;
     public AprilTagDetection desiredTag = null;
-//    public StevesPipeline2 stevesPipeline = new StevesPipeline2();
+    //    public StevesPipeline2 stevesPipeline = new StevesPipeline2();
     public int position;
     public long startTime;
     public long elapsedTime;
@@ -110,8 +110,15 @@ public class TournAuto extends LinearOpMode {
             }
 
             bridge.doPath();
+            // deposit
 
-            // intake/deposit block, repeat as necessary
+            // intake/deposit block 1
+            depoLoop1.doPath();
+            // intake
+            depoLoop2.doPath();
+            //deposit
+
+            // intake/deposit block 2
             depoLoop1.doPath();
             // intake
             depoLoop2.doPath();
