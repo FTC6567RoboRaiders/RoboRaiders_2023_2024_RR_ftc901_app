@@ -21,13 +21,15 @@ public class DepoLoop1 {
     }
 
     public PirsusMkII robot = new PirsusMkII();
-    public SampleMecanumDrive drive = new SampleMecanumDrive(ahwMap);
+    public SampleMecanumDrive drive = null;
 
 
 
     Pose2d startPose = new Pose2d(47, 35, Math.toRadians(0));
 
     public void doPath() {
+
+        drive = new SampleMecanumDrive(ahwMap);
 
         Trajectory step1 = drive.trajectoryBuilder(startPose)
                 .splineTo(new Vector2d(23, 11.5), Math.toRadians(180), // spline to pixel level

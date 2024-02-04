@@ -21,13 +21,14 @@ import RoboRaiders.Auto.RRTrajectorySteps.DropPurpleLeft2;
 import RoboRaiders.Auto.RRTrajectorySteps.DropPurpleRight1;
 import RoboRaiders.Auto.RRTrajectorySteps.DropPurpleRight2;
 import RoboRaiders.Auto.RRTrajectorySteps.SpikeToLoopBridge;
+import RoboRaiders.Robots.Pirsus2;
 import RoboRaiders.Robots.PirsusMkII;
 
 @Autonomous
 public class TournAutoBlueDrone extends LinearOpMode {
 
-    public PirsusMkII robot = new PirsusMkII();
-    public SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+    public Pirsus2 robot = new Pirsus2();
+    public SampleMecanumDrive drive = null;
 
     public VisionPortal visionPortal;
     public AprilTagProcessor aprilTag;
@@ -38,14 +39,14 @@ public class TournAutoBlueDrone extends LinearOpMode {
     public long elapsedTime;
 
     // RR path segments
-    public DropPurpleLeft1 DPL1 = new DropPurpleLeft1(hardwareMap);
-    public DropPurpleLeft2 DPL2 = new DropPurpleLeft2(hardwareMap);
-    public DropPurpleCentre DPC = new DropPurpleCentre(hardwareMap);
-    public DropPurpleRight1 DPR1 = new DropPurpleRight1(hardwareMap);
-    public DropPurpleRight2 DPR2 = new DropPurpleRight2(hardwareMap);
-    public DepoLoop1 depoLoop1 = new DepoLoop1(hardwareMap);
-    public DepoLoop2 depoLoop2 = new DepoLoop2(hardwareMap);
-    public SpikeToLoopBridge bridge = new SpikeToLoopBridge(hardwareMap);
+    public DropPurpleLeft1 DPL1 = null;
+    public DropPurpleLeft2 DPL2 = null;
+    public DropPurpleCentre DPC = null;
+    public DropPurpleRight1 DPR1 = null;
+    public DropPurpleRight2 DPR2 = null;
+    public DepoLoop1 depoLoop1 = null;
+    public DepoLoop2 depoLoop2 = null;
+    public SpikeToLoopBridge bridge = null;
 
 
 
@@ -55,6 +56,18 @@ public class TournAutoBlueDrone extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         robot.initialize(hardwareMap);
+        drive = new SampleMecanumDrive(hardwareMap);
+
+        DPL1 = new DropPurpleLeft1(hardwareMap);
+        DPL2 = new DropPurpleLeft2(hardwareMap);
+        DPC = new DropPurpleCentre(hardwareMap);
+        DPR1 = new DropPurpleRight1(hardwareMap);
+        DPR2 = new DropPurpleRight2(hardwareMap);
+        depoLoop1 = new DepoLoop1(hardwareMap);
+        depoLoop2 = new DepoLoop2(hardwareMap);
+        bridge = new SpikeToLoopBridge(hardwareMap);
+
+
 
         robot.runWithEncoders();
 
@@ -63,12 +76,12 @@ public class TournAutoBlueDrone extends LinearOpMode {
 
         gamepad1.reset();
 
-        initColorPortal();
+//        initColorPortal();
 
 //        position = propPosition();
 
-        initAprilTagPortal();
-        initColorPortal();
+//        initAprilTagPortal();
+//        initColorPortal();
 
         Pose2d startPose = new Pose2d(-35, 60, Math.toRadians(90));
 
@@ -80,9 +93,11 @@ public class TournAutoBlueDrone extends LinearOpMode {
 
         elapsedTime = System.nanoTime() - startTime;
 
+        position = 1;
+
         while(opModeIsActive()) {
 
-            telemetryAprilTag();
+//            telemetryAprilTag();
 
             telemetry.update();
 

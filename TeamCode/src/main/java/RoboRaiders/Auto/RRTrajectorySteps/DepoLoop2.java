@@ -21,13 +21,15 @@ public class DepoLoop2 {
     }
 
     public PirsusMkII robot = new PirsusMkII();
-    public SampleMecanumDrive drive = new SampleMecanumDrive(ahwMap);
+    public SampleMecanumDrive drive = null;
 
 
 
     Pose2d startPose = new Pose2d(-60, 11.5, Math.toRadians(0));
 
     public void doPath() {
+
+        drive = new SampleMecanumDrive(ahwMap);
 
         Trajectory step1 = drive.trajectoryBuilder(startPose)
                 .back(82,

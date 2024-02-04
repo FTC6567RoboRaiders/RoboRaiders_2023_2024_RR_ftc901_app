@@ -21,13 +21,15 @@ public class SpikeToLoopBridge {
     }
 
     public PirsusMkII robot = new PirsusMkII();
-    public SampleMecanumDrive drive = new SampleMecanumDrive(ahwMap);
+    public SampleMecanumDrive drive = null;
 
 
 
     Pose2d startPose2 = new Pose2d(-35, 11.5, Math.toRadians(0));
 
     public void doPath() {
+
+        drive = new SampleMecanumDrive(ahwMap);
 
         Trajectory step1 = drive.trajectoryBuilder(startPose2)
                 .back(58, // drive to backdrop

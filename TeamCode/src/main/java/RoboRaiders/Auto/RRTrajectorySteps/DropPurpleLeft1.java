@@ -22,7 +22,7 @@ public class DropPurpleLeft1 {
     }
 
     public PirsusMkII robot = new PirsusMkII();
-    public SampleMecanumDrive drive = new SampleMecanumDrive(ahwMap);
+    public SampleMecanumDrive drive = null;
     public Pose2d endPose;
 
 
@@ -30,6 +30,8 @@ public class DropPurpleLeft1 {
     Pose2d startPose = new Pose2d(-35, 60, Math.toRadians(90));
 
     public Pose2d doPath() {
+
+        drive = new SampleMecanumDrive(ahwMap);
 
         Trajectory step1 = drive.trajectoryBuilder(startPose)
                 .lineToLinearHeading(new Pose2d(-34, 30, Math.toRadians(0)), // line to left spikemark

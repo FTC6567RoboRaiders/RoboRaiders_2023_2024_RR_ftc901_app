@@ -20,11 +20,13 @@ public class DropPurpleLeft2 {
     }
 
     public PirsusMkII robot = new PirsusMkII();
-    public SampleMecanumDrive drive = new SampleMecanumDrive(ahwMap);
+    public SampleMecanumDrive drive = null;
 
 
 
     public void doPath(Pose2d startPose) {
+
+        drive = new SampleMecanumDrive(ahwMap);
 
         Trajectory step1 = drive.trajectoryBuilder(startPose)
                 .lineToLinearHeading(new Pose2d(-35, 11.5, Math.toRadians(180)), // line to converging position

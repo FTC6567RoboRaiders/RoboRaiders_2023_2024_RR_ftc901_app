@@ -20,13 +20,15 @@ public class DropPurpleCentre {
     }
 
     public PirsusMkII robot = new PirsusMkII();
-    public SampleMecanumDrive drive = new SampleMecanumDrive(ahwMap);
+    public SampleMecanumDrive drive = null;
 
 
 
     Pose2d startPose = new Pose2d(-35, 60, Math.toRadians(90));
 
     public void doPath() {
+
+        drive = new SampleMecanumDrive(ahwMap);
 
         Trajectory step1 = drive.trajectoryBuilder(startPose)
                 .back(48.5, // drive to converging position
