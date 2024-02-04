@@ -92,7 +92,8 @@ public class TournAutoBlueDrone extends LinearOpMode {
                 case 0:
                     DPL1.doPath(); // move to left spikemark
                     // drop pixel
-                    DPL2.doPath(DPL1.doPath());
+                    DPL2.doPath(DPL1.doPath()); // move to centre location
+                    // drop pixel
                     break;
                 case 1:
                     DPC.doPath(); // move to centre spikemark
@@ -101,7 +102,7 @@ public class TournAutoBlueDrone extends LinearOpMode {
                 case 2:
                     DPR1.doPath(); // move to right spikemark
                     // drop pixel
-                    DPR2.doPath(DPL1.doPath());
+                    DPR2.doPath(DPL1.doPath());// move to centre location
                     break;
                 default:
                     DPC.doPath(); // move to centre spikemark
