@@ -163,15 +163,17 @@ public class PirsusMkIITeleop extends OpMode {
 
     public void doFlippers() {
 
-        if(endGame == false && bButtonG && leftBumper) {
+        if(!bButtonG && leftBumper) { // if not B and left bumper, left flipper will trigger since B and left bumper causes airplane launch
             robot.leftFlipper(1.0);
         }
-        else if(rightBumper) {
+        if(rightBumper) {
             robot.rightFlipper(1.0);
         }
-        else {
-            robot.leftFlipper(.5);
-            robot.rightFlipper(.5);
+        if(!leftBumper) {
+            robot.leftFlipper(0.0);
+        }
+        if(!rightBumper) {
+            robot.rightFlipper(0.0);
         }
 
     }
@@ -181,7 +183,10 @@ public class PirsusMkIITeleop extends OpMode {
         // As a safety measure only allow te drone launch mechanism to function during endgame AND
         // when the gamepad2 B button is pushed AND the gamepad 2 left bumper is pushed
         if (endGame && bButtonG && lBumperG) {
-            robot.fireDrone();    // cleared for takeoff - roger!!
+            robot.fireDrone(1.0);    // cleared for takeoff - roger!!
+        }
+        else {
+            robot.fireDrone(0.0);
         }
 
     }

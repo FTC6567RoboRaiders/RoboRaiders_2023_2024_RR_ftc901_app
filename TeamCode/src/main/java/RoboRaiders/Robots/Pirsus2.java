@@ -452,8 +452,8 @@ public class Pirsus2 {
         intakeMotor.setPower(intakePower);
     }
 
-    public void fireDrone() {
-        launchMotor.setPower(1.0);
+    public void fireDrone(double power) {
+        launchMotor.setPower(power);
     }
 
 
