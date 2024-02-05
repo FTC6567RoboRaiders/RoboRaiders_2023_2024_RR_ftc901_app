@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import RoboRaiders.Robots.Pirsus2;
-import RoboRaiders.Robots.PirsusMkII;
+
 
 
 // This line establishes this op mode as a teleop op mode and allows for it to be displayed
@@ -13,7 +13,7 @@ import RoboRaiders.Robots.PirsusMkII;
 
 public class PirsusMkIITeleop extends OpMode {
 
-    public PirsusMkII robot = new PirsusMkII();
+    public Pirsus2 robot = new Pirsus2();
 
     public double lFPower;
     public double rFPower;
@@ -41,6 +41,10 @@ public class PirsusMkIITeleop extends OpMode {
 
     public double botHeading;
 
+
+    //Flippers
+    public boolean leftBumper;
+    public boolean rightBumper;
 
 
 
@@ -85,6 +89,9 @@ public class PirsusMkIITeleop extends OpMode {
 
         rStickG = gamepad2.right_stick_y;
 
+        leftBumper = gamepad2.left_bumper;
+        rightBumper = gamepad2.right_bumper;
+
         elapsedTime = System.nanoTime() - startTime;
 
         // So the last 30 seconds of the 2 minute teleop (driver controlled) portion of the game
@@ -105,7 +112,7 @@ public class PirsusMkIITeleop extends OpMode {
         doDroneLaunch();
         doIntake();
         doScrub();
-        doFlip();
+        doFlippers();
 
     }
 
@@ -154,9 +161,18 @@ public class PirsusMkIITeleop extends OpMode {
 
     }
 
-    public void doEntrapment() {
+    public void doFlippers() {
 
-
+        if(endGame == false && bButtonG && leftBumper) {
+            robot.leftFlipper(1.0);
+        }
+        else if(rightBumper) {
+            robot.rightFlipper(1.0);
+        }
+        else {
+            robot.leftFlipper(.5);
+            robot.rightFlipper(.5);
+        }
 
     }
 
@@ -206,18 +222,7 @@ public class PirsusMkIITeleop extends OpMode {
 
     }
 
-    // fix these values later
-    public void doFlip() {
 
-        if(dpadU) {
-            robot.setFlipServo(0.0);
-        }
-        else if(dpadD) {
-            robot.setFlipServo(1.0);
-            robot.useDoor(0.0);
-            robot.useScrub(0.5);
-        }
 
-    }
 
 }

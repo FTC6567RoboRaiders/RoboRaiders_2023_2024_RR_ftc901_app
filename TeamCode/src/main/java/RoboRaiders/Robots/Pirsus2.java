@@ -32,8 +32,9 @@ public class Pirsus2 {
     public DcMotorEx liftMotorLeft = null;
 
     //Deposit
-    public Servo flipServo1 = null;
-    public Servo flipServo2 = null;
+    public Servo flipServoL = null;
+    public Servo flipServoR = null;
+
     public Servo doorServo = null;
     public Servo scrubServo = null;
 
@@ -103,8 +104,8 @@ public class Pirsus2 {
         liftMotorRight = hwMap.get(DcMotorEx.class, "liftMotorRight");
         liftMotorLeft = hwMap.get(DcMotorEx.class, "liftMotorLeft");
 
-//        flipServo1 = hwMap.get(Servo.class, "flipServo1");
-//        flipServo2 = hwMap.get(Servo.class, "flipServo2");
+        flipServoL = hwMap.get(Servo.class, "flipServo1");
+        flipServoR = hwMap.get(Servo.class, "flipServo2");
 //        scrubServo = hwMap.get(Servo.class, "scrubServo");
 //        doorServo = hwMap.get(Servo.class, "doorServo");
 
@@ -456,7 +457,13 @@ public class Pirsus2 {
     }
 
 
+    public void leftFlipper(double pos) {
+        flipServoL.setPosition(pos);
+    }
 
+    public void rightFlipper(double pos) {
+        flipServoR.setPosition(pos);
+    }
 
     public void scrub(double scrubSide){
         scrubServo.setPosition(scrubSide);
@@ -475,10 +482,6 @@ public class Pirsus2 {
         doorServo.setPosition(pos);
     }
 
-    public void setFlipServo(double pos) {
-        flipServo1.setPosition(pos);
-        flipServo2.setPosition(-pos);
-    }
 
 
 
