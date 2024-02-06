@@ -31,12 +31,16 @@ public class Pirsus2 {
     public DcMotorEx liftMotorRight = null;
     public DcMotorEx liftMotorLeft = null;
 
-    //Deposit
+    //Intake Flippers We're Not Using Right Now
     public Servo flipServoL = null;
     public Servo flipServoR = null;
 
     public Servo doorServo = null;
-    public Servo scrubServo = null;
+    public Servo lazySusanServo = null;
+
+    public Servo armServoR = null;
+    public Servo armServoL = null;
+
 
 
     public IMU imu;
@@ -104,10 +108,12 @@ public class Pirsus2 {
         liftMotorRight = hwMap.get(DcMotorEx.class, "liftMotorRight");
         liftMotorLeft = hwMap.get(DcMotorEx.class, "liftMotorLeft");
 
-        flipServoL = hwMap.get(Servo.class, "flipServo1");
-        flipServoR = hwMap.get(Servo.class, "flipServo2");
-//        scrubServo = hwMap.get(Servo.class, "scrubServo");
-//        doorServo = hwMap.get(Servo.class, "doorServo");
+//        flipServoL = hwMap.get(Servo.class, "flipServo1");
+//        flipServoR = hwMap.get(Servo.class, "flipServo2");
+        doorServo = hwMap.get(Servo.class, "doorServo");
+        lazySusanServo = hwMap.get(Servo.class,"lazySusanServo");
+        armServoR = hwMap.get(Servo.class,"armServoR");
+        armServoL = hwMap.get(Servo.class,"armServoL");
 
 
 
@@ -465,20 +471,20 @@ public class Pirsus2 {
         flipServoR.setPosition(pos);
     }
 
-    public void scrub(double scrubSide){
-        scrubServo.setPosition(scrubSide);
-    }
 
     public void useLift(double power) {
         liftMotorRight.setPower(power);
         liftMotorLeft.setPower(-power);
     }
 
-    public void useScrub(double pos) {
-        scrubServo.setPosition(pos);
+    public void setFlipPosition(double pos) {
+        armServoR.setPosition(pos);
+    }
+    public void setLazySusan(double pos) {
+        lazySusanServo.setPosition(pos);
     }
 
-    public void useDoor(double pos) {
+    public void setDoor(double pos) {
         doorServo.setPosition(pos);
     }
 

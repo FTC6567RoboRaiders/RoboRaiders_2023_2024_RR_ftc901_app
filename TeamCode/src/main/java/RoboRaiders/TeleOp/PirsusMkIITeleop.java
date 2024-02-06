@@ -111,8 +111,9 @@ public class PirsusMkIITeleop extends OpMode {
         doDoor();
         doDroneLaunch();
         doIntake();
-        doScrub();
-        doFlippers();
+        doFlip();
+        doLazySusan();
+//        doFlippers();
 
     }
 
@@ -151,11 +152,14 @@ public class PirsusMkIITeleop extends OpMode {
 
         if(rTriggerG > 0.0) {
             robot.setIntakeMotorPower(rTriggerG);
+            robot.useLift(-.25);
         }
         else if(lTriggerG > 0.0) {
+            robot.useLift(0.0);
             robot.setIntakeMotorPower(-lTriggerG);
         }
         else {
+            robot.useLift(0.0);
             robot.setIntakeMotorPower(0.0);
         }
 
@@ -204,25 +208,37 @@ public class PirsusMkIITeleop extends OpMode {
 
     }
 
-    public void doScrub() {
 
-        if(dpadR) {
-            robot.useScrub(1.0);
-        }
-        else if(dpadL) {
-            robot.useScrub(-1.0);
-        }
-
-    }
 
     // fix these values later
     public void doDoor() {
 
         if(xButton) {
-            robot.useDoor(0.0);
+            robot.setDoor(0.0);
         }
         else if(aButton) {
-            robot.useDoor(1.0);
+            robot.setDoor(1.0);
+        }
+
+    }
+
+    public void doFlip() {
+        if(dpadU){
+            robot.setFlipPosition(0.2);
+        }
+        if(dpadD){
+            robot.setFlipPosition(0.8);
+            robot.setLazySusan(0.5);
+            robot.setDoor(0.0);
+        }
+    }
+
+    public void doLazySusan() {
+        if(dpadL){
+            robot.setLazySusan(0.0);
+        }
+        if(dpadR){
+            robot.setLazySusan(1.0);
         }
 
     }
