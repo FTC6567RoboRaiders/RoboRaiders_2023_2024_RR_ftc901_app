@@ -11,7 +11,7 @@ import RoboRaiders.Robots.Pirsus2;
 // in the drop down list on the Driver Station phone to be chosen to run.
 @TeleOp (name = "Pirsus2 Teleop")
 
-public class PirsusMkIITeleop extends OpMode {
+public class Pirsus2Teleop extends OpMode {
 
     public Pirsus2 robot = new Pirsus2();
 
@@ -151,12 +151,12 @@ public class PirsusMkIITeleop extends OpMode {
     public void doIntake() {
 
         if(rTriggerG > 0.0) {
-            robot.setIntakeMotorPower(rTriggerG);
+            robot.setIntakeMotorPower(-rTriggerG);
             robot.useLift(-.25);
         }
         else if(lTriggerG > 0.0) {
             robot.useLift(0.0);
-            robot.setIntakeMotorPower(-lTriggerG);
+            robot.setIntakeMotorPower(lTriggerG);
         }
         else {
             robot.useLift(0.0);
@@ -197,11 +197,14 @@ public class PirsusMkIITeleop extends OpMode {
 
     public void doLift() {
 
-        if(rStickG > 1.0) {
+        if(rStickG > 0.0) {
             rStickG = 1.0;
         }
-        else if(rStickG < -1.0) {
+        else if(rStickG < 0.0) {
             rStickG = -1.0;
+        }
+        else{
+            rStickG = 0.0;
         }
 
         robot.useLift(rStickG);
@@ -223,22 +226,22 @@ public class PirsusMkIITeleop extends OpMode {
     }
 
     public void doFlip() {
-        if(dpadU){
-            robot.setFlipPosition(0.2);
+        if(dpadU) {
+            robot.setFlipPosition(0.7);
         }
-        if(dpadD){
-            robot.setFlipPosition(0.8);
+        if(dpadD) {
+            robot.setFlipPosition(0.0);
             robot.setLazySusan(0.5);
             robot.setDoor(0.0);
         }
     }
 
     public void doLazySusan() {
-        if(dpadL){
-            robot.setLazySusan(0.0);
+        if(dpadR) {
+            robot.setLazySusan(0.2);
         }
-        if(dpadR){
-            robot.setLazySusan(1.0);
+        if(dpadL) {
+            robot.setLazySusan(.75);
         }
 
     }
