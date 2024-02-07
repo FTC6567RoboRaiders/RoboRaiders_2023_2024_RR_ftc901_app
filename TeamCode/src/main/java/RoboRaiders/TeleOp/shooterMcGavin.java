@@ -3,15 +3,13 @@ package RoboRaiders.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+
 import RoboRaiders.Robots.Pirsus2;
 
+@TeleOp (name = "Shooter McGavin")
 
 
-// This line establishes this op mode as a teleop op mode and allows for it to be displayed
-// in the drop down list on the Driver Station phone to be chosen to run.
-@TeleOp (name = "Pirsus2 Teleop")
-
-public class Pirsus2Teleop extends OpMode {
+public class shooterMcGavin extends OpMode{
 
     public Pirsus2 robot = new Pirsus2();
 
@@ -68,13 +66,15 @@ public class Pirsus2Teleop extends OpMode {
     @Override
     public void start() {
 
-        //Timer for drone launch safety
-        startTime = System.nanoTime();
+
 
     }
 
     @Override
     public void loop() {
+
+        telemetry.addLine().addData("Use Left Bumper and B", true);
+        telemetry.update();
 
         rTriggerG = gamepad2.right_trigger;
         lTriggerG = gamepad2.left_trigger;
@@ -95,14 +95,7 @@ public class Pirsus2Teleop extends OpMode {
         leftBumper = gamepad2.left_bumper;
         rightBumper = gamepad2.right_bumper;
 
-        elapsedTime = System.nanoTime() - startTime;
 
-        // So the last 30 seconds of the 2 minute teleop (driver controlled) portion of the game
-        // is referred to as endgame.  Once the timer is at 90 seconds and beyond, indicate that
-        // the robot is in endGame
-        if((elapsedTime / 1000000000) >= 90) {
-            endGame = true;     // Robot is in endgame
-        }
 
 
 
@@ -110,13 +103,8 @@ public class Pirsus2Teleop extends OpMode {
         doDrive();
 
         // gunner
-        doLift();
-        doDoor();
         doDroneLaunch();
-        doIntake();
-        doFlip();
-        doLazySusan();
-//        doFlippers();
+
 
     }
 
@@ -151,46 +139,13 @@ public class Pirsus2Teleop extends OpMode {
 
     }
 
-    public void doIntake() {
 
-        if(rTriggerG > 0.0) {
-            robot.setIntakeMotorPower(-rTriggerG);
-
-            robot.useLift(-.25);
-        }
-        else if(lTriggerG > 0.0) {
-
-            robot.setIntakeMotorPower(lTriggerG);
-        }
-        else {
-
-            robot.setIntakeMotorPower(0.0);
-        }
-
-    }
-
-    public void doFlippers() {
-
-        if(!bButtonG && leftBumper) { // if not B and left bumper, left flipper will trigger since B and left bumper causes airplane launch
-            robot.leftFlipper(1.0);
-        }
-        if(rightBumper) {
-            robot.rightFlipper(1.0);
-        }
-        if(!leftBumper) {
-            robot.leftFlipper(0.0);
-        }
-        if(!rightBumper) {
-            robot.rightFlipper(0.0);
-        }
-
-    }
 
     public void doDroneLaunch() {
 
         // As a safety measure only allow te drone launch mechanism to function during endgame AND
         // when the gamepad2 B button is pushed AND the gamepad 2 left bumper is pushed
-        if (endGame && bButtonG && lBumperG) {
+        if (bButtonG && lBumperG) {
             robot.fireDrone(1.0);    // cleared for takeoff - roger!!
         }
         else {
@@ -199,56 +154,8 @@ public class Pirsus2Teleop extends OpMode {
 
     }
 
-    public void doLift() {
-
-        if(rStickG > 0.0) {
-            rStickG = 1.0;
-        }
-        else if(rStickG < 0.0) {
-            rStickG = -1.0;
-        }
-        else{
-            rStickG = 0.0;
-        }
-
-        robot.useLift(rStickG);
-
-    }
 
 
-
-    // fix these values later
-    public void doDoor() {
-
-        if(xButton) {
-            robot.setDoor(0.0);
-        }
-        else if(aButton) {
-            robot.setDoor(1.0);
-        }
-
-    }
-
-    public void doFlip() {
-        if(dpadU) {
-            robot.setFlipPosition(0.3);
-        }
-        if(dpadD) {
-            robot.setFlipPosition(1.0);
-            robot.setLazySusan(0.5);
-            robot.setDoor(0.0);
-        }
-    }
-
-    public void doLazySusan() {
-        if(dpadR) {
-            robot.setLazySusan(0.2);
-        }
-        if(dpadL) {
-            robot.setLazySusan(.75);
-        }
-
-    }
 
 
 

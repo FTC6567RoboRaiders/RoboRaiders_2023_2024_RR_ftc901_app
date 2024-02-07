@@ -149,6 +149,9 @@ public class Pirsus2 {
 
 
 
+
+
+
         // Stop and reset encoders
         resetEncoders();
 
@@ -473,12 +476,13 @@ public class Pirsus2 {
 
 
     public void useLift(double power) {
-        liftMotorRight.setPower(power);
-        liftMotorLeft.setPower(-power);
+        liftMotorRight.setPower(power * 0.75);
+        liftMotorLeft.setPower(-power * 0.75);
     }
 
     public void setFlipPosition(double pos) {
-        armServoR.setPosition(pos);
+//        armServoR.setPosition(pos);
+        armServoL.setPosition(pos);
     }
     public void setLazySusan(double pos) {
         lazySusanServo.setPosition(pos);
