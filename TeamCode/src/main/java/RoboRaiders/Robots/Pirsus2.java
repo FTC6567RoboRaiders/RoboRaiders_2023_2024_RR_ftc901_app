@@ -480,9 +480,10 @@ public class Pirsus2 {
         liftMotorLeft.setPower(-power * 0.75);
     }
 
-    public void setFlipPosition(double pos) {
+    public void setFlipPosition(double posL, double posR) {
 //        armServoR.setPosition(pos);
-        armServoL.setPosition(pos);
+        armServoL.setPosition(posL);
+        armServoL.setPosition(posR);
     }
     public void setLazySusan(double pos) {
         lazySusanServo.setPosition(pos);

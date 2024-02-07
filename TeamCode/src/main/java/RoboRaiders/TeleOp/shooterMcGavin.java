@@ -54,7 +54,7 @@ public class shooterMcGavin extends OpMode{
 
         // initialise robot and tell user that the robot is initialised
         robot.initialize(hardwareMap);
-        robot.setFlipPosition(1.0);
+        robot.setFlipPosition(1.0,0.8);
         robot.setLazySusan(0.5);
         robot.setDoor(0.0);
         telemetry.addData("Robot Initialized waiting your command", true);

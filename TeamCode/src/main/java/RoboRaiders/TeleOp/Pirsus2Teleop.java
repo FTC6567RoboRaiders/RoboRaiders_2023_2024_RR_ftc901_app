@@ -56,7 +56,7 @@ public class Pirsus2Teleop extends OpMode {
 
         // initialise robot and tell user that the robot is initialised
         robot.initialize(hardwareMap);
-        robot.setFlipPosition(1.0);
+        robot.setFlipPosition(1.0, 0.8);
         robot.setLazySusan(0.5);
         robot.setDoor(0.0);
         telemetry.addData("Robot Initialized waiting your command", true);
@@ -231,10 +231,10 @@ public class Pirsus2Teleop extends OpMode {
 
     public void doFlip() {
         if(dpadU) {
-            robot.setFlipPosition(0.3);
+            robot.setFlipPosition(0.3, 0.2);
         }
         if(dpadD) {
-            robot.setFlipPosition(1.0);
+            robot.setFlipPosition(1.0, .8);
             robot.setLazySusan(0.5);
             robot.setDoor(0.0);
         }
