@@ -37,6 +37,7 @@ public class TournAutoBlueDrone extends LinearOpMode {
     public int position;
     public long startTime;
     public long elapsedTime;
+    public long depositTime;
 
     // RR path segments
     public DropPurpleLeft1 DPL1 = null;
@@ -129,7 +130,13 @@ public class TournAutoBlueDrone extends LinearOpMode {
 
             endPose = bridge.doPath(endPose);
             pathCompleted = true;
+
             // deposit
+            depositTime = System.nanoTime();
+
+            while((depositTime / 1000000000) <= 3) {
+                robot.setIntakeMotorPower(0.5);
+            }
 
             // intake/deposit block 1
 //            depoLoop1.doPath();

@@ -25,7 +25,7 @@ import RoboRaiders.Auto.RRTrajectorySteps.SpikeToLoopBridge;
 import RoboRaiders.Robots.Pirsus2;
 
 @Autonomous
-public class TournAutoBlueBackdrop extends LinearOpMode {
+public class TournAutoRedDrone extends LinearOpMode {
 
     public Pirsus2 robot = new Pirsus2();
     public SampleMecanumDrive drive = null;
@@ -129,7 +129,7 @@ public class TournAutoBlueBackdrop extends LinearOpMode {
 //            }
 
 
-            Pose2d startPose = new Pose2d(10,60, Math.toRadians(90));
+            Pose2d startPose = new Pose2d(-35,-60, Math.toRadians(90));
 
             drive.setPoseEstimate(startPose);
 
@@ -140,7 +140,7 @@ public class TournAutoBlueBackdrop extends LinearOpMode {
 //                .splineToConstantHeading(new Vector2d(47, 35), Math.toRadians(0), // spline up to backdrop
 //                        SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
 //                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
-                    .back(5)
+                    .back(60)
                     .build();
 
 
@@ -150,7 +150,7 @@ public class TournAutoBlueBackdrop extends LinearOpMode {
 
 
             Trajectory step2 = drive.trajectoryBuilder(endPose)
-                .strafeRight(35)
+                .strafeRight(82)
                 .build();
 
             drive.followTrajectory(step2);
@@ -161,7 +161,7 @@ public class TournAutoBlueBackdrop extends LinearOpMode {
             depositTime = System.nanoTime();
 
             while((depositTime / 1000000000) <= 3) {
-                robot.setIntakeMotorPower(1.0);
+                robot.setIntakeMotorPower(0.5);
             }
 
 

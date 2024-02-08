@@ -24,8 +24,6 @@ public class DropPurpleCentre {
 
 
 
-
-
     Pose2d startPose = new Pose2d(-35, 60, Math.toRadians(90));
 
     public Pose2d doPath() {
