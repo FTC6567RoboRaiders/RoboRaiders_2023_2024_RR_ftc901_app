@@ -483,7 +483,7 @@ public class Pirsus2 {
     public void setFlipPosition(double posL, double posR) {
 //        armServoR.setPosition(pos);
         armServoL.setPosition(posL);
-        armServoL.setPosition(posR);
+//        armServoR.setPosition(posR);
     }
     public void setLazySusan(double pos) {
         lazySusanServo.setPosition(pos);

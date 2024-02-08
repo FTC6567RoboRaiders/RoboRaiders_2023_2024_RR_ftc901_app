@@ -38,6 +38,7 @@ public class Pirsus2Teleop extends OpMode {
 
     //Lift
     public double rStickG;
+    public boolean yButton;
 
     public double botHeading;
 
@@ -89,6 +90,7 @@ public class Pirsus2Teleop extends OpMode {
 
         xButton = gamepad2.x;
         aButton = gamepad2.a;
+        yButton = gamepad2.y;
 
         rStickG = gamepad2.right_stick_y;
 
@@ -210,6 +212,12 @@ public class Pirsus2Teleop extends OpMode {
         else{
             rStickG = 0.0;
         }
+        if(rightBumper){
+            rStickG = .1;
+        }
+        if(yButton){ //Add back in endgame
+            rStickG = -0.65;
+        }
 
         robot.useLift(rStickG);
 
@@ -242,9 +250,11 @@ public class Pirsus2Teleop extends OpMode {
 
     public void doLazySusan() {
         if(dpadR) {
+            robot.setFlipPosition(0.175, 0.2);
             robot.setLazySusan(0.2);
         }
         if(dpadL) {
+            robot.setFlipPosition(0.175, 0.2);
             robot.setLazySusan(.75);
         }
 

@@ -1,6 +1,7 @@
 package RoboRaiders.Auto;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
@@ -22,10 +23,9 @@ import RoboRaiders.Auto.RRTrajectorySteps.DropPurpleRight1;
 import RoboRaiders.Auto.RRTrajectorySteps.DropPurpleRight2;
 import RoboRaiders.Auto.RRTrajectorySteps.SpikeToLoopBridge;
 import RoboRaiders.Robots.Pirsus2;
-import RoboRaiders.Robots.PirsusMkII;
 
 @Autonomous
-public class TournAutoBlueDrone extends LinearOpMode {
+public class TournAutoBlueBackdrop extends LinearOpMode {
 
     public Pirsus2 robot = new Pirsus2();
     public SampleMecanumDrive drive = null;
@@ -104,30 +104,56 @@ public class TournAutoBlueDrone extends LinearOpMode {
             telemetry.update();
 
             // spike mark positions
-            switch (position) {
+//            switch (position) {
+//
+//                case 0:
+//                    DPL1.doPath(); // move to left spikemark
+//                    // drop pixel
+//                    DPL2.doPath(DPL1.doPath()); // move to centre location
+//                    // drop pixel
+//                    break;
+//                case 1:
+//                    endPose = DPC.doPath(); // move to centre spikemark
+//                    // drop pixel
+//                    break;
+//                case 2:
+//                    DPR1.doPath(); // move to right spikemark
+//                    // drop pixel
+//                    DPR2.doPath(DPL1.doPath());// move to centre location
+//                    break;
+//                default:
+//                    DPC.doPath(); // move to centre spikemark
+//                    break;
+//
+//            }
 
-                case 0:
-                    DPL1.doPath(); // move to left spikemark
-                    // drop pixel
-                    DPL2.doPath(DPL1.doPath()); // move to centre location
-                    // drop pixel
-                    break;
-                case 1:
-                    endPose = DPC.doPath(); // move to centre spikemark
-                    // drop pixel
-                    break;
-                case 2:
-                    DPR1.doPath(); // move to right spikemark
-                    // drop pixel
-                    DPR2.doPath(DPL1.doPath());// move to centre location
-                    break;
-                default:
-                    DPC.doPath(); // move to centre spikemark
-                    break;
 
-            }
+            Pose2d startPose = new Pose2d(10,60, Math.toRadians(90));
 
-            endPose = bridge.doPath(endPose);
+            drive.setPoseEstimate(startPose);
+
+            Trajectory step1 = drive.trajectoryBuilder(startPose)
+//                .back(58, // drive to backdrop
+//                        SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+//                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
+//                .splineToConstantHeading(new Vector2d(47, 35), Math.toRadians(0), // spline up to backdrop
+//                        SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+//                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
+                    .back(5)
+                    .build();
+
+
+
+                drive.followTrajectory(step1);
+                Pose2d endPose = step1.end();
+
+
+            Trajectory step2 = drive.trajectoryBuilder(endPose)
+                .strafeRight(35)
+                .build();
+
+            drive.followTrajectory(step2);
+
             pathCompleted = true;
             // deposit
 

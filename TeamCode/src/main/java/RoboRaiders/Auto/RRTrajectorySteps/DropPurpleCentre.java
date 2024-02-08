@@ -19,24 +19,30 @@ public class DropPurpleCentre {
 
     }
 
-    public PirsusMkII robot = new PirsusMkII();
+    public Pose2d endPose;
     public SampleMecanumDrive drive = null;
+
+
 
 
 
     Pose2d startPose = new Pose2d(-35, 60, Math.toRadians(90));
 
-    public void doPath() {
+    public Pose2d doPath() {
 
         drive = new SampleMecanumDrive(ahwMap);
+        drive.setPoseEstimate(startPose);
 
         Trajectory step1 = drive.trajectoryBuilder(startPose)
-                .back(48.5, // drive to converging position
+                .back(50, // drive to converging position
                         SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                 .build();
 
         drive.followTrajectory(step1);
+
+        endPose = step1.end();
+        return endPose; //Start pose for next step
 
     }
 

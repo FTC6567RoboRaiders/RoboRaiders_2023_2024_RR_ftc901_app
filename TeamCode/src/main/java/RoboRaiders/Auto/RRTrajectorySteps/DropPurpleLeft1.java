@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
-import RoboRaiders.Robots.PirsusMkII;
+
 
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 
@@ -21,7 +21,7 @@ public class DropPurpleLeft1 {
 
     }
 
-    public PirsusMkII robot = new PirsusMkII();
+
     public SampleMecanumDrive drive = null;
     public Pose2d endPose;
 

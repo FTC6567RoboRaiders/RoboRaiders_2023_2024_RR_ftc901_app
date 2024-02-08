@@ -109,13 +109,13 @@ public class TournAuto extends LinearOpMode {
 
             }
 
-            bridge.doPath();
+//            bridge.doPath();
 
-            // intake/deposit block, repeat as necessary
-            depoLoop1.doPath();
-            // intake
-            depoLoop2.doPath();
-            //deposit
+//            // intake/deposit block, repeat as necessary
+//            depoLoop1.doPath();
+//            // intake
+//            depoLoop2.doPath();
+//            //deposit
 
         }
 
