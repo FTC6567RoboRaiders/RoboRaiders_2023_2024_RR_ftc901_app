@@ -1,6 +1,7 @@
 package RoboRaiders.Auto;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
@@ -36,8 +37,11 @@ public class TournAutoBlueDrone extends LinearOpMode {
     //    public StevesPipeline2 stevesPipeline = new StevesPipeline2();
     public int position;
     public long startTime;
+
     public long elapsedTime;
     public long depositTime;
+    public long startTime1;
+    public long depositTime1;
 
     // RR path segments
     public DropPurpleLeft1 DPL1 = null;
@@ -50,6 +54,7 @@ public class TournAutoBlueDrone extends LinearOpMode {
     public SpikeToLoopBridge bridge = null;
     public Pose2d endPose;
     public boolean pathCompleted = false;
+    public boolean deposited = false;
 
 
 
@@ -92,7 +97,7 @@ public class TournAutoBlueDrone extends LinearOpMode {
 
         waitForStart();
 
-        elapsedTime = System.nanoTime() - startTime;
+
 
         position = 1;
 
@@ -131,12 +136,41 @@ public class TournAutoBlueDrone extends LinearOpMode {
             endPose = bridge.doPath(endPose);
             pathCompleted = true;
 
-            // deposit
-            depositTime = System.nanoTime();
+
+            startTime1 = System.nanoTime();
+            depositTime1 = System.nanoTime() - startTime;
+
+            while((depositTime1 / 1000000000) <= 3) {
+                robot.setIntakeMotorPower(1.0);
+                depositTime1 = System.nanoTime() - startTime1;
+            }
+
+            drive.setPoseEstimate(endPose);
+
+            Trajectory step1 = drive.trajectoryBuilder(endPose)
+                    .back(2)
+                    .build();
+
+            drive.followTrajectory(step1);
+            endPose = step1.end();
+
+
+            startTime = System.nanoTime();
+            depositTime = System.nanoTime() - startTime;
 
             while((depositTime / 1000000000) <= 3) {
-                robot.setIntakeMotorPower(0.5);
+                robot.setIntakeMotorPower(1.0);
+                depositTime = System.nanoTime() - startTime;
             }
+
+            drive.setPoseEstimate(endPose);
+            drive.followTrajectory(step1);
+            endPose = step1.end();
+
+            // deposit
+
+
+
 
             // intake/deposit block 1
 //            depoLoop1.doPath();
@@ -151,6 +185,7 @@ public class TournAutoBlueDrone extends LinearOpMode {
             //deposit
 
         }
+
 
 
 

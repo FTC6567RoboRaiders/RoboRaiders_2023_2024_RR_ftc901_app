@@ -38,6 +38,8 @@ public class TournAutoRedDrone extends LinearOpMode {
     public long startTime;
     public long elapsedTime;
     public long depositTime;
+    public long startTime1;
+    public long depositTime1;
 
     // RR path segments
     public DropPurpleLeft1 DPL1 = null;
@@ -140,7 +142,7 @@ public class TournAutoRedDrone extends LinearOpMode {
 //                .splineToConstantHeading(new Vector2d(47, 35), Math.toRadians(0), // spline up to backdrop
 //                        SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
 //                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
-                    .back(60)
+                    .back(53)
                     .build();
 
 
@@ -150,19 +152,52 @@ public class TournAutoRedDrone extends LinearOpMode {
 
 
             Trajectory step2 = drive.trajectoryBuilder(endPose)
-                .strafeRight(82)
+                .strafeLeft(86)
                 .build();
 
-            drive.followTrajectory(step2);
+                drive.followTrajectory(step2);
+                endPose = step2.end();
+
+            Trajectory step3 = drive.trajectoryBuilder(endPose)
+                    .forward(3)
+                    .build();
+
+                drive.followTrajectory(step3);
+
 
             pathCompleted = true;
 
+            drive.setPoseEstimate(endPose);
+
+
+
             // deposit
-            depositTime = System.nanoTime();
+            startTime1 = System.nanoTime();
+            depositTime1 = System.nanoTime() - startTime;
+
+            while((depositTime1 / 1000000000) <= 3) {
+                robot.setIntakeMotorPower(1.0);
+                depositTime1 = System.nanoTime() - startTime1;
+            }
+
+            step3 = drive.trajectoryBuilder(endPose)
+                    .back(2)
+                    .build();
+
+            drive.followTrajectory(step3);
+            endPose = step3.end();
+
+            startTime = System.nanoTime();
+            depositTime = System.nanoTime() - startTime;
 
             while((depositTime / 1000000000) <= 3) {
-                robot.setIntakeMotorPower(0.5);
+                robot.setIntakeMotorPower(1.0);
+                depositTime = System.nanoTime()-startTime;
             }
+
+            drive.setPoseEstimate(endPose);
+            drive.followTrajectory(step3);
+            endPose = step3.end();
 
 
             // intake/deposit block 1

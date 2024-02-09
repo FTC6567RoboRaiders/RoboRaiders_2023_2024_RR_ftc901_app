@@ -38,6 +38,8 @@ public class TournAutoBlueBackdrop extends LinearOpMode {
     public long startTime;
     public long elapsedTime;
     public long depositTime;
+    public long startTime1;
+    public long depositTime1;
 
     // RR path segments
     public DropPurpleLeft1 DPL1 = null;
@@ -157,12 +159,36 @@ public class TournAutoBlueBackdrop extends LinearOpMode {
 
             pathCompleted = true;
 
+            drive.setPoseEstimate(endPose);
+
             // deposit
-            depositTime = System.nanoTime();
+            startTime1 = System.nanoTime();
+            depositTime1 = System.nanoTime() - startTime;
+
+            while((depositTime1 / 1000000000) <= 3) {
+                robot.setIntakeMotorPower(1.0);
+                depositTime1 = System.nanoTime() - startTime1;
+            }
+
+            Trajectory step3 = drive.trajectoryBuilder(endPose)
+                    .back(2)
+                    .build();
+
+            drive.followTrajectory(step3);
+            endPose = step3.end();
+
+            startTime = System.nanoTime();
+            depositTime = System.nanoTime() - startTime;
 
             while((depositTime / 1000000000) <= 3) {
                 robot.setIntakeMotorPower(1.0);
+                depositTime = System.nanoTime()-startTime;
             }
+
+            drive.setPoseEstimate(endPose);
+            drive.followTrajectory(step3);
+            endPose = step3.end();
+
 
 
             // intake/deposit block 1

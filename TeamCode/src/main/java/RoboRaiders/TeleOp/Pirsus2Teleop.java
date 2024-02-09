@@ -212,10 +212,10 @@ public class Pirsus2Teleop extends OpMode {
         else{
             rStickG = 0.0;
         }
-        if(rightBumper){
+        if(rightBumper) {
             rStickG = .1;
         }
-        if(yButton){ //Add back in endgame
+        if(yButton) { //Add back in endgame
             rStickG = -0.65;
         }
 
@@ -250,11 +250,11 @@ public class Pirsus2Teleop extends OpMode {
 
     public void doLazySusan() {
         if(dpadR) {
-            robot.setFlipPosition(0.175, 0.2);
+            robot.setFlipPosition(0.145, 0.2);
             robot.setLazySusan(0.2);
         }
         if(dpadL) {
-            robot.setFlipPosition(0.175, 0.2);
+            robot.setFlipPosition(0.145, 0.2);
             robot.setLazySusan(.75);
         }
 
