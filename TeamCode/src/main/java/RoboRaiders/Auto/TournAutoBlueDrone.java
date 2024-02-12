@@ -58,6 +58,7 @@ public class TournAutoBlueDrone extends LinearOpMode {
 
 
 
+
     private static final boolean USE_WEBCAM = true;
 
     @Override
@@ -107,7 +108,7 @@ public class TournAutoBlueDrone extends LinearOpMode {
 
 //            telemetryAprilTag();
 
-            telemetry.update();
+
 
             // spike mark positions
             switch (position) {
@@ -133,39 +134,42 @@ public class TournAutoBlueDrone extends LinearOpMode {
 
             }
 
+            // deposit
             endPose = bridge.doPath(endPose);
             pathCompleted = true;
+            telemetry.addLine().addData("IMU HEADING: ", robot.getHeading());
+            telemetry.update();
 
-
-            startTime1 = System.nanoTime();
-            depositTime1 = System.nanoTime() - startTime;
-
-            while((depositTime1 / 1000000000) <= 3) {
-                robot.setIntakeMotorPower(1.0);
-                depositTime1 = System.nanoTime() - startTime1;
-            }
-
-            drive.setPoseEstimate(endPose);
-
-            Trajectory step1 = drive.trajectoryBuilder(endPose)
-                    .back(2)
-                    .build();
-
-            drive.followTrajectory(step1);
-            endPose = step1.end();
-
-
-            startTime = System.nanoTime();
-            depositTime = System.nanoTime() - startTime;
-
-            while((depositTime / 1000000000) <= 3) {
-                robot.setIntakeMotorPower(1.0);
-                depositTime = System.nanoTime() - startTime;
-            }
-
-            drive.setPoseEstimate(endPose);
-            drive.followTrajectory(step1);
-            endPose = step1.end();
+//
+//            startTime1 = System.nanoTime();
+//            depositTime1 = System.nanoTime() - startTime;
+//
+//            while((depositTime1 / 1000000000) <= 3) {
+//                robot.setIntakeMotorPower(1.0);
+//                depositTime1 = System.nanoTime() - startTime1;
+//            }
+//
+//            drive.setPoseEstimate(endPose);
+//
+//            Trajectory step1 = drive.trajectoryBuilder(endPose)
+//                    .back(2)
+//                    .build();
+//
+//            drive.followTrajectory(step1);
+//            endPose = step1.end();
+//
+//
+//            startTime = System.nanoTime();
+//            depositTime = System.nanoTime() - startTime;
+//
+//            while((depositTime / 1000000000) <= 3) {
+//                robot.setIntakeMotorPower(1.0);
+//                depositTime = System.nanoTime() - startTime;
+//            }
+//
+//            drive.setPoseEstimate(endPose);
+//            drive.followTrajectory(step1);
+//            endPose = step1.end();
 
             // deposit
 

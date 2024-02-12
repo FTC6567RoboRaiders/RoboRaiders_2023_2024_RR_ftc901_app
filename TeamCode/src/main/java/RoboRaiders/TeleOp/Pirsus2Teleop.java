@@ -1,8 +1,11 @@
 package RoboRaiders.TeleOp;
 
+import android.provider.Settings;
+
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import RoboRaiders.Robots.GlobalVariables;
 import RoboRaiders.Robots.Pirsus2;
 
 
@@ -28,6 +31,9 @@ public class Pirsus2Teleop extends OpMode {
     public boolean dpadD;
     public boolean xButton;
     public boolean aButton;
+    public boolean lBumperD;
+    public boolean rBumperD;
+    public boolean isRC = false;
 
     //Timer
     public long startTime;
@@ -35,6 +41,8 @@ public class Pirsus2Teleop extends OpMode {
     public boolean endGame = false;  //This checks whether we have elapsed enough time to be in endgame
     public boolean bButtonG;
     public boolean lBumperG;
+
+    public boolean liftLocked = false;
 
     //Lift
     public double rStickG;
@@ -46,6 +54,9 @@ public class Pirsus2Teleop extends OpMode {
     //Flippers
     public boolean leftBumper;
     public boolean rightBumper;
+
+    public static double heading;
+    public double autoHeading;
 
 
 
@@ -60,7 +71,9 @@ public class Pirsus2Teleop extends OpMode {
         robot.setFlipPosition(1.0, 0.8);
         robot.setLazySusan(0.5);
         robot.setDoor(0.0);
-        telemetry.addData("Robot Initialized waiting your command", true);
+        autoHeading = GlobalVariables.getAutoHeading();
+        telemetry.addLine().addData("Robot Initialized waiting your command", true);
+        telemetry.addLine().addData("Heading: ", GlobalVariables.getAutoHeading());
         telemetry.update();
 
 
@@ -85,6 +98,9 @@ public class Pirsus2Teleop extends OpMode {
         dpadU = gamepad2.dpad_up;
         dpadD = gamepad2.dpad_down;
 
+        lBumperD = gamepad1.left_bumper;
+        rBumperD = gamepad1.right_bumper;
+
         bButtonG = gamepad2.b;
         lBumperG = gamepad2.left_bumper;
 
@@ -108,8 +124,25 @@ public class Pirsus2Teleop extends OpMode {
 
 
 
-        // driver
-        doDrive();
+
+//        doDriveFC();
+
+        if(lBumperD && rBumperD && !isRC){
+            isRC = true;
+        }
+        else if(lBumperD && rBumperD && isRC){
+            isRC = false;
+        }
+        if(isRC){
+            doDriveRC();
+        }
+        else{
+            doDriveFC();
+        }
+
+
+//        }
+        // doDriveRC();
 
         // gunner
         doLift();
@@ -119,16 +152,17 @@ public class Pirsus2Teleop extends OpMode {
         doFlip();
         doLazySusan();
 //        doFlippers();
+        doLiftLock();
 
     }
 
-    public void doDrive() {
+    public void doDriveFC() {
 
-        botHeading = robot.getHeading();
+        botHeading = robot.getHeading() + autoHeading;
 
-        double y = -gamepad1.left_stick_y; // Remember, this is reversed!`
-        double x = gamepad1.left_stick_x; // Counteract imperfect strafing
-        double rx = gamepad1.right_stick_x;
+        double y = -gamepad1.left_stick_y; // Remember, this is reversed!` | PK Qual inv strafe: pos
+        double x = gamepad1.left_stick_x; // Counteract imperfect strafing | PK Qual inv strafe: pos
+        double rx = gamepad1.right_stick_x; // PK Qual inv strafe: pos
 
         double rotX = x * Math.cos(-botHeading) - y * Math.sin(-botHeading);
         double rotY = x * Math.sin(-botHeading) + y * Math.cos(-botHeading);
@@ -139,15 +173,43 @@ public class Pirsus2Teleop extends OpMode {
         lRPower = (rotY - rotX + rx) / denominator;
         rRPower = (rotY + rotX - rx) / denominator;
 
+        telemetry.addLine().addData("doDriveFC","doDriveFC");
+        telemetry.addLine().addData("isRC: ", isRC);
         telemetry.addLine().addData("lFPower: ",  lFPower);
         telemetry.addLine().addData("rFPower: ",  rFPower);
         telemetry.addLine().addData("lRPower: ",  lRPower);
         telemetry.addLine().addData("rRPower: ",  rRPower);
         telemetry.addLine().addData("x, y, rx: ",  String.valueOf(x) + ", " + String.valueOf(y) + ", " + String.valueOf(rx));
         telemetry.addLine().addData("rotX, rotY: ",  String.valueOf(rotX) + ", " + String.valueOf(rotY));
-        telemetry.addLine().addData("IMU HEADING:",  robot.getHeading());
+        telemetry.addLine().addData("IMU HEADING:",  String.valueOf(botHeading));
+
         telemetry.update();
 
+
+        robot.setDriveMotorPower(lFPower, rFPower, lRPower, rRPower);
+
+    }
+
+    public void doDriveRC() {
+
+        double y = -gamepad1.left_stick_y; // Remember, this is reversed!` | PK Qual inv strafe: pos
+        double x = gamepad1.left_stick_x; // Counteract imperfect strafing | PK Qual inv strafe: pos
+        double rx = gamepad1.right_stick_x; // PK Qual inv strafe: pos
+
+        double lFPower = y + x + rx;
+        double lRPower = y - x + rx;
+        double rFPower = y - x - rx;
+        double rRPower = y + x - rx;
+
+        telemetry.addLine().addData("doDriveRC","doDriveRC");
+        telemetry.addLine().addData("isRC: ", isRC);
+        telemetry.addLine().addData("lFPower: ",  lFPower);
+        telemetry.addLine().addData("rFPower: ",  rFPower);
+        telemetry.addLine().addData("lRPower: ",  lRPower);
+        telemetry.addLine().addData("rRPower: ",  rRPower);
+        telemetry.addLine().addData("x, y, rx: ",  String.valueOf(x) + ", " + String.valueOf(y) + ", " + String.valueOf(rx));
+        telemetry.addLine().addData("IMU HEADING:",  String.valueOf(botHeading));
+        telemetry.update();
 
         robot.setDriveMotorPower(lFPower, rFPower, lRPower, rRPower);
 
@@ -192,7 +254,7 @@ public class Pirsus2Teleop extends OpMode {
 
         // As a safety measure only allow te drone launch mechanism to function during endgame AND
         // when the gamepad2 B button is pushed AND the gamepad 2 left bumper is pushed
-        if (endGame && bButtonG && lBumperG) {
+        if (bButtonG && lBumperG) {
             robot.fireDrone(1.0);    // cleared for takeoff - roger!!
         }
         else {
@@ -258,6 +320,15 @@ public class Pirsus2Teleop extends OpMode {
             robot.setLazySusan(.75);
         }
 
+    }
+
+    public void doLiftLock() {
+        if(yButton && leftBumper) {
+            liftLocked = true;
+        }
+        if(liftLocked) {
+            robot.useLift(-0.65);
+        }
     }
 
 

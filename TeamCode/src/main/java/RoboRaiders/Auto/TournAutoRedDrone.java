@@ -167,37 +167,37 @@ public class TournAutoRedDrone extends LinearOpMode {
 
             pathCompleted = true;
 
-            drive.setPoseEstimate(endPose);
+//            drive.setPoseEstimate(endPose);
 
 
 
-            // deposit
-            startTime1 = System.nanoTime();
-            depositTime1 = System.nanoTime() - startTime;
-
-            while((depositTime1 / 1000000000) <= 3) {
-                robot.setIntakeMotorPower(1.0);
-                depositTime1 = System.nanoTime() - startTime1;
-            }
-
-            step3 = drive.trajectoryBuilder(endPose)
-                    .back(2)
-                    .build();
-
-            drive.followTrajectory(step3);
-            endPose = step3.end();
-
-            startTime = System.nanoTime();
-            depositTime = System.nanoTime() - startTime;
-
-            while((depositTime / 1000000000) <= 3) {
-                robot.setIntakeMotorPower(1.0);
-                depositTime = System.nanoTime()-startTime;
-            }
-
-            drive.setPoseEstimate(endPose);
-            drive.followTrajectory(step3);
-            endPose = step3.end();
+//            // deposit
+//            startTime1 = System.nanoTime();
+//            depositTime1 = System.nanoTime() - startTime;
+//
+//            while((depositTime1 / 1000000000) <= 3) {
+//                robot.setIntakeMotorPower(1.0);
+//                depositTime1 = System.nanoTime() - startTime1;
+//            }
+//
+//            step3 = drive.trajectoryBuilder(endPose)
+//                    .back(2)
+//                    .build();
+//
+//            drive.followTrajectory(step3);
+//            endPose = step3.end();
+//
+//            startTime = System.nanoTime();
+//            depositTime = System.nanoTime() - startTime;
+//
+//            while((depositTime / 1000000000) <= 3) {
+//                robot.setIntakeMotorPower(1.0);
+//                depositTime = System.nanoTime()-startTime;
+//            }
+//
+//            drive.setPoseEstimate(endPose);
+//            drive.followTrajectory(step3);
+//            endPose = step3.end();
 
 
             // intake/deposit block 1
