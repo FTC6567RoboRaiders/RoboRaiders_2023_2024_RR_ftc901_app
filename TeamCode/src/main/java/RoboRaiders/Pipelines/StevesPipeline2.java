@@ -14,7 +14,7 @@ import org.openftc.easyopencv.OpenCvPipeline;
 import java.util.ArrayList;
 import java.util.List;
 
-import RoboRaiders.Robots.NotPirsus;
+import RoboRaiders.Robots.Pirsus2;
 import RoboRaiders.Utilities.Logger.Logger;
 
 public class StevesPipeline2 extends OpenCvPipeline {
@@ -97,9 +97,9 @@ public class StevesPipeline2 extends OpenCvPipeline {
     private Stage[] stages = Stage.values();
 
 
-    NotPirsus myRobot;
+    Pirsus2 myRobot;
 
-    public StevesPipeline2(NotPirsus myRobot){
+    public StevesPipeline2(Pirsus2 myRobot){
         this.myRobot = myRobot;
 
     }

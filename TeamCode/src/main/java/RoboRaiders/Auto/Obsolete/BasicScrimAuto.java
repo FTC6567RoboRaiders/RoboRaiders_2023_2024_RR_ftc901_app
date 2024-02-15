@@ -8,13 +8,13 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 
 import RoboRaiders.Pipelines.StevesPipeline2;
-import RoboRaiders.Robots.NotPirsus;
+import RoboRaiders.Robots.Pirsus2;
 import RoboRaiders.Utilities.Logger.Logger;
 
 @Autonomous
 public class BasicScrimAuto extends LinearOpMode {
 
-    public NotPirsus robot = new NotPirsus();
+    public Pirsus2 robot = new Pirsus2();
 
     VisionPortal visionPortal;
     AprilTagProcessor aprilTag;

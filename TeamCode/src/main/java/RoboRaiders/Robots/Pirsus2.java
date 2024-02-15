@@ -12,10 +12,26 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
+
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
+
+import RoboRaiders.Pipelines.StevesPipeline2;
+
 import RoboRaiders.Utilities.Logger.Logger;
 
 
 public class Pirsus2 {
+
+
+    OpenCvCamera camera;
+    public WebcamName webcam1;
+
+    int cameraMonitorViewId;
+
     /* Robot Motors, Servos, CR Servos and Sensors */
     public DcMotorEx lFMotor = null;
     public DcMotorEx rFMotor = null;
@@ -59,6 +75,8 @@ public class Pirsus2 {
 //    public BNO055IMU.Parameters parameters = new BNO055IMU.Parameters(
 //            new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.RIGHT, RevHubOrientationOnRobot.UsbFacingDirection.FORWARD)
 //    );
+
+
     public Orientation angles;
     public double integratedZAxis;
     public double iza_lastHeading = 0.0;
@@ -69,14 +87,27 @@ public class Pirsus2 {
     public static double robotHeading;
     public boolean firstTimeCalled = true;
 
+    public int redX;
+    public int redY;
+
+    public int xCoord;
+    public int yCoord;
+    public int xBCoord;
+    public int yBCoord;
+
+
+    public StevesPipeline2 stevesPipeline = new StevesPipeline2(this);
+
+    public Pirsus2() {
+
+    }
+
     /* Camera */
 
     /**
      * Constructor for Robot class, current does nothing but is needed since every class needs a constructor
      */
-    public Pirsus2() {
 
-    }
 
     /**
      * This method will initialize the robot
@@ -132,6 +163,36 @@ public class Pirsus2 {
         rRMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         intakeMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+//         Vision processing
+        webcam1 = hwMap.get(WebcamName.class, "Webcam 1");
+        cameraMonitorViewId = hwMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hwMap.appContext.getPackageName());
+        camera = OpenCvCameraFactory.getInstance().createWebcam(hwMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+
+        camera.setPipeline(stevesPipeline);
+
+        camera.openCameraDeviceAsync(new  OpenCvCamera.AsyncCameraOpenListener()
+        {
+            @Override
+            public void onOpened()
+            {
+                camera.startStreaming(640,480, OpenCvCameraRotation.UPRIGHT);
+                redX = stevesPipeline.returnX();
+                redY = stevesPipeline.returnY();
+                Logger Log = new Logger(String.valueOf("******** CAMERA TEST *******"));
+                Log.Debug("RED X COORDINATE: ", redX);
+                Log.Debug("RED Y COORDINATE: ", redY);
+
+
+            }
+
+            @Override
+            public void onError(int errorCode)
+            {
+                // For now do nothing when we have an error
+            }
+
+        });
 
 
 
@@ -510,7 +571,38 @@ public class Pirsus2 {
     // CAMERA METHODS
     //
     //**********************************************************************************************
+    public int[] getRed(){
+        int[] vals = new int[]{redX, redY};
+        return vals;
+    }
+    public void setX(int xVal){
+        xCoord = xVal;
 
+    }
+    public void setY(int yVal){
+        yCoord = yVal;
+    }
+    public void setBX(int xBVal){
+        xBCoord = xBVal;
+    }
+    public void setBY(int yBVal){
+        yBCoord = yBVal;
+    }
 
+    public int getX(){
+        return xCoord;
+    }
+    public int getY(){
+        return yCoord;
+    }
+    public int getBX(){
+        return xBCoord;
+    }
+    public int getBY(){
+        return yBCoord;
+    }
+    public int positionBlue(){
+        return 0;
+    }
 
 }

@@ -97,11 +97,12 @@ public class TournAutoBlueBackdrop extends LinearOpMode {
 
 
 
+
         waitForStart();
 
         elapsedTime = System.nanoTime() - startTime;
 
-        position = 1;
+        position = bluePosition();
 
 
 
@@ -220,6 +221,17 @@ public class TournAutoBlueBackdrop extends LinearOpMode {
     }
 
 
+    public int bluePosition() {
+        if(robot.getX() >= 0 && robot.getX()<= 375){
+            return 1; //Center Position
+        }
+        else if(robot.getX() >= 425 && robot.getX()<= 625){
+            return 2; //Right Position
+        }
+        else{
+            return 0; //Left Position
+        }
+    }
 
     public void initAprilTagPortal() {
 
@@ -284,6 +296,7 @@ public class TournAutoBlueBackdrop extends LinearOpMode {
         // how?
 
     }
+
 
 //    public int propPosition() {
 //

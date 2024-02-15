@@ -65,11 +65,8 @@ public class NotPirsus {
 
 
     // Vision Variables
-    public StevesPipeline2 stevesPipeline = new StevesPipeline2(this);
 
-    public NotPirsus() {
 
-    }
 
 
     public void initialize(HardwareMap ahwMap) {
@@ -119,34 +116,34 @@ public class NotPirsus {
 
 
         // Vision processing
-        webcam1 = hwMap.get(WebcamName.class, "Webcam 1");
-        cameraMonitorViewId = hwMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hwMap.appContext.getPackageName());
-        camera = OpenCvCameraFactory.getInstance().createWebcam(hwMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
-
-        camera.setPipeline(stevesPipeline);
-
-        camera.openCameraDeviceAsync(new  OpenCvCamera.AsyncCameraOpenListener()
-        {
-            @Override
-            public void onOpened()
-            {
-                camera.startStreaming(640,480, OpenCvCameraRotation.UPRIGHT);
-                redX = stevesPipeline.returnX();
-                redY = stevesPipeline.returnY();
-                Logger Log = new Logger(String.valueOf("******** CAMERA TEST *******"));
-                Log.Debug("RED X COORDINATE: ", redX);
-                Log.Debug("RED Y COORDINATE: ", redY);
-
-
-            }
-
-            @Override
-            public void onError(int errorCode)
-            {
-                // For now do nothing when we have an error
-            }
-
-        });
+//        webcam1 = hwMap.get(WebcamName.class, "Webcam 1");
+//        cameraMonitorViewId = hwMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hwMap.appContext.getPackageName());
+//        camera = OpenCvCameraFactory.getInstance().createWebcam(hwMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+//
+//        camera.setPipeline(stevesPipeline);
+//
+//        camera.openCameraDeviceAsync(new  OpenCvCamera.AsyncCameraOpenListener()
+//        {
+//            @Override
+//            public void onOpened()
+//            {
+//                camera.startStreaming(640,480, OpenCvCameraRotation.UPRIGHT);
+//                redX = stevesPipeline.returnX();
+//                redY = stevesPipeline.returnY();
+//                Logger Log = new Logger(String.valueOf("******** CAMERA TEST *******"));
+//                Log.Debug("RED X COORDINATE: ", redX);
+//                Log.Debug("RED Y COORDINATE: ", redY);
+//
+//
+//            }
+//
+//            @Override
+//            public void onError(int errorCode)
+//            {
+//                // For now do nothing when we have an error
+//            }
+//
+//        });
         //calculation location - call calc location
 
 

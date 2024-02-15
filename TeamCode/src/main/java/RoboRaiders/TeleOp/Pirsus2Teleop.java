@@ -118,27 +118,25 @@ public class Pirsus2Teleop extends OpMode {
         // So the last 30 seconds of the 2 minute teleop (driver controlled) portion of the game
         // is referred to as endgame.  Once the timer is at 90 seconds and beyond, indicate that
         // the robot is in endGame
-        if((elapsedTime / 1000000000) >= 90) {
+        if ((elapsedTime / 1000000000) >= 90) {
             endGame = true;     // Robot is in endgame
         }
 
 
-
-
 //        doDriveFC();
+//
+//        if(lBumperD && rBumperD && !isRC){
+//            isRC = true;
+//        }
+//        else if(lBumperD && rBumperD && isRC){
+//            isRC = false;
+//        }
+//        if(isRC){
+//            doDriveFC();
+//        }
+//        else{
 
-        if(lBumperD && rBumperD && !isRC){
-            isRC = true;
-        }
-        else if(lBumperD && rBumperD && isRC){
-            isRC = false;
-        }
-        if(isRC){
-            doDriveRC();
-        }
-        else{
-            doDriveFC();
-        }
+//    }
 
 
 //        }
@@ -153,6 +151,7 @@ public class Pirsus2Teleop extends OpMode {
         doLazySusan();
 //        doFlippers();
         doLiftLock();
+        doDriveRC();
 
     }
 
@@ -209,6 +208,8 @@ public class Pirsus2Teleop extends OpMode {
         telemetry.addLine().addData("rRPower: ",  rRPower);
         telemetry.addLine().addData("x, y, rx: ",  String.valueOf(x) + ", " + String.valueOf(y) + ", " + String.valueOf(rx));
         telemetry.addLine().addData("IMU HEADING:",  String.valueOf(botHeading));
+        telemetry.addLine().addData("POSITION:", bluePosition());
+        telemetry.addLine().addData("POSITION:", (bluePosition()==0) ? "Left": (bluePosition()==1) ? "Center": "Right");
         telemetry.update();
 
         robot.setDriveMotorPower(lFPower, rFPower, lRPower, rRPower);
@@ -329,6 +330,19 @@ public class Pirsus2Teleop extends OpMode {
         if(liftLocked) {
             robot.useLift(-0.65);
         }
+    }
+
+    public int bluePosition() {
+        if(robot.getX() >= 0 && robot.getX()<= 375){
+            return 1; //Center Position
+        }
+        else if(robot.getX() >= 425 && robot.getX()<= 625){
+            return 2; //Right Position
+        }
+        else{
+            return 0; //Left Position
+        }
+
     }
 
 
