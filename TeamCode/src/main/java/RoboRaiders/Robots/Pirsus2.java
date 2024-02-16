@@ -139,8 +139,9 @@ public class Pirsus2 {
         liftMotorRight = hwMap.get(DcMotorEx.class, "liftMotorRight");
         liftMotorLeft = hwMap.get(DcMotorEx.class, "liftMotorLeft");
 
-//        flipServoL = hwMap.get(Servo.class, "flipServo1");
-//        flipServoR = hwMap.get(Servo.class, "flipServo2");
+        flipServoL = hwMap.get(Servo.class, "flipServo1");
+        flipServoR = hwMap.get(Servo.class, "flipServo2");
+
         doorServo = hwMap.get(Servo.class, "doorServo");
         lazySusanServo = hwMap.get(Servo.class,"lazySusanServo");
         armServoR = hwMap.get(Servo.class,"armServoR");

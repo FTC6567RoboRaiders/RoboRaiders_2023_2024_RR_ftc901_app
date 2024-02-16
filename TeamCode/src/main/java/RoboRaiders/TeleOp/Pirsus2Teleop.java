@@ -41,19 +41,18 @@ public class Pirsus2Teleop extends OpMode {
     public boolean endGame = false;  //This checks whether we have elapsed enough time to be in endgame
     public boolean bButtonG;
     public boolean lBumperG;
+    public boolean rBumperG;
 
     public boolean liftLocked = false;
 
     //Lift
-    public double rStickG;
-    public boolean yButton;
+    public double rStickG; //Right Stick Y Value
+    public boolean yButton; // Slow Lift for Hang
+    public boolean rStickPress; //Press down on right stick for hold
 
     public double botHeading;
 
 
-    //Flippers
-    public boolean leftBumper;
-    public boolean rightBumper;
 
     public static double heading;
     public double autoHeading;
@@ -103,15 +102,17 @@ public class Pirsus2Teleop extends OpMode {
 
         bButtonG = gamepad2.b;
         lBumperG = gamepad2.left_bumper;
+        rBumperG = gamepad2.right_bumper;
 
         xButton = gamepad2.x;
         aButton = gamepad2.a;
         yButton = gamepad2.y;
 
         rStickG = gamepad2.right_stick_y;
+        rStickPress = gamepad2.right_stick_button;
 
-        leftBumper = gamepad2.left_bumper;
-        rightBumper = gamepad2.right_bumper;
+
+
 
         elapsedTime = System.nanoTime() - startTime;
 
@@ -149,7 +150,7 @@ public class Pirsus2Teleop extends OpMode {
         doIntake();
         doFlip();
         doLazySusan();
-//        doFlippers();
+        doFlippers();
         doLiftLock();
         doDriveRC();
 
@@ -236,16 +237,16 @@ public class Pirsus2Teleop extends OpMode {
 
     public void doFlippers() {
 
-        if(!bButtonG && leftBumper) { // if not B and left bumper, left flipper will trigger since B and left bumper causes airplane launch
+        if(!bButtonG && lBumperG) { // if not B and left bumper, left flipper will trigger since B and left bumper causes airplane launch
             robot.leftFlipper(1.0);
         }
-        if(rightBumper) {
+        if(rBumperG) {
             robot.rightFlipper(1.0);
         }
-        if(!leftBumper) {
+        if(!lBumperG) {
             robot.leftFlipper(0.0);
         }
-        if(!rightBumper) {
+        if(!rBumperG) {
             robot.rightFlipper(0.0);
         }
 
@@ -266,21 +267,21 @@ public class Pirsus2Teleop extends OpMode {
 
     public void doLift() {
 
-        if(rStickG > 0.0) {
+        if(rStickG > 0.0 && !rStickPress) {
             rStickG = 1.0;
         }
-        else if(rStickG < 0.0) {
+        else if(rStickG < 0.0&& !rStickPress) {
             rStickG = -1.0;
         }
         else{
             rStickG = 0.0;
         }
-        if(rightBumper) {
+        if(rStickPress) {
             rStickG = .1;
         }
-        if(yButton) { //Add back in endgame
-            rStickG = -0.65;
-        }
+//        if(yButton) { //Add back in endgame
+//            rStickG = -0.65;
+//        }
 
         robot.useLift(rStickG);
 
@@ -323,8 +324,8 @@ public class Pirsus2Teleop extends OpMode {
 
     }
 
-    public void doLiftLock() {
-        if(yButton && leftBumper) {
+    public void doLiftLock() { //This makes it so it will do the hang without us continuing to hold
+        if(yButton) {
             liftLocked = true;
         }
         if(liftLocked) {

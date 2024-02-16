@@ -96,7 +96,10 @@ public class TournAutoBlueBackdrop extends LinearOpMode {
 
 
 
-
+        telemetry.addLine().addData("POSITION:", bluePosition());
+        telemetry.addLine().addData("X VALUE: ", robot.getX());
+        telemetry.addLine().addData("POSITION:", (bluePosition()==0) ? "Left": (bluePosition()==1) ? "Center": "Right");
+        telemetry.update();
 
         waitForStart();
 
