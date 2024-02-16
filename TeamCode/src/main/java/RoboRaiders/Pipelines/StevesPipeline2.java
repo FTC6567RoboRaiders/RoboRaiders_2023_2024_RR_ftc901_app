@@ -100,9 +100,14 @@ public class StevesPipeline2 extends OpenCvPipeline {
 
     Pirsus2 myRobot;
 
+    // Default Constructor - sets myRobot to null, great for testing
+    public StevesPipeline2() {
+        this.myRobot = null;
+    }
+
+    // Constructor to initialize the robot - used for auto and teleop
     public StevesPipeline2(Pirsus2 myRobot){
         this.myRobot = myRobot;
-
     }
 
     @Override
@@ -276,11 +281,13 @@ public class StevesPipeline2 extends OpenCvPipeline {
 
                 //Calculate average for the last 10 frames and then reset for the next 10 frames
                 if(i >= 11){
-                    myRobot.setX(tTX/(i-1));
-                    myRobot.setY(tTY/(i-1));
+                    if (myRobot != null) {
+                        myRobot.setX(tTX / (i - 1));
+                        myRobot.setY(tTY / (i - 1));
 
-                    myRobot.setBX(tBX/(i-1));
-                    myRobot.setBY(tBY/(i-1));
+                        myRobot.setBX(tBX / (i - 1));
+                        myRobot.setBY(tBY / (i - 1));
+                    }
 
                     tTX = 0;
                     tTY = 0;

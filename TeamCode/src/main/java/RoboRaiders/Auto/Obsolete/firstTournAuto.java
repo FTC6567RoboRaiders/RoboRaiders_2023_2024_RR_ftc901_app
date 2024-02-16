@@ -6,7 +6,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
-import RoboRaiders.Auto.AutoOptions;
 import RoboRaiders.Pipelines.GripPipelineBlue;
 import RoboRaiders.Pipelines.GripPipelineRed;
 import RoboRaiders.Robots.Pirsus;

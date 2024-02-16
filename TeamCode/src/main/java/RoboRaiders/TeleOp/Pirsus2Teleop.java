@@ -249,7 +249,7 @@ public class Pirsus2Teleop extends OpMode {
             robot.leftFlipper(0.0);
         }
         if(rBumperG) {
-            robot.rightFlipper(1.0);
+            robot.rightFlipper(0.8);
         }
         if(!lBumperG) {
             robot.leftFlipper(1.0);
