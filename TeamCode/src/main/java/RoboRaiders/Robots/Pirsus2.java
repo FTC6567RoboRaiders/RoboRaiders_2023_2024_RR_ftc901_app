@@ -119,8 +119,6 @@ public class Pirsus2 {
         // save reference to hardware map
         hwMap = ahwMap;
 
-
-
         // define and initialize motors
         lFMotor = hwMap.get(DcMotorEx.class, "lFMotor");
         rFMotor = hwMap.get(DcMotorEx.class, "rFMotor");
