@@ -1,15 +1,13 @@
 package RoboRaiders.Tests;
 
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.Servo;
 
-import RoboRaiders.Robots.Pirsus;
 import RoboRaiders.Robots.Pirsus2;
 
-@TeleOp(name = "Bucket Servo Incrementor",group="Servo")
-@Disabled
+@TeleOp(name = "Axon Servo Incrementor",group="Servo")
 
 /**
  * Created by Steeeve Kocik for RoboRaiders Testing
@@ -17,11 +15,10 @@ import RoboRaiders.Robots.Pirsus2;
  * Change Id      Person          Date          Comments
  * SMK1           Steeeve Kocik   231130        Initial version
  */
-public class BucketServoTest extends LinearOpMode {
+public class AxonServoTest extends LinearOpMode {
 
- public Pirsus2 robot = new Pirsus2();
-
-    public double servoPosition = 0.59;
+    public Servo axonServo = null;
+    public double servoPosition = 0.5;
     public double incrementor = 0.05;
 
 
@@ -29,15 +26,16 @@ public class BucketServoTest extends LinearOpMode {
     @Override
     public void runOpMode() {
 
-  //      robot.setFlipServo(servoPosition);
+        axonServo = hardwareMap.get(Servo.class, "axonServo");
+        axonServo.setPosition(servoPosition);
 
         waitForStart();
 
         while (opModeIsActive()) {
 
-     //       robot.setFlipServo(servoPosition);
+            axonServo.setPosition(servoPosition);
             sleep(500);                                             // Let's wait 1/2 a second, why? because I said so
-            telemetry.addData("Bucket Servo Position Test", "");
+            telemetry.addData("Axon Servo Position Test", "");
 
             telemetry.addData("----------------------------------------------------------","");
             telemetry.addData("Press GamePad1.A to Increase The Servo Position", "");
@@ -64,7 +62,7 @@ public class BucketServoTest extends LinearOpMode {
             //             beyond 0.0 (the lower limit), so check for such instances and
             //             don't allow the servo to advance beyond 0.0.
             if (gamepad1.b) {
-                if (servoPosition + incrementor < 0.0) servoPosition = 0.0;
+                if (servoPosition - incrementor < 0.0) servoPosition = 0.0;
                 else servoPosition -= incrementor;
             }
 
@@ -83,7 +81,7 @@ public class BucketServoTest extends LinearOpMode {
                 if (incrementor < -1.0) incrementor = -1.0;
             }
 
- //           robot.setFlipServo(servoPosition);
+            axonServo.setPosition(servoPosition);
         }
 
         sleep(5000);
