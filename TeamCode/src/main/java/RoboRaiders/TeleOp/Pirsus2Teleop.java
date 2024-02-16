@@ -5,9 +5,14 @@ import android.provider.Settings;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
+
 import RoboRaiders.Robots.GlobalVariables;
 import RoboRaiders.Robots.Pirsus2;
-
+import RoboRaiders.Utilities.Logger.Logger;
 
 
 // This line establishes this op mode as a teleop op mode and allows for it to be displayed
@@ -17,6 +22,7 @@ import RoboRaiders.Robots.Pirsus2;
 public class Pirsus2Teleop extends OpMode {
 
     public Pirsus2 robot = new Pirsus2();
+
 
     public double lFPower;
     public double rFPower;
@@ -67,12 +73,14 @@ public class Pirsus2Teleop extends OpMode {
 
         // initialise robot and tell user that the robot is initialised
         robot.initialize(hardwareMap);
-        robot.setFlipPosition(1.0, 0.8);
-        robot.setLazySusan(0.5);
-        robot.setDoor(0.0);
+
+
         autoHeading = GlobalVariables.getAutoHeading();
         telemetry.addLine().addData("Robot Initialized waiting your command", true);
         telemetry.addLine().addData("Heading: ", GlobalVariables.getAutoHeading());
+        telemetry.addLine().addData("IMU HEADING:",  String.valueOf(botHeading));
+        telemetry.addLine().addData("POSITION:", bluePosition());
+        telemetry.addLine().addData("POSITION:", (bluePosition()==0) ? "Left": (bluePosition()==1) ? "Center": "Right");
         telemetry.update();
 
 
@@ -238,13 +246,13 @@ public class Pirsus2Teleop extends OpMode {
     public void doFlippers() {
 
         if(!bButtonG && lBumperG) { // if not B and left bumper, left flipper will trigger since B and left bumper causes airplane launch
-            robot.leftFlipper(1.0);
+            robot.leftFlipper(0.0);
         }
         if(rBumperG) {
             robot.rightFlipper(1.0);
         }
         if(!lBumperG) {
-            robot.leftFlipper(0.0);
+            robot.leftFlipper(1.0);
         }
         if(!rBumperG) {
             robot.rightFlipper(0.0);

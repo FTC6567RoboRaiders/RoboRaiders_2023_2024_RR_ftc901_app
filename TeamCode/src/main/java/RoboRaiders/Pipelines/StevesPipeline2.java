@@ -79,6 +79,7 @@ public class StevesPipeline2 extends OpenCvPipeline {
     public int tTY = 0;
     public int tBX = 0;
     public int tBY = 0;
+    public int oldPos;
 
 
 
@@ -216,6 +217,12 @@ public class StevesPipeline2 extends OpenCvPipeline {
             case FILTERED_CONTOURS_OVERLAYED_ON_FRAME:
             {
                 input.copyTo(filteredContoursOnFrameMat);
+
+                rectangleSaverTopX = 900;
+                rectangleSaverTopY = 900;
+                rectangleSaverBottomX = 900;
+                rectangleSaverBottomY = 900;
+
                 for(MatOfPoint filteredContour : filterContoursOutput){
 
                     // Get bounding rect of contour
@@ -226,10 +233,10 @@ public class StevesPipeline2 extends OpenCvPipeline {
                     rectangleSaverBottomX = (int)rect.br().x;
                     rectangleSaverBottomY = (int)rect.br().y;
 
-                    myRobot.setX(rectangleSaverTopX);
-                    myRobot.setY(rectangleSaverTopY);
-                    myRobot.setBX(rectangleSaverBottomX);
-                    myRobot.setBY(rectangleSaverBottomY);
+//                    myRobot.setX(rectangleSaverTopX);
+//                    myRobot.setY(rectangleSaverTopY);
+//                    myRobot.setBX(rectangleSaverBottomX);
+//                    myRobot.setBY(rectangleSaverBottomY);
 
 
                 }
@@ -254,32 +261,37 @@ public class StevesPipeline2 extends OpenCvPipeline {
                 brit.Debug("THIS IS THE X VALUE IN THE CASE", rectangleSaverTopX);
                 brit.Debug("THIS IS THE Y VALUE IN THE CASE", rectangleSaverTopY);
 
-                tTX += rectangleSaverTopX;
-                tTY += rectangleSaverTopY;
-
-                tBX += rectangleSaverBottomX;
-                tBY += rectangleSaverBottomY;
 
                 i++;
 
-                myRobot.setX(tTX/i);
-                myRobot.setY(tTY/i);
+                //Tally the positions since they jump around a bit
+                if(i < 11){
+                    tTX += rectangleSaverTopX;
+                    tTY += rectangleSaverTopY;
 
-                myRobot.setBX(tBX/i);
-                myRobot.setBY(tBY/i);
+                    tBX += rectangleSaverBottomX;
+                    tBY += rectangleSaverBottomY;
 
-                if( i == 10){
+                }
+
+                //Calculate average for the last 10 frames and then reset for the next 10 frames
+                if(i >= 11){
+                    myRobot.setX(tTX/(i-1));
+                    myRobot.setY(tTY/(i-1));
+
+                    myRobot.setBX(tBX/(i-1));
+                    myRobot.setBY(tBY/(i-1));
+
                     tTX = 0;
                     tTY = 0;
                     tBX = 0;
                     tBY = 0;
 
-                    myRobot.setX(0);
-                    myRobot.setY(0);
-                    myRobot.setBX(0);
-                    myRobot.setBY(0);
                     i = 0;
                 }
+
+
+
 
                 return filteredContoursOnFrameMat;
             }

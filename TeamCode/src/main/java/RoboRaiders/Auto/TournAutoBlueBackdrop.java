@@ -13,6 +13,9 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import java.util.List;
 
@@ -26,12 +29,18 @@ import RoboRaiders.Auto.RRTrajectorySteps.DropPurpleRight2;
 import RoboRaiders.Auto.RRTrajectorySteps.SpikeToLoopBridge;
 import RoboRaiders.Robots.GlobalVariables;
 import RoboRaiders.Robots.Pirsus2;
+import RoboRaiders.Utilities.Logger.Logger;
 
 @Autonomous
 public class TournAutoBlueBackdrop extends LinearOpMode {
 
     public Pirsus2 robot = new Pirsus2();
     public SampleMecanumDrive drive = null;
+
+    OpenCvCamera camera;
+    public WebcamName webcam1;
+
+    int cameraMonitorViewId;
 
     public VisionPortal visionPortal;
     public AprilTagProcessor aprilTag;
@@ -77,6 +86,40 @@ public class TournAutoBlueBackdrop extends LinearOpMode {
         depoLoop2 = new DepoLoop2(hardwareMap);
         bridge = new SpikeToLoopBridge(hardwareMap);
 
+        webcam1 = hardwareMap.get(WebcamName.class, "Webcam 1");
+        cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+
+        camera.setPipeline(robot.stevesPipeline);
+
+        camera.openCameraDeviceAsync(new  OpenCvCamera.AsyncCameraOpenListener()
+
+
+        {
+            @Override
+            public void onOpened()
+            {
+                camera.startStreaming(640,480, OpenCvCameraRotation.UPRIGHT);
+
+
+//                Logger Log = new Logger(String.valueOf("******** ON OPENED *******"));
+//                Log.Debug("X COORDINATE: ", robot.getX());
+//                Log.Debug("Y COORDINATE: ", robot.getY());
+//                Log.Debug("X 'Bottom COORDINATE: ", robot.getBX());
+//                Log.Debug("Y Bottom COORDINATE: ", robot.getBY());
+
+
+            }
+
+            @Override
+            public void onError(int errorCode)
+            {
+                // For now do nothing when we have an error
+            }
+
+        });
+
+
 
 
         robot.runWithEncoders();
@@ -96,12 +139,15 @@ public class TournAutoBlueBackdrop extends LinearOpMode {
 
 
 
-        telemetry.addLine().addData("POSITION:", bluePosition());
-        telemetry.addLine().addData("X VALUE: ", robot.getX());
-        telemetry.addLine().addData("POSITION:", (bluePosition()==0) ? "Left": (bluePosition()==1) ? "Center": "Right");
-        telemetry.update();
 
-        waitForStart();
+
+//        Instead of waitForStart(); :
+        while(!isStarted() && !isStopRequested()){
+            telemetry.addLine().addData("POSITION:", bluePosition());
+            telemetry.addLine().addData("X VALUE: ", robot.getX());
+            telemetry.addLine().addData("POSITION:", (bluePosition()==0) ? "Left": (bluePosition()==1) ? "Center": "Right");
+            telemetry.update();
+        }
 
         elapsedTime = System.nanoTime() - startTime;
 
@@ -231,9 +277,13 @@ public class TournAutoBlueBackdrop extends LinearOpMode {
         else if(robot.getX() >= 425 && robot.getX()<= 625){
             return 2; //Right Position
         }
-        else{
+        else if(robot.getX() >= 900){
             return 0; //Left Position
         }
+        else{
+            return 0;
+        }
+
     }
 
     public void initAprilTagPortal() {

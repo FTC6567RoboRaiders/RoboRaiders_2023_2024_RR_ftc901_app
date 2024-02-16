@@ -148,7 +148,11 @@ public class Pirsus2 {
         armServoL = hwMap.get(Servo.class,"armServoL");
 
 
-
+        setFlipPosition(1.0, 0.8);
+        setLazySusan(0.5);
+        setDoor(0.0);
+        leftFlipper(1.0);
+        rightFlipper(0.0);
         // defines the directions the motors will spin
         lFMotor.setDirection(DcMotor.Direction.REVERSE);
         rFMotor.setDirection(DcMotor.Direction.FORWARD);
@@ -165,35 +169,37 @@ public class Pirsus2 {
 
         intakeMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-//         Vision processing
-        webcam1 = hwMap.get(WebcamName.class, "Webcam 1");
-        cameraMonitorViewId = hwMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hwMap.appContext.getPackageName());
-        camera = OpenCvCameraFactory.getInstance().createWebcam(hwMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
-
-        camera.setPipeline(stevesPipeline);
-
-        camera.openCameraDeviceAsync(new  OpenCvCamera.AsyncCameraOpenListener()
-        {
-            @Override
-            public void onOpened()
-            {
-                camera.startStreaming(640,480, OpenCvCameraRotation.UPRIGHT);
-                redX = stevesPipeline.returnX();
-                redY = stevesPipeline.returnY();
-                Logger Log = new Logger(String.valueOf("******** CAMERA TEST *******"));
-                Log.Debug("RED X COORDINATE: ", redX);
-                Log.Debug("RED Y COORDINATE: ", redY);
-
-
-            }
-
-            @Override
-            public void onError(int errorCode)
-            {
-                // For now do nothing when we have an error
-            }
-
-        });
+////         Vision processing
+//        webcam1 = hwMap.get(WebcamName.class, "Webcam 1");
+//        cameraMonitorViewId = hwMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hwMap.appContext.getPackageName());
+//        camera = OpenCvCameraFactory.getInstance().createWebcam(hwMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+//
+//        camera.setPipeline(stevesPipeline);
+//
+//        camera.openCameraDeviceAsync(new  OpenCvCamera.AsyncCameraOpenListener()
+//
+//
+//        {
+//            @Override
+//            public void onOpened()
+//            {
+//                camera.startStreaming(640,480, OpenCvCameraRotation.UPRIGHT);
+//                Logger Log = new Logger(String.valueOf("******** ON OPENED *******"));
+//                Log.Debug("X COORDINATE: ", getX());
+//                Log.Debug("Y COORDINATE: ", getY());
+//                Log.Debug("X 'Bottom COORDINATE: ", getBX());
+//                Log.Debug("Y Bottom COORDINATE: ", getBY());
+//
+//
+//            }
+//
+//            @Override
+//            public void onError(int errorCode)
+//            {
+//                // For now do nothing when we have an error
+//            }
+//
+//        });
 
 
 
