@@ -1,5 +1,7 @@
 package RoboRaiders.Pipelines;
 
+import android.graphics.Camera;
+
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
@@ -14,6 +16,7 @@ import org.openftc.easyopencv.OpenCvPipeline;
 import java.util.ArrayList;
 import java.util.List;
 
+import RoboRaiders.Robots.CameraBot;
 import RoboRaiders.Robots.Pirsus2;
 import RoboRaiders.Utilities.Logger.Logger;
 
@@ -101,6 +104,7 @@ public class StevesPipeline2 extends OpenCvPipeline {
 
 
     Pirsus2 myRobot;
+    CameraBot myRobot2;
 
     // Default Constructor - sets myRobot to null, great for testing
     public StevesPipeline2() {
@@ -114,6 +118,11 @@ public class StevesPipeline2 extends OpenCvPipeline {
 
     public StevesPipeline2(Pirsus2 myRobot, boolean isRed){
         this.myRobot = myRobot;
+        this.isRed = isRed;
+    }
+
+    public StevesPipeline2(CameraBot myRobot2, boolean isRed){
+        this.myRobot2 = myRobot2;
         this.isRed = isRed;
     }
 

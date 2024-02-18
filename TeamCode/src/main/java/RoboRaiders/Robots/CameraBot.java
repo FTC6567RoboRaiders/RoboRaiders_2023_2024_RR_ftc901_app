@@ -64,6 +64,7 @@ public class CameraBot {
 
         // save reference to hardware map
         hwMap = ahwMap;
+        stevesPipeline = new StevesPipeline2(this, stevesPipeline.isRed);
 
     }
 
