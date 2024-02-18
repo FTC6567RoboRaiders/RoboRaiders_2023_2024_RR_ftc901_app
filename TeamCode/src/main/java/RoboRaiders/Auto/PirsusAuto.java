@@ -18,7 +18,6 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import java.util.List;
 
-import RoboRaiders.Auto.Obsolete.AutoOptions;
 import RoboRaiders.Auto.RRTrajectorySteps.DepoLoop1;
 import RoboRaiders.Auto.RRTrajectorySteps.DepoLoop2;
 import RoboRaiders.Auto.RRTrajectorySteps.DropPurpleCentre;
@@ -29,7 +28,6 @@ import RoboRaiders.Auto.RRTrajectorySteps.DropPurpleRight2;
 import RoboRaiders.Auto.RRTrajectorySteps.SpikeToLoopBridge;
 import RoboRaiders.Robots.GlobalVariables;
 import RoboRaiders.Robots.Pirsus2;
-import RoboRaiders.Auto.AutoOptions2;
 
 @Autonomous
 @Disabled
