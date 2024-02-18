@@ -1,6 +1,7 @@
 package RoboRaiders.Tests;
 
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -8,6 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import RoboRaiders.Robots.Pirsus2;
 
 @TeleOp(name = "Axon Servo Incrementor",group="Servo")
+@Disabled
 
 /**
  * Created by Steeeve Kocik for RoboRaiders Testing

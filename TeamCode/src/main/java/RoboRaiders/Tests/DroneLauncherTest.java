@@ -1,6 +1,7 @@
 package RoboRaiders.Tests;
 
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -9,6 +10,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import RoboRaiders.Robots.Pirsus;
 
 @TeleOp(name = "Drone Launcher Test",group="Test")
+@Disabled
 
 /**
  * Created by Steeeve Kocik for RoboRaiders Testing

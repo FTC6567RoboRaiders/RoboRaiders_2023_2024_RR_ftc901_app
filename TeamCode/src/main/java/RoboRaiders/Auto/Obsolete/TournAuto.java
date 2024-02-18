@@ -2,6 +2,7 @@ package RoboRaiders.Auto.Obsolete;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
@@ -24,6 +25,8 @@ import RoboRaiders.Auto.RRTrajectorySteps.SpikeToLoopBridge;
 import RoboRaiders.Robots.PirsusMkII;
 
 @Autonomous
+@Disabled
+
 public class TournAuto extends LinearOpMode {
 
     public PirsusMkII robot = new PirsusMkII();

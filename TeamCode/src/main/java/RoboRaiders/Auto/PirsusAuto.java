@@ -3,6 +3,7 @@ package RoboRaiders.Auto;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
@@ -31,6 +32,8 @@ import RoboRaiders.Robots.Pirsus2;
 import RoboRaiders.Auto.AutoOptions2;
 
 @Autonomous
+@Disabled
+
 public class PirsusAuto extends LinearOpMode {
 
     public Pirsus2 robot = new Pirsus2();

@@ -4,6 +4,7 @@ import android.graphics.Color;
 
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 
@@ -14,6 +15,7 @@ import RoboRaiders.Robots.Hubbot;
 
 
 @Autonomous(name = "HubBot")
+@Disabled
 
 public class HubAuto extends OpMode {
 

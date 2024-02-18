@@ -1,6 +1,7 @@
 package RoboRaiders.Auto.Obsolete;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.vision.VisionPortal;
@@ -12,6 +13,8 @@ import RoboRaiders.Robots.Pirsus2;
 import RoboRaiders.Utilities.Logger.Logger;
 
 @Autonomous
+@Disabled
+
 public class BasicScrimAuto extends LinearOpMode {
 
     public Pirsus2 robot = new Pirsus2();

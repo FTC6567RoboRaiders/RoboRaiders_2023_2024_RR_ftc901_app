@@ -1,12 +1,14 @@
 package RoboRaiders.Tests;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import RoboRaiders.Robots.NotPirsus;
 import RoboRaiders.Robots.Pirsus;
 
 @Autonomous (name="Encoder Test for NotPirsus - Straight", group="Drive Train")
+@Disabled
 
 
 /**

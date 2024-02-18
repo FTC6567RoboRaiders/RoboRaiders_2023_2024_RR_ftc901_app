@@ -1,6 +1,7 @@
 package RoboRaiders.Tests;
 
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.ControlSystem;
 import com.qualcomm.robotcore.hardware.ServoControllerEx;
 import com.qualcomm.robotcore.hardware.configuration.ServoFlavor;
@@ -10,6 +11,7 @@ import com.qualcomm.robotcore.hardware.configuration.annotations.ServoType;
 @ServoType(flavor = ServoFlavor.CUSTOM, usPulseLower = 500, usPulseUpper = 2500)
 @DeviceProperties(xmlTag = "RevBlinkinLedDriver", name = "@string/rev_blinkin_name", description = "@string/rev_blinkin_description",
         builtIn = true, compatibleControlSystems = ControlSystem.REV_HUB)
+@Disabled
 
 public class RRBlinkinDriver extends RevBlinkinLedDriver {
     protected ServoControllerEx controller;

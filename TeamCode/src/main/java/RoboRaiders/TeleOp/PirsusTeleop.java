@@ -1,5 +1,6 @@
 package RoboRaiders.TeleOp;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -7,6 +8,8 @@ import RoboRaiders.Robots.PirsusMkII;
 import RoboRaiders.Utilities.Logger.Logger;
 
 @TeleOp (name = "Pirsus TeleOp")
+@Disabled
+
 public class PirsusTeleop extends OpMode {
 
     public PirsusMkII robot = new PirsusMkII();

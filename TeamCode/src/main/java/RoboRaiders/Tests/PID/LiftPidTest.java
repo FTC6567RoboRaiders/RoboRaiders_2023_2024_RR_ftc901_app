@@ -1,6 +1,7 @@
 package RoboRaiders.Tests.PID;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 
@@ -10,6 +11,7 @@ import RoboRaiders.PID.RoboRaidersPID;
 
 
 @Autonomous (name = "Lift PID Test",group="PID")
+@Disabled
 
 public class LiftPidTest extends LinearOpMode {
 

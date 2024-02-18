@@ -1,6 +1,7 @@
 package RoboRaiders.Auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.vision.VisionPortal;
@@ -13,6 +14,8 @@ import RoboRaiders.Robots.Pirsus;
 
 
 @Autonomous
+@Disabled
+
 public class AOTest extends LinearOpMode {
 
     public Hubbot robot = new Hubbot();

@@ -1,6 +1,7 @@
 package RoboRaiders.Tests;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -13,6 +14,7 @@ import RoboRaiders.Pipelines.GripPipelineBlue;
 import RoboRaiders.Pipelines.StevesPipeline2;
 
 @Autonomous(name = "Camera Auto Test")
+@Disabled
 
 public class CameraAutoTest extends LinearOpMode {
     OpenCvCamera camera;

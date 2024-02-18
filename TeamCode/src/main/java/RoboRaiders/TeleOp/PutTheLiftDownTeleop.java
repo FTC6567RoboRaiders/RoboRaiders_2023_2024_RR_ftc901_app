@@ -1,5 +1,6 @@
 package RoboRaiders.TeleOp;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -8,6 +9,8 @@ import RoboRaiders.Robots.Pirsus;
 
 
 @TeleOp(name = "Put The Lift Down Teleop",group="Teleop")
+@Disabled
+
 
 /**
  * Created by Steeeve Kocik for RoboRaiders Testing

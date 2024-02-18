@@ -1,12 +1,14 @@
 package RoboRaiders.Tests;
 
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import RoboRaiders.Robots.Hubbot;
 
 @TeleOp(name = "Hubbot Teleop",group="Test")
+@Disabled
 
 public class HubTeleop extends LinearOpMode {
 
