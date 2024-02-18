@@ -4,12 +4,17 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import RoboRaiders.Auto.AutoOptions.AutoOptions;
 import RoboRaiders.Pipelines.GripPipelineBlue;
 import RoboRaiders.Pipelines.GripPipelineRed;
+import RoboRaiders.Robots.CameraBot;
 import RoboRaiders.Robots.Hubbot;
 
 
@@ -18,13 +23,19 @@ import RoboRaiders.Robots.Hubbot;
 
 public class AOTest extends LinearOpMode {
 
-    public Hubbot robot = new Hubbot();
+    public CameraBot robot = new CameraBot();
     AutoOptions AO = new AutoOptions(this);
 
     VisionPortal visionPortal;
     AprilTagProcessor aprilTag;
     GripPipelineRed redPipeline;
     GripPipelineBlue bluePipeline;
+
+
+    OpenCvCamera camera;
+    public WebcamName webcam1;
+
+    int cameraMonitorViewId;
 
     private boolean isRed = false;
     private boolean stageSide = false;
@@ -41,10 +52,16 @@ public class AOTest extends LinearOpMode {
 
     int waitTime = 0;
 
+
+
     @Override
     public void runOpMode() throws InterruptedException {
 
+        robot.initialize(hardwareMap);
+
         while (!selectionsAreGood) {
+
+
 
             isRed = AO.selectAlliance();              // red or blue
             stageSide = AO.selectStartLocation();         // starting near the drones or the backboard
@@ -79,6 +96,41 @@ public class AOTest extends LinearOpMode {
 
         telemetry.addLine().addData("Waiting your command", true);
         telemetry.update();
+
+
+        webcam1 = hardwareMap.get(WebcamName.class, "Webcam 1");
+        cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+
+        camera.setPipeline(robot.stevesPipeline);
+
+        camera.openCameraDeviceAsync(new  OpenCvCamera.AsyncCameraOpenListener()
+
+
+        {
+            @Override
+            public void onOpened()
+            {
+                camera.startStreaming(640,480, OpenCvCameraRotation.UPRIGHT);
+
+
+//                Logger Log = new Logger(String.valueOf("******** ON OPENED *******"));
+//                Log.Debug("X COORDINATE: ", robot.getX());
+//                Log.Debug("Y COORDINATE: ", robot.getY());
+//                Log.Debug("X 'Bottom COORDINATE: ", robot.getBX());
+//                Log.Debug("Y Bottom COORDINATE: ", robot.getBY());
+
+
+            }
+
+            @Override
+            public void onError(int errorCode)
+            {
+                // For now do nothing when we have an error
+            }
+
+        });
+
         waitForStart();
 
         telemetry.addLine().addData("Selected alliance:", isRed);
