@@ -34,7 +34,6 @@ public class CameraBot {
 
     public WebcamName webcam1;
     // Vision Variables
-    public StevesPipeline2 stevesPipeline;
     ColorSensor sensorColor;
     DistanceSensor sensorDistance;
     NormalizedColorSensor normalizedColorSensor;
@@ -64,7 +63,6 @@ public class CameraBot {
 
         // save reference to hardware map
         hwMap = ahwMap;
-        stevesPipeline = new StevesPipeline2(this, stevesPipeline.isRed);
 
     }
 

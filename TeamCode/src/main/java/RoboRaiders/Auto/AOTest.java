@@ -14,6 +14,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import RoboRaiders.Auto.AutoOptions.AutoOptions;
 import RoboRaiders.Pipelines.GripPipelineBlue;
 import RoboRaiders.Pipelines.GripPipelineRed;
+import RoboRaiders.Pipelines.StevesPipeline2;
 import RoboRaiders.Robots.CameraBot;
 import RoboRaiders.Robots.Hubbot;
 
@@ -26,11 +27,7 @@ public class AOTest extends LinearOpMode {
     public CameraBot robot = new CameraBot();
     AutoOptions AO = new AutoOptions(this);
 
-    VisionPortal visionPortal;
-    AprilTagProcessor aprilTag;
-    GripPipelineRed redPipeline;
-    GripPipelineBlue bluePipeline;
-
+    public StevesPipeline2 pipeline;
 
     OpenCvCamera camera;
     public WebcamName webcam1;
@@ -97,14 +94,16 @@ public class AOTest extends LinearOpMode {
         telemetry.addLine().addData("Waiting your command", true);
         telemetry.update();
 
+        pipeline = new StevesPipeline2(robot, isRed);
 
         webcam1 = hardwareMap.get(WebcamName.class, "Webcam 1");
         cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
 
-        camera.setPipeline(robot.stevesPipeline);
+        camera.setPipeline(pipeline);
 
         camera.openCameraDeviceAsync(new  OpenCvCamera.AsyncCameraOpenListener()
+
 
 
         {
@@ -131,7 +130,13 @@ public class AOTest extends LinearOpMode {
 
         });
 
-        waitForStart();
+        //        Instead of waitForStart(); :
+        while(!isStarted() && !isStopRequested()){
+            telemetry.addLine().addData("POSITION:", bluePosition());
+            telemetry.addLine().addData("X VALUE: ", robot.getX());
+            telemetry.addLine().addData("POSITION:", (bluePosition()==0) ? "Left": (bluePosition()==1) ? "Center": "Right");
+            telemetry.update();
+        }
 
         telemetry.addLine().addData("Selected alliance:", isRed);
         telemetry.addLine().addData("Selected side:", stageSide);
