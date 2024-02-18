@@ -77,6 +77,8 @@ public class AOTest extends LinearOpMode {
             telemetry.update();    // Clear the selections
         }
 
+        telemetry.addLine().addData("Waiting your command", true);
+        telemetry.update();
         waitForStart();
 
         telemetry.addLine().addData("Selected alliance:", isRed);

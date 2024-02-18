@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
+import RoboRaiders.Auto.AutoOptions.AutoOptions;
 import RoboRaiders.Pipelines.GripPipelineBlue;
 import RoboRaiders.Pipelines.GripPipelineRed;
 import RoboRaiders.Robots.Pirsus;
@@ -14,6 +15,7 @@ import RoboRaiders.Robots.Pirsus;
 
 @Autonomous
 @Disabled
+
 
 public class firstTournAuto extends LinearOpMode {
 
@@ -49,7 +51,7 @@ public class firstTournAuto extends LinearOpMode {
 
             isRed             = AO.selectAlliance();              // red or blue
             droneSide         = AO.selectStartLocation();         // starting near the drones or the backboard
-            driveInner        = AO.selectDrivePath();      // drive near the centre or the wall
+ //           driveInner        = AO.selectDrivePath();      // drive near the centre or the wall
             waitForPartner    = AO.selectWait();                   // wait for partner
 
             // Add new/additional auto options, so things like drive to depot, drop team marker, etc..
