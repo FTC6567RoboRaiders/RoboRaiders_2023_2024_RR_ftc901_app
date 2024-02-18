@@ -300,10 +300,10 @@ public class StevesPipeline2 extends OpenCvPipeline {
                         rectangleSaverBottomX = (int)rect1.br().x;
                         rectangleSaverBottomY = (int)rect1.br().y;
 
-                        myRobot.setX(rectangleSaverTopX);
-                        myRobot.setY(rectangleSaverTopY);
-                        myRobot.setBX(rectangleSaverBottomX);
-                        myRobot.setBY(rectangleSaverBottomY);
+//                        myRobot.setX(rectangleSaverTopX);
+//                        myRobot.setY(rectangleSaverTopY);
+//                        myRobot.setBX(rectangleSaverBottomX);
+//                        myRobot.setBY(rectangleSaverBottomY);
 
                     }
                 }
@@ -327,12 +327,12 @@ public class StevesPipeline2 extends OpenCvPipeline {
 
                 //Calculate average for the last 10 frames and then reset for the next 10 frames
                 if(i >= 11){
-                    if (myRobot != null) {
-                        myRobot.setX(tTX / (i - 1));
-                        myRobot.setY(tTY / (i - 1));
+                    if (myRobot2 != null) {
+                        myRobot2.setX(tTX / (i - 1));
+                        myRobot2.setY(tTY / (i - 1));
 
-                        myRobot.setBX(tBX / (i - 1));
-                        myRobot.setBY(tBY / (i - 1));
+                        myRobot2.setBX(tBX / (i - 1));
+                        myRobot2.setBY(tBY / (i - 1));
                     }
 
                     tTX = 0;
