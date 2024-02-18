@@ -81,6 +81,8 @@ public class StevesPipeline2 extends OpenCvPipeline {
     public int tBY = 0;
     public int oldPos;
 
+    public boolean isRed = false;
+
 
 
 
@@ -109,6 +111,12 @@ public class StevesPipeline2 extends OpenCvPipeline {
     public StevesPipeline2(Pirsus2 myRobot){
         this.myRobot = myRobot;
     }
+
+    public StevesPipeline2(Pirsus2 myRobot, boolean isRed){
+        this.myRobot = myRobot;
+        this.isRed = isRed;
+    }
+
 
     @Override
     public void onViewportTapped()
@@ -143,29 +151,51 @@ public class StevesPipeline2 extends OpenCvPipeline {
         hsvThresholdInput = input;     // save the original image
 
         // find the blue objects in frame, to find red, just change up the hue saturation and value
-        hsvThreshold(hsvThresholdInput,
-                blueHSVThresholdHue,
-                blueHSVThresholdSaturation,
-                blueHSVThresholdValue,
-                hsvThresholdOutput);
-//        hsvThreshold(hsvThresholdInput,
-//                redHSVThresholdHue2,
-//                redHSVThresholdSaturation,
-//                redHSVThresholdValue,
-//                hsvThresholdOutput2);
+
+
+        if(isRed){ //If the alliance is red, we will use these HSV values to identify team marker
+            hsvThreshold(hsvThresholdInput,
+                    redHSVThresholdHue,
+                    redHSVThresholdSaturation,
+                    redHSVThresholdValue,
+                    hsvThresholdOutput);
+            hsvThreshold(hsvThresholdInput,
+                    redHSVThresholdHue2,
+                    redHSVThresholdSaturation,
+                    redHSVThresholdValue,
+                    hsvThresholdOutput2);
+
+        }
+        else{ //If the alliance is blue, we will use these HSV values to identify team marker
+            hsvThreshold(hsvThresholdInput,
+                    blueHSVThresholdHue,
+                    blueHSVThresholdSaturation,
+                    blueHSVThresholdValue,
+                    hsvThresholdOutput);
+        }
 
         // find the contours
+        // this finds the contours for both red and blue
         findCountoursInput = hsvThresholdOutput;
         findContours(findCountoursInput,
                 findCountoursExternalOnly,
                 findContoursOutput);
-//        findCountoursInput2 = hsvThresholdOutput2;
-//        findContours(findCountoursInput2,
-//                findCountoursExternalOnly,
-//                findContoursOutput2);
+        //if it is red, we will need to find the contours for the second part of red
+        if(isRed){
+            findCountoursInput2 = hsvThresholdOutput2;
+            findContours(findCountoursInput2,
+                    findCountoursExternalOnly,
+                    findContoursOutput2);
+        }
+
 
         filterContoursContours = findContoursOutput;
-//        filterContoursContours2 = findContoursOutput2;
+
+        //if it is red, we will need to filter the contours for the second part of red
+        if(isRed){
+            filterContoursContours2 = findContoursOutput2;
+
+        }
         filterContours(filterContoursContours,
                 filterContoursMinArea,
                 filterContoursMinPerimeter,
@@ -179,20 +209,24 @@ public class StevesPipeline2 extends OpenCvPipeline {
                 filterContoursMinRatio,
                 filterContoursMaxRatio,
                 filterContoursOutput);
-//
-//        filterContours(filterContoursContours2,
-//                filterContoursMinArea,
-//                filterContoursMinPerimeter,
-//                filterContoursMinWidth,
-//                filterContoursMaxWidth,
-//                filterContoursMinHeight,
-//                filterContoursMaxHeight,
-//                filterContoursSolidity,
-//                filterContoursMaxVertices,
-//                filterContoursMinVertices,
-//                filterContoursMinRatio,
-//                filterContoursMaxRatio,
-//                filterContoursOutput2);
+
+        //if it is red, we will need to filter the contours for the second part of red
+        if(isRed){
+            filterContours(filterContoursContours2,
+                    filterContoursMinArea,
+                    filterContoursMinPerimeter,
+                    filterContoursMinWidth,
+                    filterContoursMaxWidth,
+                    filterContoursMinHeight,
+                    filterContoursMaxHeight,
+                    filterContoursSolidity,
+                    filterContoursMaxVertices,
+                    filterContoursMinVertices,
+                    filterContoursMinRatio,
+                    filterContoursMaxRatio,
+                    filterContoursOutput2);
+        }
+
 
 
         switch (stageToRenderToViewport)
@@ -245,23 +279,26 @@ public class StevesPipeline2 extends OpenCvPipeline {
 
 
                 }
+                //if it is red, we will need to filter the contours for the second part of red
+                if(isRed){
+                    for(MatOfPoint filteredContour : filterContoursOutput2) {
 
-//                for(MatOfPoint filteredContour : filterContoursOutput2) {
-//
-//                    // Get bounding rect of contour
-//                    Rect rect1 = Imgproc.boundingRect(filteredContour);
-//                    Imgproc.rectangle(filteredContoursOnFrameMat, rect1.tl(), rect1.br(), new Scalar(255,0,0),2); // Draw rect
-//                    rectangleSaverTopX = (int)rect1.tl().x;
-//                    rectangleSaverTopY = (int)rect1.tl().y;
-//                    rectangleSaverBottomX = (int)rect1.br().x;
-//                    rectangleSaverBottomY = (int)rect1.br().y;
-//
-//                    myRobot.setX(rectangleSaverTopX);
-//                    myRobot.setY(rectangleSaverTopY);
-//                    myRobot.setBX(rectangleSaverBottomX);
-//                    myRobot.setBY(rectangleSaverBottomY);
-//
-//                }
+                        // Get bounding rect of contour
+                        Rect rect1 = Imgproc.boundingRect(filteredContour);
+                        Imgproc.rectangle(filteredContoursOnFrameMat, rect1.tl(), rect1.br(), new Scalar(255,0,0),2); // Draw rect
+                        rectangleSaverTopX = (int)rect1.tl().x;
+                        rectangleSaverTopY = (int)rect1.tl().y;
+                        rectangleSaverBottomX = (int)rect1.br().x;
+                        rectangleSaverBottomY = (int)rect1.br().y;
+
+                        myRobot.setX(rectangleSaverTopX);
+                        myRobot.setY(rectangleSaverTopY);
+                        myRobot.setBX(rectangleSaverBottomX);
+                        myRobot.setBY(rectangleSaverBottomY);
+
+                    }
+                }
+
                 Logger brit = new Logger(String.valueOf("******** CAMERA TEST *******"));
                 brit.Debug("THIS IS THE X VALUE IN THE CASE", rectangleSaverTopX);
                 brit.Debug("THIS IS THE Y VALUE IN THE CASE", rectangleSaverTopY);

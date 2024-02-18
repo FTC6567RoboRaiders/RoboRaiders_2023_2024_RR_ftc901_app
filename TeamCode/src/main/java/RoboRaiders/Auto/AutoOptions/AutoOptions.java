@@ -48,8 +48,6 @@ public class AutoOptions {
 
     private boolean prev_B_ButtonState;                                // "b" button previous state
     private boolean prev_X_ButtonState;                                // "x" button previous state
-    private boolean prev_dpadUp_State;
-    private boolean prev_dpadDown_State;
 
 
     /**
@@ -123,60 +121,38 @@ public class AutoOptions {
 
     public int changeWaitTme(){
         prev_X_ButtonState = false;
-        prev_dpadUp_State = false;
-        prev_dpadDown_State = false;
-
         int waitTime = 5;
-        int i = 0;
 
-        // let the user select, reset gamepad1
-        op.gamepad1.reset();
-
-        while(!(prev_X_ButtonState)){
-
-            op.telemetry.addLine("Select Wait Time:");
-            op.telemetry.addLine(" Y Increments Wait Time, A Decrement Wait Time");
-            op.telemetry.addLine(" Press X to Confirm Selection" );
-            op.telemetry.addLine().addData("Wait Time: ", waitTime);
-            op.telemetry.addLine().addData("i: ", i);
-            op.telemetry.update();
+        op.telemetry.addLine("Select Wait Time:");
+        op.telemetry.addLine(" Dpad Up Increments Wait Time, Dpad Down Decrement Wait Time");
+        op.telemetry.addLine(" Press X to Confirm Selection" );
 
 
-            // let the user select, reset gamepad1
-            op.gamepad1.reset();
 
-            if (op.gamepad1.dpad_up && !prev_dpadUp_State) {
+        while(!(op.gamepad1.x)){
+            if(op.gamepad1.dpad_up){
                 if(waitTime + 1 > 10){
                     waitTime = 10;
                 }
                 else{
                     waitTime++;
-                    i++;
                 }
-                prev_dpadUp_State = true;                           // indicate that the DPAD UP button state has been PUSHED
-
             }
-            if (op.gamepad1.dpad_down && !prev_dpadDown_State) {
+            if(op.gamepad1.dpad_down){
                 if(waitTime - 1 < 1){
                     waitTime = 1;
                 }
                 else{
                     waitTime--;
                 }
-                prev_dpadDown_State = true;                            // indicate that the DPAD DOWN button state has been PUSHED
-
             }
             if(op.gamepad1.x && ! prev_X_ButtonState){
                 prev_X_ButtonState = true;
             }
-            else {
-                prev_dpadUp_State = false;
-                prev_dpadDown_State = false;
-            }
+            op.telemetry.addLine().addData("Wait Time: ", waitTime);
+            op.telemetry.update();
 
         }
-        // Wait one second
-//        try {Thread.sleep(250);} catch (InterruptedException e) {e.printStackTrace();}
 
         return waitTime;
     }
