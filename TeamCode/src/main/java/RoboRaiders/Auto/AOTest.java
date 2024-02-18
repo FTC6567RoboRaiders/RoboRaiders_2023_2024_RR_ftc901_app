@@ -14,7 +14,7 @@ import RoboRaiders.Robots.Hubbot;
 
 
 @Autonomous
-@Disabled
+
 
 public class AOTest extends LinearOpMode {
 
@@ -27,7 +27,7 @@ public class AOTest extends LinearOpMode {
     GripPipelineBlue bluePipeline;
 
     private boolean isRed = false;
-    private boolean droneSide = false;
+    private boolean stageSide = false;
     private boolean waitForPartner = false;
 
     private boolean selectionsAreGood = false;
@@ -39,15 +39,19 @@ public class AOTest extends LinearOpMode {
     double cx = 402.145;
     double cy = 221.506;
 
+    int waitTime = 0;
+
     @Override
     public void runOpMode() throws InterruptedException {
 
         while (!selectionsAreGood) {
 
             isRed = AO.selectAlliance();              // red or blue
-            droneSide = AO.selectStartLocation();         // starting near the drones or the backboard
+            stageSide = AO.selectStartLocation();         // starting near the drones or the backboard
             waitForPartner = AO.selectWait();                   // wait for partner
-
+            if(waitForPartner){
+                waitTime = AO.selectWaitTime();
+            }
             // Add new/additional auto options, so things like drive to depot, drop team marker, etc..
 
 
@@ -57,11 +61,13 @@ public class AOTest extends LinearOpMode {
             // Note: To keep the autonomous options displayed, the automagical clearing of the telemetry data will be
             //       turned off with the setAutoClear(false) prior to calling selectionsGood().  After selectionsGood()
             //       turn on the automagical clearing of the telemetry data which is the default action.
-
             telemetry.setAutoClear(false);
             telemetry.addLine().addData("Autonomous", "Selections");
-            telemetry.addLine().addData("Alliance:", isRed ? "Red  " : "Blue  ").addData("  Robot Start Location:", droneSide ? "Drone" : "Stage");
+            telemetry.addLine().addData("Alliance:", isRed ? "Red  " : "Blue  ").addData("  Robot Start Location:", stageSide ? "Stage" : "Back Stage");
             telemetry.addLine().addData("Wait for Partner:", waitForPartner ? "Yes" : "No");
+            if(waitForPartner) {
+                telemetry.addLine().addData("Wait Time: ", waitTime);
+            }
             telemetry.update();
 
             // Verify that the autonomous selections are good, if so we are ready to rumble.  If not, we'll ask again.
@@ -74,8 +80,12 @@ public class AOTest extends LinearOpMode {
         waitForStart();
 
         telemetry.addLine().addData("Selected alliance:", isRed);
-        telemetry.addLine().addData("Selected side:", droneSide);
+        telemetry.addLine().addData("Selected side:", stageSide);
         telemetry.addLine().addData("Wait:", waitForPartner);
+        if(waitForPartner){
+            telemetry.addLine().addData("Wait Time: ", waitTime);
+
+        }
 
         /** power controls:
          *  -, -, -, - | forward

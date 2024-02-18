@@ -105,9 +105,7 @@ public class AutoOptions {
         int index = makeYesNoSelection("Wait for partner?");
 
         // check index against 0: 0 = true, else = false
-        if(index == 0){
-            selectWaitTime();
-        }
+
         return index == 0;
     }
 
@@ -123,9 +121,15 @@ public class AutoOptions {
 
     public int changeWaitTme(){
         prev_X_ButtonState = false;
-        prev_B_ButtonState = false;
-        int waitTime = 0;
-        while(!(op.gamepad1.b | op.gamepad1.x)){
+        int waitTime = 5;
+
+        op.telemetry.addLine("Select Wait Time:");
+        op.telemetry.addLine(" Dpad Up Increments Wait Time, Dpad Down Decrement Wait Time");
+        op.telemetry.addLine(" Press X to Confirm Selection" );
+
+
+
+        while(!(op.gamepad1.x)){
             if(op.gamepad1.dpad_up){
                 if(waitTime + 1 > 10){
                     waitTime = 10;
@@ -145,9 +149,9 @@ public class AutoOptions {
             if(op.gamepad1.x && ! prev_X_ButtonState){
                 prev_X_ButtonState = true;
             }
-            if(op.gamepad1.b && ! prev_B_ButtonState){
-                prev_B_ButtonState = true;
-            }
+            op.telemetry.addLine().addData("Wait Time: ", waitTime);
+            op.telemetry.update();
+
         }
 
         return waitTime;
