@@ -26,7 +26,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
  * <ol>
  * <li>selectAlliance - allows the driver/coach to select the alliance (Red or Blue) </li>
  * <li>selectLocation - allows the driver/coach to select the location the robot is starting at (Stage or Backstage)</li>
- * <li>selectDeployFromLander - allows the driver/coach to select if the robot is to be deployed or not from  (Yes or No)</li>
+ * <li>selectWait - allows the driver/coach to select if the robot is to wait for set amount of time (Yes or No)</li>
  * <li>selectionsGood - allows the driver/coach to verify that the selections made are good (Yes or No)</li>
  * </ol>
  *
@@ -48,6 +48,7 @@ public class AutoOptions {
 
     private boolean prev_B_ButtonState;                                // "b" button previous state
     private boolean prev_X_ButtonState;                                // "x" button previous state
+
 
     /**
      * Constructor
@@ -104,7 +105,52 @@ public class AutoOptions {
         int index = makeYesNoSelection("Wait for partner?");
 
         // check index against 0: 0 = true, else = false
+        if(index == 0){
+            selectWaitTime();
+        }
         return index == 0;
+    }
+
+    /**
+     * This will allow you to specify number of seconds to wait
+     */
+    public int selectWaitTime(){
+
+        return changeWaitTme();
+
+
+    }
+
+    public int changeWaitTme(){
+        prev_X_ButtonState = false;
+        prev_B_ButtonState = false;
+        int waitTime = 0;
+        while(!(op.gamepad1.b | op.gamepad1.x)){
+            if(op.gamepad1.dpad_up){
+                if(waitTime + 1 > 10){
+                    waitTime = 10;
+                }
+                else{
+                    waitTime++;
+                }
+            }
+            if(op.gamepad1.dpad_down){
+                if(waitTime - 1 < 1){
+                    waitTime = 1;
+                }
+                else{
+                    waitTime--;
+                }
+            }
+            if(op.gamepad1.x && ! prev_X_ButtonState){
+                prev_X_ButtonState = true;
+            }
+            if(op.gamepad1.b && ! prev_B_ButtonState){
+                prev_B_ButtonState = true;
+            }
+        }
+
+        return waitTime;
     }
 
     /**
