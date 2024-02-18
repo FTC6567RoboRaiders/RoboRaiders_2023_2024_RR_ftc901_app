@@ -18,6 +18,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import java.util.List;
 
+import RoboRaiders.Auto.AutoOptions.AutoOptions;
 import RoboRaiders.Auto.RRTrajectorySteps.DepoLoop1;
 import RoboRaiders.Auto.RRTrajectorySteps.DepoLoop2;
 import RoboRaiders.Auto.RRTrajectorySteps.DropPurpleCentre;
@@ -36,7 +37,7 @@ public class PirsusAuto extends LinearOpMode {
 
     public Pirsus2 robot = new Pirsus2();
     public SampleMecanumDrive drive = null;
-    AutoOptions2 AO = new AutoOptions2(this);
+    AutoOptions AO = new AutoOptions(this);
 
     OpenCvCamera camera;
     public WebcamName webcam1;

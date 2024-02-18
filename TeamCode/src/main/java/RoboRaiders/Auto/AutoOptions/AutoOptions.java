@@ -25,7 +25,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
  * Specific Methods
  * <ol>
  * <li>selectAlliance - allows the driver/coach to select the alliance (Red or Blue) </li>
- * <li>selectLocation - allows the driver/coach to select the location the robot is starting at (Depot or Crater)</li>
+ * <li>selectLocation - allows the driver/coach to select the location the robot is starting at (Stage or Backstage)</li>
  * <li>selectDeployFromLander - allows the driver/coach to select if the robot is to be deployed or not from  (Yes or No)</li>
  * <li>selectionsGood - allows the driver/coach to verify that the selections made are good (Yes or No)</li>
  * </ol>
@@ -66,7 +66,6 @@ public class AutoOptions {
      * BLUE - false
      */
     public boolean selectAlliance() {
-
         // create paths
         String[] alliances = new String[]{"Red", "Blue"};
 
@@ -87,7 +86,7 @@ public class AutoOptions {
     public boolean selectStartLocation() {
 
         // create paths
-        String[] locations = new String[]{"Drone", "Stage"};
+        String[] locations = new String[]{"Stage", "Backstage"};
 
         // let driver make selection: index = 0 means first selection, index = 1 means second selection
         int index = makeSelection("Robot Start Location", locations);
@@ -96,22 +95,9 @@ public class AutoOptions {
         return index == 0;
     }
 
-    public boolean selectDrivePath() {
-
-        // create paths
-        String[] paths = new String[]{"Inner", "Wall"};
-
-        // let driver make selection: index = 0 means first selection, index = 1 means second selection
-        int index = makeSelection("robot drive path", paths);
-
-        // check index against 0: 0 = true, else = false
-        return index == 0;
-    }
-
     /**
      * This will return yes or no if you want to wait.
      */
-
     public boolean selectWait() {
 
         // Let the driver make a yes or no selection to wait for the alliance partner
@@ -130,7 +116,7 @@ public class AutoOptions {
     public boolean selectionsGood() {
 
         // let the driver confirm autonomous settings
-        int index = makeYesNoSelection("Are selections good");
+        int index = makeYesNoSelection("Selections good?");
 
         // check index against 0: 0 = true, else = false
         return index == 0;

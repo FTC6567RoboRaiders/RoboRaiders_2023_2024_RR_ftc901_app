@@ -7,10 +7,10 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
+import RoboRaiders.Auto.AutoOptions.AutoOptions;
 import RoboRaiders.Pipelines.GripPipelineBlue;
 import RoboRaiders.Pipelines.GripPipelineRed;
 import RoboRaiders.Robots.Hubbot;
-import RoboRaiders.Robots.Pirsus;
 
 
 @Autonomous
@@ -19,7 +19,7 @@ import RoboRaiders.Robots.Pirsus;
 public class AOTest extends LinearOpMode {
 
     public Hubbot robot = new Hubbot();
-    AutoOptions2 AO = new AutoOptions2(this);
+    AutoOptions AO = new AutoOptions(this);
 
     VisionPortal visionPortal;
     AprilTagProcessor aprilTag;
