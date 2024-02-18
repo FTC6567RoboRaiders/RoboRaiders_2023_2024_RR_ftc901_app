@@ -92,6 +92,14 @@ public class AOTest extends LinearOpMode {
         }
 
         telemetry.addLine().addData("Waiting your command", true);
+
+        telemetry.addLine().addData("Selected alliance:", isRed);
+        telemetry.addLine().addData("Selected side:", stageSide);
+        telemetry.addLine().addData("Wait:", waitForPartner);
+        if(waitForPartner){
+            telemetry.addLine().addData("Wait Time: ", waitTime);
+
+        }
         telemetry.update();
 
         pipeline = new StevesPipeline2(robot, isRed);
@@ -132,19 +140,14 @@ public class AOTest extends LinearOpMode {
 
         //        Instead of waitForStart(); :
         while(!isStarted() && !isStopRequested()){
-            telemetry.addLine().addData("POSITION:", bluePosition());
-            telemetry.addLine().addData("X VALUE: ", robot.getX());
-            telemetry.addLine().addData("POSITION:", (bluePosition()==0) ? "Left": (bluePosition()==1) ? "Center": "Right");
+            telemetry.addLine().addData("TX VALUE: ", robot.getX());
+            telemetry.addLine().addData("TY VALUE: ", robot.getX());
+            telemetry.addLine().addData("BX VALUE: ", robot.getBX());
+            telemetry.addLine().addData("BY VALUE: ", robot.getBY());
             telemetry.update();
         }
 
-        telemetry.addLine().addData("Selected alliance:", isRed);
-        telemetry.addLine().addData("Selected side:", stageSide);
-        telemetry.addLine().addData("Wait:", waitForPartner);
-        if(waitForPartner){
-            telemetry.addLine().addData("Wait Time: ", waitTime);
 
-        }
 
         /** power controls:
          *  -, -, -, - | forward
