@@ -69,15 +69,15 @@ public class PirsusAuto extends LinearOpMode {
 
     // AutoOptions stuff
     public boolean isRed = false;
-    public Pose2d initialPos;
-    public boolean droneSide = false;
+    public boolean stageSide = false;
     public boolean waitForPartner = false;
     public boolean selectionsAreGood = false;
-    public Pose2d DPL2StartPos;
-    public Pose2d DPR2StartPos;
-    public Pose2d bridgeStartPos;
-    public Pose2d DL1StartPos;
-    public Pose2d DL2StartPos;
+    public Pose2d initialPose;
+    public Pose2d DPL2StartPose;
+    public Pose2d DPR2StartPose;
+    public Pose2d bridgeStartPose;
+    public Pose2d DL1StartPose;
+    public Pose2d DL2StartPose;
 
 
 
@@ -136,7 +136,7 @@ public class PirsusAuto extends LinearOpMode {
         while (!selectionsAreGood) {
 
             isRed = AO.selectAlliance();              // red or blue
-            droneSide = AO.selectStartLocation();         // starting near the drones or the backboard
+            stageSide = AO.selectStartLocation();         // starting near the drones or the backboard
             waitForPartner = AO.selectWait();                   // wait for partner
 
             // Add new/additional auto options, so things like drive to depot, drop team marker, etc..
@@ -151,7 +151,7 @@ public class PirsusAuto extends LinearOpMode {
 
             telemetry.setAutoClear(false);
             telemetry.addLine().addData("Autonomous", "Selections");
-            telemetry.addLine().addData("Alliance:", isRed ? "Red  " : "Blue  ").addData("  Robot Start Location:", droneSide ? "Drone" : "Stage");
+            telemetry.addLine().addData("Alliance:", isRed ? "Red  " : "Blue  ").addData("  Robot Start Location:", stageSide ? "Stage" : "Backstage");
             telemetry.addLine().addData("Wait for Partner:", waitForPartner ? "Yes" : "No");
             telemetry.update();
 
@@ -168,22 +168,37 @@ public class PirsusAuto extends LinearOpMode {
         // blue/drone: (-35, 60)
         // blue/stage: (10, 60)
 
-        if(isRed && droneSide) { // red/drone
-            initialPos = new Pose2d(-35, -60, Math.toRadians(270));
+        // logic table
+        /**
+         *
+         |   |       t       |       f       |
+         +-----------------------------------+
+         |   | (-35, -60)    | (10, -60)     |
+         | t | trapdoor      | short         |
+         |   | park left     | park right    |
+         +-----------------------------------+
+         |   | (-35, 60)     | (10, 60)      |
+         | f | trapdoor      | short         |
+         |   | park right    | park left     |
+         +-----------------------------------+
+
+         */
+        if(isRed && stageSide) { // red/stage
+            initialPose = new Pose2d(-35, -60, Math.toRadians(270));
         }
-        if(isRed && !droneSide) { // red/stage
-            initialPos = new Pose2d(10, -60, Math.toRadians(270));
+        if(isRed && !stageSide) { // red/backstage
+            initialPose = new Pose2d(10, -60, Math.toRadians(270));
         }
-        if(!isRed && droneSide) { // blue/drone
-            initialPos = new Pose2d(-35, 60, Math.toRadians(90));
-            DPL2StartPos = new Pose2d(-34, 30, Math.toRadians(0));
-            DPR2StartPos = new Pose2d(-37, 30, Math.toRadians(180));
-            bridgeStartPos = new Pose2d(-35, 7, Math.toRadians(180));
-            DL1StartPos = new Pose2d(47, 35, Math.toRadians(0));
-            DL2StartPos = new Pose2d(-60, 11.5, Math.toRadians(0));
+        if(!isRed && stageSide) { // blue/stage
+            initialPose = new Pose2d(-35, 60, Math.toRadians(90));
+            DPL2StartPose = new Pose2d(-34, 30, Math.toRadians(0));
+            DPR2StartPose = new Pose2d(-37, 30, Math.toRadians(180));
+            bridgeStartPose = new Pose2d(-35, 11.5, Math.toRadians(180));
+            DL1StartPose = new Pose2d(47, 35, Math.toRadians(0));
+            DL2StartPose = new Pose2d(-60, 11.5, Math.toRadians(0));
         }
-        if(!isRed && !droneSide) { // blue/stage
-            initialPos = new Pose2d(10, 60, Math.toRadians(90));
+        if(!isRed && !stageSide) { // blue/backstage
+            initialPose = new Pose2d(10, 60, Math.toRadians(90));
         }
 
         robot.runWithEncoders();
@@ -225,6 +240,26 @@ public class PirsusAuto extends LinearOpMode {
 
             telemetry.update();
 
+            switch(position) {
+                case 0:
+                    DPL1.doPath(initialPose, DPL2StartPose);
+                    // drop pixel
+                    DPL2.doPath(DPL2StartPose, bridgeStartPose);
+                    break;
+                case 1:
+                    DPC.doPath(initialPose);
+                    // drop pixel
+                    break;
+                case 2:
+                    DPR1.doPath(initialPose, DPR2StartPose);
+                    // drop pixel
+                    DPL2.doPath(DPR2StartPose, bridgeStartPose);
+                    break;
+                default:
+                    DPC.doPath(initialPose);
+                    break;
+            }
+
             // spike mark positions
 //            switch (position) {
 //
@@ -250,38 +285,38 @@ public class PirsusAuto extends LinearOpMode {
 //            }
 
 
-            Pose2d startPose = new Pose2d(10,60, Math.toRadians(90));
-
-            drive.setPoseEstimate(startPose);
-
-            Trajectory step1 = drive.trajectoryBuilder(startPose)
-//                .back(58, // drive to backdrop
-//                        SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-//                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
-//                .splineToConstantHeading(new Vector2d(47, 35), Math.toRadians(0), // spline up to backdrop
-//                        SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-//                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
-                    .back(5)
-                    .build();
-
-
-
-                drive.followTrajectory(step1);
-                Pose2d endPose = step1.end();
-
-
-            Trajectory step2 = drive.trajectoryBuilder(endPose)
-                .strafeRight(35)
-                .build();
-
-            drive.followTrajectory(step2);
-
-            pathCompleted = true;
-
-            GlobalVariables.setAutoHeading(robot.getHeading());
-
-            telemetry.addLine().addData("IMU HEADING: ", robot.getHeading());
-            telemetry.update();
+//            Pose2d startPose = new Pose2d(10,60, Math.toRadians(90));
+//
+//            drive.setPoseEstimate(startPose);
+//
+//            Trajectory step1 = drive.trajectoryBuilder(startPose)
+////                .back(58, // drive to backdrop
+////                        SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+////                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
+////                .splineToConstantHeading(new Vector2d(47, 35), Math.toRadians(0), // spline up to backdrop
+////                        SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+////                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
+//                    .back(5)
+//                    .build();
+//
+//
+//
+//                drive.followTrajectory(step1);
+//                Pose2d endPose = step1.end();
+//
+//
+//            Trajectory step2 = drive.trajectoryBuilder(endPose)
+//                .strafeRight(35)
+//                .build();
+//
+//            drive.followTrajectory(step2);
+//
+//            pathCompleted = true;
+//
+//            GlobalVariables.setAutoHeading(robot.getHeading());
+//
+//            telemetry.addLine().addData("IMU HEADING: ", robot.getHeading());
+//            telemetry.update();
 
 //            drive.setPoseEstimate(endPose);
 
