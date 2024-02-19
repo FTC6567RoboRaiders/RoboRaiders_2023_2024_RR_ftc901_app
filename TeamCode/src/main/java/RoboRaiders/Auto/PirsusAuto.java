@@ -186,10 +186,10 @@ public class PirsusAuto extends LinearOpMode {
         if(isRed && stageSide) { // red/stage
             initialPose = new Pose2d(-35, -60, Math.toRadians(270));
         }
-        if(isRed && !stageSide) { // red/backstage
+        else if(isRed && !stageSide) { // red/backstage
             initialPose = new Pose2d(10, -60, Math.toRadians(270));
         }
-        if(!isRed && stageSide) { // blue/stage
+        else if(!isRed && stageSide) { // blue/stage
             initialPose = new Pose2d(-35, 60, Math.toRadians(90));
             DPL2StartPose = new Pose2d(-34, 30, Math.toRadians(0));
             DPR2StartPose = new Pose2d(-37, 30, Math.toRadians(180));
@@ -197,7 +197,7 @@ public class PirsusAuto extends LinearOpMode {
             DL1StartPose = new Pose2d(47, 35, Math.toRadians(0));
             DL2StartPose = new Pose2d(-60, 11.5, Math.toRadians(0));
         }
-        if(!isRed && !stageSide) { // blue/backstage
+        else if(!isRed && !stageSide) { // blue/backstage
             initialPose = new Pose2d(10, 60, Math.toRadians(90));
         }
 
