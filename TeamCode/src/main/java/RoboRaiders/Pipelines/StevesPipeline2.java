@@ -18,6 +18,7 @@ import java.util.List;
 
 import RoboRaiders.Robots.CameraBot;
 import RoboRaiders.Robots.Pirsus2;
+import RoboRaiders.Robots.RRRobot;
 import RoboRaiders.Utilities.Logger.Logger;
 
 public class StevesPipeline2 extends OpenCvPipeline {
@@ -103,8 +104,8 @@ public class StevesPipeline2 extends OpenCvPipeline {
     private Stage[] stages = Stage.values();
 
 
-    Pirsus2 myRobot;
-    CameraBot myRobot2;
+    RRRobot myRobot;
+
 
     // Default Constructor - sets myRobot to null, great for testing
     public StevesPipeline2() {
@@ -112,19 +113,16 @@ public class StevesPipeline2 extends OpenCvPipeline {
     }
 
     // Constructor to initialize the robot - used for auto and teleop
-    public StevesPipeline2(Pirsus2 myRobot){
+    public StevesPipeline2(RRRobot myRobot){
         this.myRobot = myRobot;
     }
 
-    public StevesPipeline2(Pirsus2 myRobot, boolean isRed){
+    public StevesPipeline2(RRRobot myRobot, boolean isRed){
         this.myRobot = myRobot;
         this.isRed = isRed;
     }
 
-    public StevesPipeline2(CameraBot myRobot2, boolean isRed){
-        this.myRobot2 = myRobot2;
-        this.isRed = isRed;
-    }
+
 
 
     @Override
@@ -327,12 +325,12 @@ public class StevesPipeline2 extends OpenCvPipeline {
 
                 //Calculate average for the last 10 frames and then reset for the next 10 frames
                 if(i >= 11){
-                    if (myRobot2 != null) {
-                        myRobot2.setX(tTX / (i - 1));
-                        myRobot2.setY(tTY / (i - 1));
+                    if (myRobot != null) {
+                        myRobot.setX(tTX / (i - 1));
+                        myRobot.setY(tTY / (i - 1));
 
-                        myRobot2.setBX(tBX / (i - 1));
-                        myRobot2.setBY(tBY / (i - 1));
+                        myRobot.setBX(tBX / (i - 1));
+                        myRobot.setBY(tBY / (i - 1));
                     }
 
                     tTX = 0;
