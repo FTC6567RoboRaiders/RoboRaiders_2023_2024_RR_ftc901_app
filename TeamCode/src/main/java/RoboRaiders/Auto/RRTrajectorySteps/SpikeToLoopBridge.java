@@ -13,6 +13,20 @@ import RoboRaiders.Robots.PirsusMkII;
 
 public class SpikeToLoopBridge {
 
+    //    order:
+//    DPL1/2 or DPC or DPR1/2
+//            |
+//            |
+//          STLB < we are here
+//            |
+//            |
+//           DL1
+//            |
+//            |
+//           DL2
+//
+//    DL1 and DL2 cycle as necessary
+
     HardwareMap ahwMap;
 
     public SpikeToLoopBridge(HardwareMap ahwMap) {
@@ -35,12 +49,6 @@ public class SpikeToLoopBridge {
         drive.setPoseEstimate(startPose);
 
         Trajectory step1 = drive.trajectoryBuilder(startPose)
-//                .back(58, // drive to backdrop
-//                        SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-//                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
-//                .splineToConstantHeading(new Vector2d(47, 35), Math.toRadians(0), // spline up to backdrop
-//                        SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-//                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                 .strafeRight(90)
                 .build();
 

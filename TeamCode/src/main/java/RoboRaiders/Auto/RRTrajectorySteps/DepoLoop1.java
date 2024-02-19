@@ -12,6 +12,20 @@ import RoboRaiders.Robots.PirsusMkII;
 
 public class DepoLoop1 {
 
+//    order:
+//    DPL1/2 or DPC or DPR1/2
+//            |
+//            |
+//          STLB
+//            |
+//            |
+//           DL1 < we are here
+//            |
+//            |
+//           DL2
+//
+//    DL1 and DL2 cycle as necessary
+
     HardwareMap ahwMap;
 
     public DepoLoop1(HardwareMap ahwMap) {

@@ -11,6 +11,20 @@ import RoboRaiders.Robots.PirsusMkII;
 
 public class DropPurpleCentre {
 
+    //    order:
+//    DPL1/2 or DPC or DPR1/2 < we are here
+//            |
+//            |
+//          STLB
+//            |
+//            |
+//           DL1
+//            |
+//            |
+//           DL2
+//
+//    DL1 and DL2 cycle as necessary
+
     HardwareMap ahwMap;
 
     public DropPurpleCentre(HardwareMap ahwMap) {
@@ -22,11 +36,7 @@ public class DropPurpleCentre {
     public Pose2d endPose;
     public SampleMecanumDrive drive = null;
 
-
-
-    Pose2d startPose = new Pose2d(-35, 60, Math.toRadians(90));
-
-    public Pose2d doPath() {
+    public Pose2d doPath(Pose2d startPose) {
 
         drive = new SampleMecanumDrive(ahwMap);
         drive.setPoseEstimate(startPose);
