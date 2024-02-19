@@ -171,16 +171,18 @@ public class PirsusAuto extends LinearOpMode {
         // logic table
         /**
          *
-         |   |       t       |       f       |
-         +-----------------------------------+
-         |   | (-35, -60)    | (10, -60)     |
-         | t | trapdoor      | short         |
-         |   | park left     | park right    |
-         +-----------------------------------+
-         |   | (-35, 60)     | (10, 60)      |
-         | f | trapdoor      | short         |
-         |   | park right    | park left     |
-         +-----------------------------------+
+         *                      stageSide
+         *
+                 |   |       t       |       f       |
+                 +-----------------------------------+
+                 |   | (-35, -60)    | (10, -60)     |
+                 | t | trapdoor      | short         |
+                 |   | park left     | park right    |
+         isRed   +-----------------------------------+
+                 |   | (-35, 60)     | (10, 60)      |
+                 | f | trapdoor      | short         |
+                 |   | park right    | park left     |
+                 +-----------------------------------+
 
          */
         if(isRed && stageSide) { // red/stage
@@ -197,7 +199,7 @@ public class PirsusAuto extends LinearOpMode {
             DL1StartPose = new Pose2d(47, 35, Math.toRadians(0));
             DL2StartPose = new Pose2d(-60, 11.5, Math.toRadians(0));
         }
-        else if(!isRed && !stageSide) { // blue/backstage
+        else { // blue/backstage
             initialPose = new Pose2d(10, 60, Math.toRadians(90));
         }
 
