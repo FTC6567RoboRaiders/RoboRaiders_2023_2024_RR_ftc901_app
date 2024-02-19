@@ -20,7 +20,7 @@ import RoboRaiders.Pipelines.StevesPipeline2;
 import RoboRaiders.Utilities.Logger.Logger;
 
 
-public class NotPirsus {
+public class NotPirsus  extends RRRobot{
 
     OpenCvCamera camera;
     int cameraMonitorViewId;

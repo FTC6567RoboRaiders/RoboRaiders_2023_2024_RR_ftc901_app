@@ -21,7 +21,7 @@ import RoboRaiders.Pipelines.StevesPipeline2;
 import RoboRaiders.Tests.RRBlinkinDriver;
 
 
-public class CameraBot {
+public class CameraBot extends RRRobot{
 
     public int xCoord;
     public int yCoord;

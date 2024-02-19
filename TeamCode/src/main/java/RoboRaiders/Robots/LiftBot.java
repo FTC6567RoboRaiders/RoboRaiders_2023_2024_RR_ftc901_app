@@ -15,7 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
 
-public class LiftBot {
+public class LiftBot  extends RRRobot{
 
     public DcMotorEx leftLiftMotor = null;
     public DcMotorEx rightLiftMotor = null;

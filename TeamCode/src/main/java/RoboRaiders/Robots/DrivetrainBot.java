@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 
-public class DrivetrainBot {
+public class DrivetrainBot  extends RRRobot{
 
     public DcMotorEx lFMotor = null;
     public DcMotorEx rFMotor = null;

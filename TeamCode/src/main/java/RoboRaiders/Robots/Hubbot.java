@@ -22,7 +22,7 @@ import RoboRaiders.Pipelines.StevesPipeline2;
 import RoboRaiders.Tests.RRBlinkinDriver;
 
 
-public class Hubbot {
+public class Hubbot  extends RRRobot{
 
     public HardwareMap hwMap = null;
     OpenCvCamera camera;

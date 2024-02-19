@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
-public class IntakeBot {
+public class IntakeBot extends RRRobot{
     /* Robot Motors, Servos, CR Servos and Sensors */
     public DcMotorEx rIntakeMotor = null;
     public DcMotorEx lIntakeMotor = null;

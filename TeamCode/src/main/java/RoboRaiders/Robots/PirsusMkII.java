@@ -15,7 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import RoboRaiders.Utilities.Logger.Logger;
 
 
-public class PirsusMkII {
+public class PirsusMkII  extends RRRobot{
     /* Robot Motors, Servos, CR Servos and Sensors */
     public DcMotorEx lFMotor = null;
     public DcMotorEx rFMotor = null;
