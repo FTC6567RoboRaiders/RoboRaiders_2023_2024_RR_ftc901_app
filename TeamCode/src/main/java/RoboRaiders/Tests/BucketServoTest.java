@@ -9,7 +9,7 @@ import RoboRaiders.Robots.Pirsus;
 import RoboRaiders.Robots.Pirsus2;
 
 @TeleOp(name = "Bucket Servo Incrementor",group="Servo")
-@Disabled
+
 
 /**
  * Created by Steeeve Kocik for RoboRaiders Testing
@@ -21,8 +21,8 @@ public class BucketServoTest extends LinearOpMode {
 
  public Pirsus2 robot = new Pirsus2();
 
-    public double servoPosition = 0.59;
-    public double incrementor = 0.05;
+    public double servoPosition = 0.25; // to board: 1.0 | elbow init: 0.59 | elbow down: 0.1
+    public double incrementor = 0.01;
 
 
 
@@ -30,6 +30,7 @@ public class BucketServoTest extends LinearOpMode {
     public void runOpMode() {
 
   //      robot.setFlipServo(servoPosition);
+        robot.initialize(hardwareMap);
 
         waitForStart();
 
@@ -64,14 +65,14 @@ public class BucketServoTest extends LinearOpMode {
             //             beyond 0.0 (the lower limit), so check for such instances and
             //             don't allow the servo to advance beyond 0.0.
             if (gamepad1.b) {
-                if (servoPosition + incrementor < 0.0) servoPosition = 0.0;
+                if (servoPosition - incrementor < 0.0) servoPosition = 0.0;
                 else servoPosition -= incrementor;
             }
 
             // When gp1.x is pushed, increase the increment rate by 0.05
             // Safety Tip: only allow a maximum increment of 1.0
             if (gamepad1.x) {
-                incrementor += 0.05;
+                incrementor += 0.01;
                 if (incrementor > 1.0) incrementor = 1.0;
             }
 
@@ -79,11 +80,12 @@ public class BucketServoTest extends LinearOpMode {
             // Safety Tip: only allow a minimum increment of -1.0
 
             if (gamepad1.y) {
-                incrementor -= 0.05;
+                incrementor -= 0.01;
                 if (incrementor < -1.0) incrementor = -1.0;
             }
 
- //           robot.setFlipServo(servoPosition);
+            robot.setElbowPosition(0.1, 0.0);
+            robot.setWristServo(servoPosition);
         }
 
         sleep(5000);

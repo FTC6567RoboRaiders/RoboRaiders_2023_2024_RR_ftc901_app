@@ -311,22 +311,31 @@ public class Pirsus2Teleop extends OpMode {
 
     public void doFlip() {
         if(dpadU) {
-            robot.setFlipPosition(0.3, 0.2);
+            robot.setElbowPosition(1.0, 0.0);
         }
         if(dpadD) {
-            robot.setFlipPosition(1.0, .8);
+            robot.setElbowPosition(0.1, 0.0);
             robot.setLazySusan(0.5);
             robot.setDoor(0.0);
         }
     }
 
+//    public void doWrist() {
+//        if() {
+//
+//        }
+//        if() {
+//
+//        }
+//    }
+
     public void doLazySusan() {
         if(dpadR) {
-            robot.setFlipPosition(0.145, 0.2);
+            robot.setElbowPosition(0.145, 0.2);
             robot.setLazySusan(0.2);
         }
         if(dpadL) {
-            robot.setFlipPosition(0.145, 0.2);
+            robot.setElbowPosition(0.145, 0.2);
             robot.setLazySusan(.75);
         }
 

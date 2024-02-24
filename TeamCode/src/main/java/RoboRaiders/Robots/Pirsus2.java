@@ -146,16 +146,17 @@ public class Pirsus2  extends RRRobot{
 
         doorServo = hwMap.get(Servo.class, "doorServo");
         lazySusanServo = hwMap.get(Servo.class,"lazySusanServo");
-        elbowServoR = hwMap.get(Servo.class,"armServoR");
-        elbowServoL = hwMap.get(Servo.class,"armServoL");
+        elbowServoR = hwMap.get(Servo.class,"elbowServoR");
+        elbowServoL = hwMap.get(Servo.class,"elbowServoL");
         wristServo = hwMap.get(Servo.class, "wristServo");
 
 
-        setFlipPosition(1.0, 0.8);
+        setElbowPosition(0.1, 0.8);
         setLazySusan(0.5);
         setDoor(0.0);
         leftFlipper(1.0);
         rightFlipper(0.0);
+        setWristServo(0.21);
         // defines the directions the motors will spin
         lFMotor.setDirection(DcMotor.Direction.REVERSE);
         rFMotor.setDirection(DcMotor.Direction.FORWARD);
@@ -556,11 +557,16 @@ public class Pirsus2  extends RRRobot{
         liftMotorLeft.setPower(-power * 0.75);
     }
 
-    public void setFlipPosition(double posL, double posR) {
+    public void setElbowPosition(double posL, double posR) {
 //        armServoR.setPosition(pos);
         elbowServoL.setPosition(posL);
 //        armServoR.setPosition(posR);
     }
+
+    public void setWristServo(double position) {
+        wristServo.setPosition(position);
+    }
+
     public void setLazySusan(double pos) {
         lazySusanServo.setPosition(pos);
     }
