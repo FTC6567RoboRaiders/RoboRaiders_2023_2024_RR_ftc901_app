@@ -139,8 +139,6 @@ public class shooterMcGavin extends OpMode{
 
     }
 
-
-
     public void doDroneLaunch() {
 
         // As a safety measure only allow te drone launch mechanism to function during endgame AND

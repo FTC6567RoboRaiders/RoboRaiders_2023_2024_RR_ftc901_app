@@ -42,6 +42,7 @@ public class Pirsus2  extends RRRobot{
 
 
     public DcMotorEx launchMotor = null;
+    public Servo launchServo = null;
 
     //Lift
     public DcMotorEx liftMotorRight = null;
@@ -54,8 +55,9 @@ public class Pirsus2  extends RRRobot{
     public Servo doorServo = null;
     public Servo lazySusanServo = null;
 
-    public Servo armServoR = null;
-    public Servo armServoL = null;
+    public Servo elbowServoR = null;
+    public Servo elbowServoL = null;
+    public Servo wristServo = null;
 
 
 
@@ -129,7 +131,7 @@ public class Pirsus2  extends RRRobot{
         intakeMotor = hwMap.get(DcMotorEx.class, "intakeMotor");
 
         // drone launch catch
-        launchMotor = hwMap.get(DcMotorEx.class, "launchMotor");
+        launchServo = hwMap.get(Servo.class, "launchServo");
 
         // intake motor and servos
 
@@ -144,8 +146,9 @@ public class Pirsus2  extends RRRobot{
 
         doorServo = hwMap.get(Servo.class, "doorServo");
         lazySusanServo = hwMap.get(Servo.class,"lazySusanServo");
-        armServoR = hwMap.get(Servo.class,"armServoR");
-        armServoL = hwMap.get(Servo.class,"armServoL");
+        elbowServoR = hwMap.get(Servo.class,"armServoR");
+        elbowServoL = hwMap.get(Servo.class,"armServoL");
+        wristServo = hwMap.get(Servo.class, "wristServo");
 
 
         setFlipPosition(1.0, 0.8);
@@ -529,10 +532,15 @@ public class Pirsus2  extends RRRobot{
         intakeMotor.setPower(intakePower);
     }
 
-    public void fireDrone(double power) {
-        launchMotor.setPower(power);
-    }
+    // flywheel drone launcher
+//    public void fireDrone(double power) {
+//        launchMotor.setPower(power);
+//    }
 
+    // servo drone launcher
+    public void fireDrone(double position) {
+        launchServo.setPosition(position);
+    }
 
     public void leftFlipper(double pos) {
         flipServoL.setPosition(pos);
@@ -550,7 +558,7 @@ public class Pirsus2  extends RRRobot{
 
     public void setFlipPosition(double posL, double posR) {
 //        armServoR.setPosition(pos);
-        armServoL.setPosition(posL);
+        elbowServoL.setPosition(posL);
 //        armServoR.setPosition(posR);
     }
     public void setLazySusan(double pos) {

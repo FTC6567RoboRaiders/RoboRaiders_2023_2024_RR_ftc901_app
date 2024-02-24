@@ -185,8 +185,14 @@ public class PirsusAuto extends LinearOpMode {
                  +-----------------------------------+
 
          */
+
         if(isRed && stageSide) { // red/stage
             initialPose = new Pose2d(-35, -60, Math.toRadians(270));
+            DPL2StartPose = new Pose2d(-34, , Math.toRadians(0));
+            DPR2StartPose = new Pose2d(-37, , Math.toRadians(180));
+            bridgeStartPose = new Pose2d(-35, , Math.toRadians(180));
+            DL1StartPose = new Pose2d(47, , Math.toRadians(0));
+            DL2StartPose = new Pose2d(-60, , Math.toRadians(0));
         }
         else if(isRed && !stageSide) { // red/backstage
             initialPose = new Pose2d(10, -60, Math.toRadians(270));
@@ -201,6 +207,11 @@ public class PirsusAuto extends LinearOpMode {
         }
         else { // blue/backstage
             initialPose = new Pose2d(10, 60, Math.toRadians(90));
+            DPL2StartPose = new Pose2d(, 30, Math.toRadians(0));
+            DPR2StartPose = new Pose2d(, 30, Math.toRadians(180));
+            bridgeStartPose = new Pose2d(, 11.5, Math.toRadians(180));
+            DL1StartPose = new Pose2d(, 35, Math.toRadians(0));
+            DL2StartPose = new Pose2d(, 11.5, Math.toRadians(0));
         }
 
         robot.runWithEncoders();
