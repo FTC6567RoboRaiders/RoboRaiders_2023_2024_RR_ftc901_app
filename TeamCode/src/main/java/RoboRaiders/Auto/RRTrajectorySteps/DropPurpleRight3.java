@@ -6,10 +6,12 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
+import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequenceBuilder;
 
 import RoboRaiders.Robots.PirsusMkII;
 
-public class DropPurpleCentre {
+public class DropPurpleRight3 {
 
     //    order:
 //    DPL1/2 or DPC or DPR1/2 < we are here
@@ -27,14 +29,18 @@ public class DropPurpleCentre {
 
     HardwareMap ahwMap;
 
-    public DropPurpleCentre(HardwareMap ahwMap) {
+    public DropPurpleRight3(HardwareMap ahwMap) {
 
         this.ahwMap = ahwMap;
 
     }
 
-    public Pose2d endPose;
+    public PirsusMkII robot = new PirsusMkII();
     public SampleMecanumDrive drive = null;
+    public Pose2d endPose;
+    public Pose2d intermediateEndPose;
+
+
 
     public Pose2d doPath(Pose2d startPose) {
 
@@ -42,15 +48,18 @@ public class DropPurpleCentre {
         drive.setPoseEstimate(startPose);
 
         Trajectory step1 = drive.trajectoryBuilder(startPose)
-                .back(53, // drive to converging position
-                        SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
+//                .lineToLinearHeading(convergePose, // line to converging position
+//                        SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+//                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
+                .strafeLeft(23)
                 .build();
 
         drive.followTrajectory(step1);
+        drive.turn(Math.toRadians(-90));
 
         endPose = step1.end();
-        return endPose; //Start pose for next step
+
+        return endPose; // returns endPose for next step
 
     }
 

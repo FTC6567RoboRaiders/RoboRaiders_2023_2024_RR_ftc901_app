@@ -151,12 +151,13 @@ public class Pirsus2  extends RRRobot{
         wristServo = hwMap.get(Servo.class, "wristServo");
 
 
-        setElbowPosition(0.1, 0.8);
+        setElbowPosition(0.11, 0.8);
         setLazySusan(0.5);
         setDoor(0.0);
         leftFlipper(1.0);
         rightFlipper(0.0);
-        setWristServo(0.21);
+        setWristServo(0.25);
+        fireDrone(0.25);
         // defines the directions the motors will spin
         lFMotor.setDirection(DcMotor.Direction.REVERSE);
         rFMotor.setDirection(DcMotor.Direction.FORWARD);

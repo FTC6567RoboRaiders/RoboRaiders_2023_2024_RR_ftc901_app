@@ -1,10 +1,9 @@
 package RoboRaiders.Auto;
 
-import android.provider.Settings;
-
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
@@ -21,17 +20,17 @@ import java.util.List;
 
 import RoboRaiders.Auto.RRTrajectorySteps.DepoLoop1;
 import RoboRaiders.Auto.RRTrajectorySteps.DepoLoop2;
-import RoboRaiders.Auto.RRTrajectorySteps.DropPurpleCentre;
+import RoboRaiders.Auto.RRTrajectorySteps.DropPurpleCentre1;
 import RoboRaiders.Auto.RRTrajectorySteps.DropPurpleLeft1;
-import RoboRaiders.Auto.RRTrajectorySteps.DropPurpleLeft2;
+import RoboRaiders.Auto.RRTrajectorySteps.DropPurpleLeft3;
 import RoboRaiders.Auto.RRTrajectorySteps.DropPurpleRight1;
-import RoboRaiders.Auto.RRTrajectorySteps.DropPurpleRight2;
+import RoboRaiders.Auto.RRTrajectorySteps.DropPurpleRight3;
 import RoboRaiders.Auto.RRTrajectorySteps.SpikeToLoopBridge;
 import RoboRaiders.Robots.GlobalVariables;
 import RoboRaiders.Robots.Pirsus2;
-import RoboRaiders.Utilities.Logger.Logger;
 
 @Autonomous
+@Disabled
 public class TournAutoBlueBackdrop extends LinearOpMode {
 
     public Pirsus2 robot = new Pirsus2();
@@ -55,10 +54,10 @@ public class TournAutoBlueBackdrop extends LinearOpMode {
 
     // RR path segments
     public DropPurpleLeft1 DPL1 = null;
-    public DropPurpleLeft2 DPL2 = null;
-    public DropPurpleCentre DPC = null;
+    public DropPurpleLeft3 DPL2 = null;
+    public DropPurpleCentre1 DPC = null;
     public DropPurpleRight1 DPR1 = null;
-    public DropPurpleRight2 DPR2 = null;
+    public DropPurpleRight3 DPR2 = null;
     public DepoLoop1 depoLoop1 = null;
     public DepoLoop2 depoLoop2 = null;
     public SpikeToLoopBridge bridge = null;
@@ -78,10 +77,10 @@ public class TournAutoBlueBackdrop extends LinearOpMode {
         drive = new SampleMecanumDrive(hardwareMap);
 
         DPL1 = new DropPurpleLeft1(hardwareMap);
-        DPL2 = new DropPurpleLeft2(hardwareMap);
-        DPC = new DropPurpleCentre(hardwareMap);
+        DPL2 = new DropPurpleLeft3(hardwareMap);
+        DPC = new DropPurpleCentre1(hardwareMap);
         DPR1 = new DropPurpleRight1(hardwareMap);
-        DPR2 = new DropPurpleRight2(hardwareMap);
+        DPR2 = new DropPurpleRight3(hardwareMap);
         depoLoop1 = new DepoLoop1(hardwareMap);
         depoLoop2 = new DepoLoop2(hardwareMap);
         bridge = new SpikeToLoopBridge(hardwareMap);

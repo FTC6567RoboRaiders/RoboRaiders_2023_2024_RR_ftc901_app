@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
-import RoboRaiders.Robots.PirsusMkII;
+import RoboRaiders.Robots.GlobalVariables;
 
 public class DropPurpleLeft2 {
 
@@ -33,25 +33,35 @@ public class DropPurpleLeft2 {
 
     }
 
-    public PirsusMkII robot = new PirsusMkII();
+    public Pose2d endPose;
     public SampleMecanumDrive drive = null;
 
-
-
-    public void doPath(Pose2d startPose, Pose2d convergePose) {
+    public Pose2d doPath(Pose2d startPose) {
 
         drive = new SampleMecanumDrive(ahwMap);
+        drive.setPoseEstimate(startPose);
 
         Trajectory step1 = drive.trajectoryBuilder(startPose)
-                .lineToLinearHeading(convergePose, // line to converging position
+                .back(3, // drive to converging position
+                        SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
+                .build();
+        Trajectory step2 = drive.trajectoryBuilder(startPose)
+                .back(5, // drive to converging position
                         SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                 .build();
 
-        drive.followTrajectory(step1);
+        if(!GlobalVariables.getSide() && GlobalVariables.getAllianceColour()) { // red/backstage
+            drive.followTrajectory(step2);
+        }
+        else{
+            drive.followTrajectory(step1);
+        }
+
+        endPose = step1.end();
+        return endPose; //Start pose for next step
 
     }
-
-
 
 }

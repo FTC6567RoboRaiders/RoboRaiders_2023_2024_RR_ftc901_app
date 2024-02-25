@@ -21,7 +21,8 @@ public class BucketServoTest extends LinearOpMode {
 
  public Pirsus2 robot = new Pirsus2();
 
-    public double servoPosition = 0.25; // to board: 1.0 | elbow init: 0.59 | elbow down: 0.1
+    public double elbowPos = 0.11; // to board: 1.0 | elbow init: 0.59 | elbow down: 0.1
+    public double wristPos = 0.25;
     public double incrementor = 0.01;
 
 
@@ -46,7 +47,8 @@ public class BucketServoTest extends LinearOpMode {
             telemetry.addData("Press GamePad1.X to Increase Amount To Increment/Decrement","");
             telemetry.addData("Press GamePad1.Y to Decrease Amount to Increment/Decrement","");
             telemetry.addData("----------------------------------------------------------","");
-            telemetry.addData("Servo Position: ", "%5.2f", servoPosition);
+            telemetry.addData("Elbow Position: ", "%5.2f", elbowPos);
+            telemetry.addData("Wrist Position: ", "%5.2f", wristPos);
             telemetry.addData("Servo Position Increments/Decrements by: ","%5.2f", incrementor);
             telemetry.addData(">", "Press Stop to end test." );
             telemetry.update();
@@ -56,8 +58,12 @@ public class BucketServoTest extends LinearOpMode {
             //             beyond 1.0 (the lower limit), so check for such instances and
             //             don't allow the servo to advance beyond 1.0.
             if (gamepad1.a) {
-                if (servoPosition + incrementor > 1.0) servoPosition = 1.0;
-                else servoPosition += incrementor;
+                if (elbowPos + incrementor > 1.0) elbowPos = 1.0;
+                else elbowPos += incrementor;
+            }
+            if (gamepad1.dpad_up) {
+                if (wristPos + incrementor > 1.0) wristPos = 1.0;
+                else wristPos += incrementor;
             }
 
             // When gp1.b is pushed, retract/decrement the servo position by incrementor
@@ -65,8 +71,12 @@ public class BucketServoTest extends LinearOpMode {
             //             beyond 0.0 (the lower limit), so check for such instances and
             //             don't allow the servo to advance beyond 0.0.
             if (gamepad1.b) {
-                if (servoPosition - incrementor < 0.0) servoPosition = 0.0;
-                else servoPosition -= incrementor;
+                if (elbowPos - incrementor < 0.0) elbowPos = 0.0;
+                else elbowPos -= incrementor;
+            }
+            if (gamepad1.dpad_down) {
+                if (wristPos - incrementor < 0.0) wristPos = 0.0;
+                else wristPos -= incrementor;
             }
 
             // When gp1.x is pushed, increase the increment rate by 0.05
@@ -84,8 +94,10 @@ public class BucketServoTest extends LinearOpMode {
                 if (incrementor < -1.0) incrementor = -1.0;
             }
 
-            robot.setElbowPosition(0.1, 0.0);
-            robot.setWristServo(servoPosition);
+            robot.setElbowPosition(elbowPos, 0.0);
+            robot.setWristServo(wristPos);
+//            robot.fireDrone(servoPosition);
+
         }
 
         sleep(5000);

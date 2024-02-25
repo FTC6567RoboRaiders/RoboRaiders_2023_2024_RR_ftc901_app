@@ -1,23 +1,21 @@
 package RoboRaiders.Auto.RRTrajectorySteps;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
-import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 import RoboRaiders.Robots.PirsusMkII;
 
-public class SpikeToLoopBridge {
+public class DropPurpleLeft3 {
 
     //    order:
-//    DPL1/2 or DPC or DPR1/2
+//    DPL1/2 or DPC or DPR1/2 < we are here
 //            |
 //            |
-//          STLB < we are here
+//          STLB
 //            |
 //            |
 //           DL1
@@ -29,35 +27,34 @@ public class SpikeToLoopBridge {
 
     HardwareMap ahwMap;
 
-    public SpikeToLoopBridge(HardwareMap ahwMap) {
+    public DropPurpleLeft3(HardwareMap ahwMap) {
 
         this.ahwMap = ahwMap;
 
     }
 
-    public Pose2d endPose;
+    public PirsusMkII robot = new PirsusMkII();
     public SampleMecanumDrive drive = null;
 
 
 
-//    Pose2d startPose2 = new Pose2d(-35, 11.5, Math.toRadians(0));
-
-    public Pose2d doPath(Pose2d startPose, Vector2d lineToPose, Vector2d splineEndPose, double bridgeAngle) {
+    public void doPath(Pose2d startPose) {
 
         drive = new SampleMecanumDrive(ahwMap);
         drive.setPoseEstimate(startPose);
 
         Trajectory step1 = drive.trajectoryBuilder(startPose)
-//                .strafeRight(58)
-                .lineToConstantHeading(lineToPose)
-                .splineToConstantHeading(splineEndPose, bridgeAngle)
+//                .lineToLinearHeading(convergePose, // line to converging position
+//                        SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+//                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
+                .strafeRight(23)
                 .build();
 
         drive.followTrajectory(step1);
-
-        endPose = step1.end();
-        return endPose;
+        drive.turn(Math.toRadians(90));
 
     }
+
+
 
 }

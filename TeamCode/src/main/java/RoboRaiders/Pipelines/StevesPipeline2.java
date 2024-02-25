@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import RoboRaiders.Robots.CameraBot;
+import RoboRaiders.Robots.GlobalVariables;
 import RoboRaiders.Robots.Pirsus2;
 import RoboRaiders.Robots.RRRobot;
 import RoboRaiders.Utilities.Logger.Logger;
@@ -63,9 +64,9 @@ public class StevesPipeline2 extends OpenCvPipeline {
     double filterContoursMinArea = 7000.0;
     double filterContoursMinPerimeter = 0.0;
     double filterContoursMinWidth = 0.0;
-    double filterContoursMaxWidth = 1000.0;
+    double filterContoursMaxWidth = 500.0;
     double filterContoursMinHeight = 1.0;
-    double filterContoursMaxHeight = 1000.0;
+    double filterContoursMaxHeight = 500.0;
     double[] filterContoursSolidity = {0, 100};
     double filterContoursMaxVertices = 1000000.0;
     double filterContoursMinVertices = 0.0;
@@ -159,6 +160,7 @@ public class StevesPipeline2 extends OpenCvPipeline {
 
         // find the blue objects in frame, to find red, just change up the hue saturation and value
 
+        isRed = GlobalVariables.getAllianceColour();
 
         if(isRed){ //If the alliance is red, we will use these HSV values to identify team marker
             hsvThreshold(hsvThresholdInput,

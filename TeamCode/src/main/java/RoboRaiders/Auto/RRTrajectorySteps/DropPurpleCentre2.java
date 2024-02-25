@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 import RoboRaiders.Robots.GlobalVariables;
 
-public class DropPurpleRight2 {
+public class DropPurpleCentre2 {
 
     //    order:
 //    DPL1/2 or DPC or DPR1/2 < we are here
@@ -27,7 +27,7 @@ public class DropPurpleRight2 {
 
     HardwareMap ahwMap;
 
-    public DropPurpleRight2(HardwareMap ahwMap) {
+    public DropPurpleCentre2(HardwareMap ahwMap) {
 
         this.ahwMap = ahwMap;
 
@@ -42,26 +42,18 @@ public class DropPurpleRight2 {
         drive.setPoseEstimate(startPose);
 
         Trajectory step1 = drive.trajectoryBuilder(startPose)
-                .back(4, // drive to converging position
+                .back(8, // drive to converging position
                         SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                 .build();
         Trajectory step2 = drive.trajectoryBuilder(startPose)
-                .back(3, // drive to converging position
-                        SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
-                .build();
-        Trajectory step3 = drive.trajectoryBuilder(startPose)
-                .back(1, // drive to converging position
+                .back(7, // drive to converging position
                         SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                 .build();
 
-        if(GlobalVariables.getAllianceColour() && GlobalVariables.getSide()) { // red/stage
+        if(GlobalVariables.getAllianceColour()) {
             drive.followTrajectory(step2);
-        }
-        else if(GlobalVariables.getAllianceColour() && !GlobalVariables.getSide()) { // red/backstage
-            drive.followTrajectory(step3);
         }
         else {
             drive.followTrajectory(step1);

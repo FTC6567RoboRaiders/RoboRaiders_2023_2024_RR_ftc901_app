@@ -53,8 +53,9 @@ public class Pirsus2Teleop extends OpMode {
 
     //Lift
     public double rStickG; //Right Stick Y Value
+    public double lStickG;
     public boolean yButton; // Slow Lift for Hang
-    public boolean rStickPress; //Press down on right stick for hold
+    public boolean lStickPress; //Press down on right stick for hold
 
     public double botHeading;
 
@@ -117,7 +118,8 @@ public class Pirsus2Teleop extends OpMode {
         yButton = gamepad2.y;
 
         rStickG = gamepad2.right_stick_y;
-        rStickPress = gamepad2.right_stick_button;
+        lStickG = gamepad2.left_stick_y;
+        lStickPress = gamepad2.left_stick_button;
 
 
 
@@ -265,27 +267,27 @@ public class Pirsus2Teleop extends OpMode {
         // As a safety measure only allow te drone launch mechanism to function during endgame AND
         // when the gamepad2 B button is pushed AND the gamepad 2 left bumper is pushed
         if (bButtonG && lBumperG) {
-            robot.fireDrone(1.0);    // cleared for takeoff - roger!!
+            robot.fireDrone(0.0);    // cleared for takeoff - roger!!
         }
         else {
-            robot.fireDrone(0.0);
+            robot.fireDrone(0.25);
         }
 
     }
 
     public void doLift() {
 
-        if(rStickG > 0.0 && !rStickPress) {
-            rStickG = 1.0;
+        if(lStickG > 0.0 && !lStickPress) {
+            lStickG = 1.0;
         }
-        else if(rStickG < 0.0&& !rStickPress) {
-            rStickG = -1.0;
+        else if(lStickG < 0.0 && !lStickPress) {
+            lStickG = -1.0;
         }
-        else{
-            rStickG = 0.0;
+        else {
+            lStickG = 0.0;
         }
-        if(rStickPress) {
-            rStickG = .1;
+        if(lStickPress) {
+            lStickG = .1;
         }
 //        if(yButton) { //Add back in endgame
 //            rStickG = -0.65;
@@ -312,9 +314,11 @@ public class Pirsus2Teleop extends OpMode {
     public void doFlip() {
         if(dpadU) {
             robot.setElbowPosition(1.0, 0.0);
+            robot.setWristServo(0.8);
         }
         if(dpadD) {
-            robot.setElbowPosition(0.1, 0.0);
+            robot.setElbowPosition(0.11, 0.0);
+            robot.setWristServo(0.25);
             robot.setLazySusan(0.5);
             robot.setDoor(0.0);
         }
@@ -331,12 +335,12 @@ public class Pirsus2Teleop extends OpMode {
 
     public void doLazySusan() {
         if(dpadR) {
-            robot.setElbowPosition(0.145, 0.2);
-            robot.setLazySusan(0.2);
+
+            robot.setLazySusan(0.15);
         }
         if(dpadL) {
-            robot.setElbowPosition(0.145, 0.2);
-            robot.setLazySusan(.75);
+
+            robot.setLazySusan(0.8);
         }
 
     }

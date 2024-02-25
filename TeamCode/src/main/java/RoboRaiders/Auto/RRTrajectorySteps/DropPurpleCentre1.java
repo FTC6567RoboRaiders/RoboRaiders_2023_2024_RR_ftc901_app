@@ -1,23 +1,21 @@
 package RoboRaiders.Auto.RRTrajectorySteps;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
-import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
-import RoboRaiders.Robots.PirsusMkII;
+import RoboRaiders.Robots.GlobalVariables;
 
-public class SpikeToLoopBridge {
+public class DropPurpleCentre1 {
 
     //    order:
-//    DPL1/2 or DPC or DPR1/2
+//    DPL1/2 or DPC or DPR1/2 < we are here
 //            |
 //            |
-//          STLB < we are here
+//          STLB
 //            |
 //            |
 //           DL1
@@ -29,7 +27,7 @@ public class SpikeToLoopBridge {
 
     HardwareMap ahwMap;
 
-    public SpikeToLoopBridge(HardwareMap ahwMap) {
+    public DropPurpleCentre1(HardwareMap ahwMap) {
 
         this.ahwMap = ahwMap;
 
@@ -37,26 +35,31 @@ public class SpikeToLoopBridge {
 
     public Pose2d endPose;
     public SampleMecanumDrive drive = null;
+    public Pose2d intermediateEndPose = null;
 
-
-
-//    Pose2d startPose2 = new Pose2d(-35, 11.5, Math.toRadians(0));
-
-    public Pose2d doPath(Pose2d startPose, Vector2d lineToPose, Vector2d splineEndPose, double bridgeAngle) {
+    public Pose2d doPath(Pose2d startPose) {
 
         drive = new SampleMecanumDrive(ahwMap);
         drive.setPoseEstimate(startPose);
 
         Trajectory step1 = drive.trajectoryBuilder(startPose)
-//                .strafeRight(58)
-                .lineToConstantHeading(lineToPose)
-                .splineToConstantHeading(splineEndPose, bridgeAngle)
+                .back(45, // drive to converging position
+                        SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
+                .build();
+        intermediateEndPose = step1.end();
+        Trajectory step2 = drive.trajectoryBuilder(intermediateEndPose)
+                .back(1)
                 .build();
 
         drive.followTrajectory(step1);
+        if(GlobalVariables.getAllianceColour()) {
+            drive.followTrajectory(step2);
+        }
+        else {}
 
         endPose = step1.end();
-        return endPose;
+        return endPose; //Start pose for next step
 
     }
 
