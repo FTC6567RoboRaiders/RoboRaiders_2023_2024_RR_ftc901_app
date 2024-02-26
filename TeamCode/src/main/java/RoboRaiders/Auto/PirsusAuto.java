@@ -48,6 +48,7 @@ public class PirsusAuto extends LinearOpMode {
     public VisionPortal visionPortal;
     public AprilTagProcessor aprilTag;
     public AprilTagDetection desiredTag = null;
+    public int targetTag;
     //    public StevesPipeline2 stevesPipeline = new StevesPipeline2();
     public int position;
     public long startTime;
@@ -84,7 +85,7 @@ public class PirsusAuto extends LinearOpMode {
     public Pose2d DPR3StartPose;
     public Pose2d bridgeStartPose;
     public Vector2d bridgeLineEndPose;
-    public Vector2d bridgeSplineEndPose;
+    public Pose2d bridgeSplineEndPose;
     public double bridgeAngle;
     public Pose2d DL1StartPose;
     public Pose2d DL2StartPose;
@@ -210,9 +211,9 @@ public class PirsusAuto extends LinearOpMode {
             DPR3StartPose = new Pose2d(-35, -30, Math.toRadians(0));
             bridgeStartPose = new Pose2d(-35, -7, Math.toRadians(270));
             bridgeLineEndPose = new Vector2d(23, -7);
-            bridgeSplineEndPose = new Vector2d(47, -35);
+            bridgeSplineEndPose = new Pose2d(44, -35, Math.toRadians(180));
             bridgeAngle = Math.toRadians(0);
-            DL1StartPose = new Pose2d(47, -35, Math.toRadians(0));
+            DL1StartPose = new Pose2d(44, -35, Math.toRadians(0));
             DL2StartPose = new Pose2d(-60, -11.5, Math.toRadians(0));
         }
         else if(isRed && !stageSide) { // red/backstage
@@ -224,9 +225,9 @@ public class PirsusAuto extends LinearOpMode {
             DPR3StartPose = new Pose2d(9, -30, Math.toRadians(0));
             bridgeStartPose = new Pose2d(9, -7, Math.toRadians(270));
             bridgeLineEndPose = new Vector2d(23, -7);
-            bridgeSplineEndPose = new Vector2d(47, -35);
+            bridgeSplineEndPose = new Pose2d(44, -35, Math.toRadians(180));
             bridgeAngle = Math.toRadians(0);
-            DL1StartPose = new Pose2d(47, -35, Math.toRadians(0));
+            DL1StartPose = new Pose2d(44, -35, Math.toRadians(0));
             DL2StartPose = new Pose2d(-60, -11.5, Math.toRadians(0));
 
         }
@@ -239,8 +240,9 @@ public class PirsusAuto extends LinearOpMode {
             DPR3StartPose = new Pose2d(-35, 30, Math.toRadians(180));
             bridgeStartPose = new Pose2d(-35, 7, Math.toRadians(90));
             bridgeLineEndPose = new Vector2d(23, 7);
-            bridgeSplineEndPose = new Vector2d(47, 35);
-            DL1StartPose = new Pose2d(47, 35, Math.toRadians(0));
+            bridgeSplineEndPose = new Pose2d(44, 35, Math.toRadians(180));
+            bridgeAngle = Math.toRadians(0);
+            DL1StartPose = new Pose2d(44, 35, Math.toRadians(0));
             DL2StartPose = new Pose2d(-60, 11.5, Math.toRadians(0));
         }
         else { // blue/backstage
@@ -252,8 +254,9 @@ public class PirsusAuto extends LinearOpMode {
             DPR3StartPose = new Pose2d(10, 30, Math.toRadians(180));
             bridgeStartPose = new Pose2d(9, 7, Math.toRadians(90));
             bridgeLineEndPose = new Vector2d(23, 7);
-            bridgeSplineEndPose = new Vector2d(47, 35);
-            DL1StartPose = new Pose2d(47, 35, Math.toRadians(0));
+            bridgeSplineEndPose = new Pose2d(44, 35, Math.toRadians(180));
+            bridgeAngle = Math.toRadians(0);
+            DL1StartPose = new Pose2d(44, 35, Math.toRadians(0));
             DL2StartPose = new Pose2d(-60, 11.5, Math.toRadians(0));
         }
 
@@ -298,6 +301,12 @@ public class PirsusAuto extends LinearOpMode {
 
             switch(position) {
                 case 0:
+                    if(GlobalVariables.getAllianceColour()) {
+                        targetTag = 4;
+                    }
+                    else {
+                        targetTag = 1;
+                    }
                     DPL1.doPath(initialPose, DPL2StartPose);
                     robot.setIntakeMotorPower(1.0);
                     sleep(2000);
@@ -306,6 +315,12 @@ public class PirsusAuto extends LinearOpMode {
                     DPL3.doPath(DPL3StartPose);
                     break;
                 case 1:
+                    if(GlobalVariables.getAllianceColour()) {
+                        targetTag = 5;
+                    }
+                    else {
+                        targetTag = 2;
+                    }
                     DPC1.doPath(initialPose);
                     robot.setIntakeMotorPower(1.0);
                     sleep(2000);
@@ -313,6 +328,12 @@ public class PirsusAuto extends LinearOpMode {
                     DPC2.doPath(DPC2StartPose);
                     break;
                 case 2:
+                    if(GlobalVariables.getAllianceColour()) {
+                        targetTag = 6;
+                    }
+                    else {
+                        targetTag = 3;
+                    }
                     DPR1.doPath(initialPose, DPR2StartPose);
                     robot.setIntakeMotorPower(1.0);
                     sleep(2000);
@@ -321,11 +342,34 @@ public class PirsusAuto extends LinearOpMode {
                     DPR3.doPath(DPR3StartPose);
                     break;
                 default:
+                    if(GlobalVariables.getAllianceColour()) {
+                        targetTag = 5;
+                    }
+                    else {
+                        targetTag = 2;
+                    }
                     DPC1.doPath(initialPose);
                     break;
             }
 
             bridge.doPath(bridgeStartPose, bridgeLineEndPose, bridgeSplineEndPose, bridgeAngle);
+
+            // activate AT detection
+
+            while((targetTag != desiredTag.id) && ()) {
+                if (targetTag < desiredTag.id) {
+                    drive.setMotorPowers(go right);
+                }
+                else if (targetTag > desiredTag.id) {
+                    drive.setMotorPowers(go left);
+                }
+            }
+
+//            initAprilTagPortal();
+//
+//            if(GlobalVariables.getAllianceColour()) {
+//                drive.turn(Math.toRadians())
+//            }
 
             pathCompleted = true;
 
@@ -443,7 +487,7 @@ public class PirsusAuto extends LinearOpMode {
         // Decimation = 3 ..  Detect 2" Tag from 4  feet away at 30 Frames Per Second
         // Decimation = 3 ..  Detect 5" Tag from 10 feet away at 30 Frames Per Second
         // Note: Decimation can be changed on-the-fly to adapt during a match.
-        aprilTag.setDecimation(2);
+        aprilTag.setDecimation(3);
 
         // Create the vision portal by using a builder.
         if (USE_WEBCAM) {
@@ -486,12 +530,6 @@ public class PirsusAuto extends LinearOpMode {
         telemetry.addLine("\nkey:\nXYZ = X (Right), Y (Forward), Z (Up) dist.");
         telemetry.addLine("PRY = Pitch, Roll & Yaw (XYZ Rotation)");
         telemetry.addLine("RBE = Range, Bearing & Elevation");
-
-    }
-
-    public void initColorPortal() {
-
-        // how?
 
     }
 

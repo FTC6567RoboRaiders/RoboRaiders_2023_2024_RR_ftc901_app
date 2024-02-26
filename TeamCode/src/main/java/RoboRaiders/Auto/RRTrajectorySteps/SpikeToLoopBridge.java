@@ -42,7 +42,7 @@ public class SpikeToLoopBridge {
 
 //    Pose2d startPose2 = new Pose2d(-35, 11.5, Math.toRadians(0));
 
-    public Pose2d doPath(Pose2d startPose, Vector2d lineToPose, Vector2d splineEndPose, double bridgeAngle) {
+    public Pose2d doPath(Pose2d startPose, Vector2d lineToPose, Pose2d splineEndPose, double bridgeAngle) {
 
         drive = new SampleMecanumDrive(ahwMap);
         drive.setPoseEstimate(startPose);
@@ -50,7 +50,7 @@ public class SpikeToLoopBridge {
         Trajectory step1 = drive.trajectoryBuilder(startPose)
 //                .strafeRight(58)
                 .lineToConstantHeading(lineToPose)
-                .splineToConstantHeading(splineEndPose, bridgeAngle)
+                .splineToSplineHeading(splineEndPose, bridgeAngle)
                 .build();
 
         drive.followTrajectory(step1);
