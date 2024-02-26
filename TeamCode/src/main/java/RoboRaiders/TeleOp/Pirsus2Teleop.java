@@ -277,17 +277,17 @@ public class Pirsus2Teleop extends OpMode {
 
     public void doLift() {
 
-        if(lStickG > 0.0 && !lStickPress) {
-            lStickG = 1.0;
+        if(rStickG > 0.0 && !lStickPress) {
+            rStickG = 1.0;
         }
-        else if(lStickG < 0.0 && !lStickPress) {
-            lStickG = -1.0;
+        else if(rStickG < 0.0 && !lStickPress) {
+            rStickG = -1.0;
         }
         else {
-            lStickG = 0.0;
+            rStickG = 0.0;
         }
         if(lStickPress) {
-            lStickG = .1;
+            rStickG = .1;
         }
 //        if(yButton) { //Add back in endgame
 //            rStickG = -0.65;

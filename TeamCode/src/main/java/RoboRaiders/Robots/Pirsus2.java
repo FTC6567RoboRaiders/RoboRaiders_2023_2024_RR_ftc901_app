@@ -24,7 +24,7 @@ import RoboRaiders.Pipelines.StevesPipeline2;
 import RoboRaiders.Utilities.Logger.Logger;
 
 
-public class Pirsus2  extends RRRobot{
+public class Pirsus2 extends RRRobot{
 
 
     OpenCvCamera camera;
@@ -96,6 +96,11 @@ public class Pirsus2  extends RRRobot{
     public int yCoord;
     public int xBCoord;
     public int yBCoord;
+
+    public int tXATCoord;
+    public int tYATCoord;
+    public int bXATCoord;
+    public int bYATCoord;
 
 
     public StevesPipeline2 stevesPipeline = new StevesPipeline2(this);
@@ -593,15 +598,15 @@ public class Pirsus2  extends RRRobot{
     // CAMERA METHODS
     //
     //**********************************************************************************************
-    public int[] getRed(){
+
+    public int[] getRed() {
         int[] vals = new int[]{redX, redY};
         return vals;
     }
-    public void setX(int xVal){
+    public void setX(int xVal) {
         xCoord = xVal;
-
     }
-    public void setY(int yVal){
+    public void setY(int yVal) {
         yCoord = yVal;
     }
     public void setBX(int xBVal){
@@ -611,7 +616,7 @@ public class Pirsus2  extends RRRobot{
         yBCoord = yBVal;
     }
 
-    public int getX(){
+    public int getX() {
         return xCoord;
     }
     public int getY(){
@@ -627,4 +632,29 @@ public class Pirsus2  extends RRRobot{
         return 0;
     }
 
+    public void setAprilTagBX(int bXVal) {
+        bXATCoord = bXVal;
+    }
+    public void setAprilTagBY(int bYVal) {
+        bXATCoord = bYVal;
+    }
+    public void setAprilTagTX(int tXVal) {
+        bXATCoord = tXVal;
+    }
+    public void setAprilTagTY(int tYVal) {
+        bXATCoord = tYVal;
+    }
+
+    public int getAprilTagBX() {
+        return bXATCoord;
+    }
+    public int getAprilTagBY() {
+        return bYATCoord;
+    }
+    public int getAprilTagTX() {
+        return tXATCoord;
+    }
+    public int getAprilTagTY() {
+        return tYATCoord;
+    }
 }

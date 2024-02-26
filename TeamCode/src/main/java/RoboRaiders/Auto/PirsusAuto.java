@@ -76,6 +76,7 @@ public class PirsusAuto extends LinearOpMode {
     public boolean isRed = false;
     public boolean stageSide = false;
     public boolean waitForPartner = false;
+    public int parkingZone = 1;
     public boolean selectionsAreGood = false;
     public Pose2d initialPose;
     public Pose2d DPL2StartPose;
@@ -154,6 +155,7 @@ public class PirsusAuto extends LinearOpMode {
             stageSide = AO.selectStartLocation();         // starting near the drones or the backboard
             GlobalVariables.setSide(stageSide);
             waitForPartner = AO.selectWait();                   // wait for partner
+            parkingZone = AO.parkingZone();              //Choose End Park Zone
 
             // Add new/additional auto options, so things like drive to depot, drop team marker, etc..
 
@@ -169,6 +171,7 @@ public class PirsusAuto extends LinearOpMode {
             telemetry.addLine().addData("Autonomous", "Selections");
             telemetry.addLine().addData("Alliance:", isRed ? "Red  " : "Blue  ").addData("  Robot Start Location:", stageSide ? "Stage" : "Backstage");
             telemetry.addLine().addData("Wait for Partner:", waitForPartner ? "Yes" : "No");
+//            telemetry.addLine().addData("Parking Zone", true); // Not Sure how to do this, will be prompt for parking zone.
             telemetry.update();
 
             // Verify that the autonomous selections are good, if so we are ready to rumble.  If not, we'll ask again.
@@ -211,9 +214,9 @@ public class PirsusAuto extends LinearOpMode {
             DPR3StartPose = new Pose2d(-35, -30, Math.toRadians(0));
             bridgeStartPose = new Pose2d(-35, -7, Math.toRadians(270));
             bridgeLineEndPose = new Vector2d(23, -7);
-            bridgeSplineEndPose = new Pose2d(44, -35, Math.toRadians(180));
+            bridgeSplineEndPose = new Pose2d(41, -35, Math.toRadians(180));
             bridgeAngle = Math.toRadians(0);
-            DL1StartPose = new Pose2d(44, -35, Math.toRadians(0));
+            DL1StartPose = new Pose2d(41, -35, Math.toRadians(0));
             DL2StartPose = new Pose2d(-60, -11.5, Math.toRadians(0));
         }
         else if(isRed && !stageSide) { // red/backstage
@@ -225,9 +228,9 @@ public class PirsusAuto extends LinearOpMode {
             DPR3StartPose = new Pose2d(9, -30, Math.toRadians(0));
             bridgeStartPose = new Pose2d(9, -7, Math.toRadians(270));
             bridgeLineEndPose = new Vector2d(23, -7);
-            bridgeSplineEndPose = new Pose2d(44, -35, Math.toRadians(180));
+            bridgeSplineEndPose = new Pose2d(41, -35, Math.toRadians(180));
             bridgeAngle = Math.toRadians(0);
-            DL1StartPose = new Pose2d(44, -35, Math.toRadians(0));
+            DL1StartPose = new Pose2d(41, -35, Math.toRadians(0));
             DL2StartPose = new Pose2d(-60, -11.5, Math.toRadians(0));
 
         }
@@ -240,9 +243,9 @@ public class PirsusAuto extends LinearOpMode {
             DPR3StartPose = new Pose2d(-35, 30, Math.toRadians(180));
             bridgeStartPose = new Pose2d(-35, 7, Math.toRadians(90));
             bridgeLineEndPose = new Vector2d(23, 7);
-            bridgeSplineEndPose = new Pose2d(44, 35, Math.toRadians(180));
+            bridgeSplineEndPose = new Pose2d(41, 35, Math.toRadians(180));
             bridgeAngle = Math.toRadians(0);
-            DL1StartPose = new Pose2d(44, 35, Math.toRadians(0));
+            DL1StartPose = new Pose2d(41, 35, Math.toRadians(0));
             DL2StartPose = new Pose2d(-60, 11.5, Math.toRadians(0));
         }
         else { // blue/backstage
@@ -254,9 +257,9 @@ public class PirsusAuto extends LinearOpMode {
             DPR3StartPose = new Pose2d(10, 30, Math.toRadians(180));
             bridgeStartPose = new Pose2d(9, 7, Math.toRadians(90));
             bridgeLineEndPose = new Vector2d(23, 7);
-            bridgeSplineEndPose = new Pose2d(44, 35, Math.toRadians(180));
+            bridgeSplineEndPose = new Pose2d(41, 35, Math.toRadians(180));
             bridgeAngle = Math.toRadians(0);
-            DL1StartPose = new Pose2d(44, 35, Math.toRadians(0));
+            DL1StartPose = new Pose2d(41, 35, Math.toRadians(0));
             DL2StartPose = new Pose2d(-60, 11.5, Math.toRadians(0));
         }
 
@@ -356,14 +359,14 @@ public class PirsusAuto extends LinearOpMode {
 
             // activate AT detection
 
-            while((targetTag != desiredTag.id) && ()) {
-                if (targetTag < desiredTag.id) {
-                    drive.setMotorPowers(go right);
-                }
-                else if (targetTag > desiredTag.id) {
-                    drive.setMotorPowers(go left);
-                }
-            }
+//            while((targetTag != desiredTag.id) && ()) {
+//                if (targetTag < desiredTag.id) {
+//                    drive.setMotorPowers(go right);
+//                }
+//                else if (targetTag > desiredTag.id) {
+//                    drive.setMotorPowers(go left);
+//                }
+//            }
 
 //            initAprilTagPortal();
 //
