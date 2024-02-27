@@ -307,7 +307,7 @@ public class PirsusAuto extends LinearOpMode {
         while(opModeIsActive() && !pathCompleted) {
 
             if(waitForPartner){
-                RRsleep(5000000000);
+                RRsleep(5);
             }
 
 //            telemetryAprilTag();
@@ -570,7 +570,8 @@ public class PirsusAuto extends LinearOpMode {
      */
     public void RRsleep(long timeToSleep) {
         long startTime = System.nanoTime();
-        while(System.nanoTime() - startTime < timeToSleep) {
+        long nanoTimeToSleep = timeToSleep * 1000000000;
+        while(System.nanoTime() - startTime < nanoTimeToSleep) {
         }
     }
 
