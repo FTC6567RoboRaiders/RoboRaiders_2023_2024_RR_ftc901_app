@@ -216,6 +216,7 @@ public class PirsusAuto extends LinearOpMode {
             bridgeLineEndPose = new Vector2d(23, -7);
             bridgeSplineEndPose = new Pose2d(41, -35, Math.toRadians(180));
             bridgeAngle = Math.toRadians(0);
+            //Here is where you'll line up to deposit the yellow pixel
             DL1StartPose = new Pose2d(41, -35, Math.toRadians(0));
             DL2StartPose = new Pose2d(-60, -11.5, Math.toRadians(0));
         }
@@ -230,6 +231,8 @@ public class PirsusAuto extends LinearOpMode {
             bridgeLineEndPose = new Vector2d(23, -7);
             bridgeSplineEndPose = new Pose2d(41, -35, Math.toRadians(180));
             bridgeAngle = Math.toRadians(0);
+            //Here is where you'll line up to deposit the yellow pixel
+
             DL1StartPose = new Pose2d(41, -35, Math.toRadians(0));
             DL2StartPose = new Pose2d(-60, -11.5, Math.toRadians(0));
 
@@ -245,6 +248,8 @@ public class PirsusAuto extends LinearOpMode {
             bridgeLineEndPose = new Vector2d(23, 7);
             bridgeSplineEndPose = new Pose2d(41, 35, Math.toRadians(180));
             bridgeAngle = Math.toRadians(0);
+            //Here is where you'll line up to deposit the yellow pixel
+
             DL1StartPose = new Pose2d(41, 35, Math.toRadians(0));
             DL2StartPose = new Pose2d(-60, 11.5, Math.toRadians(0));
         }
@@ -259,6 +264,8 @@ public class PirsusAuto extends LinearOpMode {
             bridgeLineEndPose = new Vector2d(23, 7);
             bridgeSplineEndPose = new Pose2d(41, 35, Math.toRadians(180));
             bridgeAngle = Math.toRadians(0);
+            //Here is where you'll line up to deposit the yellow pixel
+
             DL1StartPose = new Pose2d(41, 35, Math.toRadians(0));
             DL2StartPose = new Pose2d(-60, 11.5, Math.toRadians(0));
         }
@@ -296,14 +303,19 @@ public class PirsusAuto extends LinearOpMode {
 
 
 
+
         while(opModeIsActive() && !pathCompleted) {
+
+            if(waitForPartner){
+                RRsleep(5000000000);
+            }
 
 //            telemetryAprilTag();
 
             telemetry.update();
 
             switch(position) {
-                case 0:
+                case 0: //Left
                     if(GlobalVariables.getAllianceColour()) {
                         targetTag = 4;
                     }
@@ -317,7 +329,7 @@ public class PirsusAuto extends LinearOpMode {
                     DPL2.doPath(DPL2StartPose);
                     DPL3.doPath(DPL3StartPose);
                     break;
-                case 1:
+                case 1: // Center
                     if(GlobalVariables.getAllianceColour()) {
                         targetTag = 5;
                     }
@@ -330,7 +342,7 @@ public class PirsusAuto extends LinearOpMode {
                     robot.setIntakeMotorPower(0.0);
                     DPC2.doPath(DPC2StartPose);
                     break;
-                case 2:
+                case 2: //Right
                     if(GlobalVariables.getAllianceColour()) {
                         targetTag = 6;
                     }
@@ -550,5 +562,16 @@ public class PirsusAuto extends LinearOpMode {
 //        }
 //
 //    }
+
+    /**
+     * make the robot sleep (wait)
+     *
+     * @param timeToSleep time in nanoseconds
+     */
+    public void RRsleep(long timeToSleep) {
+        long startTime = System.nanoTime();
+        while(System.nanoTime() - startTime < timeToSleep) {
+        }
+    }
 
 }
