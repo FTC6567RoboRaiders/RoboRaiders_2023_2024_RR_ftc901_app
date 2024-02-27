@@ -49,28 +49,41 @@ public class DropPurpleLeft1 {
         drive = new SampleMecanumDrive(ahwMap);
         drive.setPoseEstimate(startPose);
 
+        // For Blue alliance and stage  OR Red Alliance and Backstage
+        // strafe 15 inches to the left to align the robot better to deposit the pixel
         Trajectory step1 = drive.trajectoryBuilder(startPose)
                 .strafeLeft(15)
                 .build();
+
+        // When stage and blue alliance -OR- backstage and red alliance, the intermediate pose is the end of step1 (the strafe left)
         if((GlobalVariables.getSide() && !GlobalVariables.getAllianceColour()) | (!GlobalVariables.getSide() && GlobalVariables.getAllianceColour())) { // blue/stage or red/backstage
             intermediateEndPose = step1.end();
         }
+        // When backstage and blue alliance -OR- red alliance and stage, the intermediate pose is the startPose
         else {
             intermediateEndPose = startPose;
         }
+
+        // Step2 align to the spike mark with a Pose2d(-34, 30, Math.toRadians(0))
         Trajectory step2 = drive.trajectoryBuilder(intermediateEndPose)
                 .lineToLinearHeading(spikeDropPose, // line to left spikemark new Pose2d(-34, 30, Math.toRadians(0))
                         SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                 .build();
 
+
+        // When stage and blue alliance -OR- backstage and red alliance, follow step 1 trajectory - strafe left 15 inches
         if((GlobalVariables.getSide() && !GlobalVariables.getAllianceColour()) | (!GlobalVariables.getSide() && GlobalVariables.getAllianceColour())) { // blue/stage or red/backstage
             drive.followTrajectory(step1);
         }
+
+        // When backstage and blue alliance -OR- red alliance and stage, then nothing special here
         else {}
+
+        // Now turn the robot so that we can deposit the purple pixel on the left spike (deposit is not done here)
         drive.followTrajectory(step2);
 
-        endPose = step1.end();
+        endPose = step1.end();   //???should this be step.end()
 
         return endPose; // start pose for next step
 
