@@ -79,6 +79,8 @@ public class PirsusAuto extends LinearOpMode {
     public boolean parkLeft = false;
     public boolean selectionsAreGood = false;
     public Pose2d initialPose;
+    public Pose2d newDPL2StartPose;
+    public Pose2d newDPL3StartPose;
     public Pose2d DPL2StartPose;
     public Pose2d DPL3StartPose;
     public Pose2d DPC2StartPose;
@@ -207,8 +209,9 @@ public class PirsusAuto extends LinearOpMode {
 
         if(isRed && stageSide) { // red/stage
             initialPose = new Pose2d(-35, -60, Math.toRadians(270));
-            DPL2StartPose = new Pose2d(-39, -30, Math.toRadians(180));
-            DPL3StartPose = new Pose2d(-35, -30, Math.toRadians(180));
+            newDPL2StartPose = new Pose2d(-47, -30, Math.toRadians(270));
+//            DPL2StartPose = new Pose2d(-39, -30, Math.toRadians(180));
+//            DPL3StartPose = new Pose2d(-35, -30, Math.toRadians(180));
             DPC2StartPose = new Pose2d(-35, -15, Math.toRadians(270));
             DPR2StartPose = new Pose2d(-32, -30, Math.toRadians(0));
             DPR3StartPose = new Pose2d(-35, -30, Math.toRadians(0));
@@ -255,6 +258,7 @@ public class PirsusAuto extends LinearOpMode {
         }
         else { // blue/backstage
             initialPose = new Pose2d(10, 60, Math.toRadians(90));
+            newDPL2StartPose = new Pose2d(24,30, Math.toRadians(90));
 //            DPL2StartPose = new Pose2d(12, 30, Math.toRadians(0));
 //            DPL3StartPose = new Pose2d(9, 30, Math.toRadians(0));
             DPC2StartPose = new Pose2d(10, 15, Math.toRadians(90));
@@ -324,7 +328,7 @@ public class PirsusAuto extends LinearOpMode {
                     }
                     DPL1.doPath(initialPose, DPL2StartPose);
                     robot.setIntakeMotorPower(1.0);
-                    sleep(2000);
+                    RRsleep(2);
                     robot.setIntakeMotorPower(0.0);
                     DPL2.doPath(DPL2StartPose);
                     DPL3.doPath(DPL3StartPose);

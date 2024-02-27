@@ -54,16 +54,6 @@ public class DropPurpleLeft1 {
         Trajectory step1 = drive.trajectoryBuilder(startPose)
                 .strafeLeft(15)
                 .build();
-
-        // When stage and blue alliance -OR- backstage and red alliance, the intermediate pose is the end of step1 (the strafe left)
-        if((GlobalVariables.getSide() && !GlobalVariables.getAllianceColour()) | (!GlobalVariables.getSide() && GlobalVariables.getAllianceColour())) { // blue/stage or red/backstage
-            intermediateEndPose = step1.end();
-        }
-        // When backstage and blue alliance -OR- red alliance and stage, the intermediate pose is the startPose
-        else {
-            intermediateEndPose = startPose;
-        }
-
         // Step2 align to the spike mark with a Pose2d(-34, 30, Math.toRadians(0))
         Trajectory step2 = drive.trajectoryBuilder(intermediateEndPose)
                 .lineToLinearHeading(spikeDropPose, // line to left spikemark new Pose2d(-34, 30, Math.toRadians(0))
@@ -72,16 +62,40 @@ public class DropPurpleLeft1 {
                 .build();
 
 
-        // When stage and blue alliance -OR- backstage and red alliance, follow step 1 trajectory - strafe left 15 inches
+        //This is path we follow when backstage & blue alliance or stage & red alliance
+        Trajectory giacomoStep1 = drive.trajectoryBuilder(startPose)
+                .strafeRight(12)
+                .build();
+
+        Trajectory giacomoStep2 = drive.trajectoryBuilder(intermediateEndPose)
+                .back(30)
+                .build();
+
+        // When stage and blue alliance -OR- backstage and red alliance, the intermediate pose is the end of step1 (the strafe left)
         if((GlobalVariables.getSide() && !GlobalVariables.getAllianceColour()) | (!GlobalVariables.getSide() && GlobalVariables.getAllianceColour())) { // blue/stage or red/backstage
-            drive.followTrajectory(step1);
+            intermediateEndPose = step1.end();
+        }
+        // When backstage and blue alliance -OR- red alliance and stage, the intermediate pose is the end pose of the strafe right for optimized auto
+        else {
+            intermediateEndPose = giacomoStep1.end();
         }
 
-        // When backstage and blue alliance -OR- red alliance and stage, then nothing special here
-        else {}
+
+        // When stage and blue alliance -OR- backstage and red alliance, follow step 1 trajectory - strafe left 15 inches, position robot to deposit
+        if((GlobalVariables.getSide() && !GlobalVariables.getAllianceColour()) | (!GlobalVariables.getSide() && GlobalVariables.getAllianceColour())) { // blue/stage or red/backstage
+            drive.followTrajectory(step1);
+            drive.followTrajectory(step2);
+        }
+
+        // When backstage and blue alliance -OR- red alliance and stage.
+        // Strafe 12 inches right then drive back 30
+        else {
+            drive.followTrajectory(giacomoStep1);
+            drive.followTrajectory(giacomoStep2);
+        }
 
         // Now turn the robot so that we can deposit the purple pixel on the left spike (deposit is not done here)
-        drive.followTrajectory(step2);
+
 
         endPose = step1.end();   //???should this be step.end()
 

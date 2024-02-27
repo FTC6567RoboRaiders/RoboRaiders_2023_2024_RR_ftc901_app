@@ -52,6 +52,21 @@ public class DropPurpleLeft2 {
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                 .build();
 
+        //These Giacomo steps will be for the strafing code on blue backstage or red stage
+        Trajectory giacomoStep1 = drive.trajectoryBuilder(startPose)
+                .back(20)
+                .build();
+
+        Pose2d giacomoEndPose = giacomoStep1.end();
+
+        Trajectory giacomoStep2 = drive.trajectoryBuilder(giacomoEndPose)
+                .strafeLeft(12)
+                .build();
+
+
+
+
+
         if(!GlobalVariables.getSide() && GlobalVariables.getAllianceColour()) { // red/backstage
             drive.followTrajectory(step2);
         }
