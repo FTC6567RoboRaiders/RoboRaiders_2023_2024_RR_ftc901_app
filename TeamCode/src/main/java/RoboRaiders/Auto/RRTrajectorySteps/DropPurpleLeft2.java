@@ -67,11 +67,16 @@ public class DropPurpleLeft2 {
 
 
 
-        if(!GlobalVariables.getSide() && GlobalVariables.getAllianceColour()) { // red/backstage
+        // When stage and blue alliance -OR- backstage and red alliance, the intermediate pose is the end of step1 (the strafe left)
+        if((GlobalVariables.getSide() && !GlobalVariables.getAllianceColour()) | (!GlobalVariables.getSide() && GlobalVariables.getAllianceColour())) { // blue/stage or red/backstage            drive.followTrajectory(step2);
+            drive.followTrajectory(step1);
             drive.followTrajectory(step2);
         }
+        // When backstage and blue alliance -OR- red alliance and stage, the intermediate pose is the end pose of the strafe right for optimized auto
         else{
-            drive.followTrajectory(step1);
+            drive.followTrajectory(giacomoStep1);
+            drive.followTrajectory(giacomoStep2);
+
         }
 
         endPose = step1.end();
