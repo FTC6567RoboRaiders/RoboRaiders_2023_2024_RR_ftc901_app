@@ -158,25 +158,16 @@ public class AutoOptions {
     }
 
     //Auto Option to Allow drivers to choose which parking zone to end auto in
-    public int parkingZone(){
+    public boolean selectParkLocation() {
 
-        int parkZone = 1; // 0 is Left, 1 is Center, 2 is Right. Defaults to Center
+        // create paths
+        String[] locations = new String[]{"Left", "Right"};
 
+        // let driver make selection: index = 0 means first selection, index = 1 means second selection
+        int index = makeSelection("Robot Park Location", locations);
 
-        op.telemetry.addLine().addData("End Parking Zone: ", true);
-        op.telemetry.addLine().addData("Press X for Left, A for Center, B for Right", true);
-
-        if(op.gamepad1.x){
-            parkZone = 0;
-        }
-        if(op.gamepad1.a){
-            parkZone = 1;
-        }
-        if(op.gamepad1.b){
-            parkZone = 2;
-        }
-        return parkZone;
-
+        // check index against 0: 0 = true, else = false
+        return index == 0;
     }
 
     /**
