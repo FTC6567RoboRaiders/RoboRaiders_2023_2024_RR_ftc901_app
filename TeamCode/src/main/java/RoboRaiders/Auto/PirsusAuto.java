@@ -3,6 +3,7 @@ package RoboRaiders.Auto;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
@@ -17,7 +18,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import java.util.List;
 
-import RoboRaiders.Auto.AutoOptions.AutoOptions;
+import RoboRaiders.Auto.AutoOptions.AutoOptionsOld;
 import RoboRaiders.Auto.RRTrajectorySteps.DepoLoop1;
 import RoboRaiders.Auto.RRTrajectorySteps.DepoLoop2;
 import RoboRaiders.Auto.RRTrajectorySteps.DropPurpleCentre1;
@@ -29,18 +30,21 @@ import RoboRaiders.Auto.RRTrajectorySteps.DropPurpleRight1;
 import RoboRaiders.Auto.RRTrajectorySteps.DropPurpleRight2;
 import RoboRaiders.Auto.RRTrajectorySteps.DropPurpleRight3;
 import RoboRaiders.Auto.RRTrajectorySteps.SpikeToLoopBridge;
-import RoboRaiders.Auto.RRTrajectorySteps.GiacomoStrafeToCommonPosition;
-import RoboRaiders.Auto.RRTrajectorySteps.Park;
 import RoboRaiders.Robots.GlobalVariables;
 import RoboRaiders.Robots.Pirsus2;
 
 @Autonomous
+@Disabled
 
+//
+// This is an old copy of PirsusAuto prior to changes made 2/27/24
+// Only change is to reference AutoOptionsOld vs AutoOptions since AutoOptions has been changed as well
+//
 public class PirsusAuto extends LinearOpMode {
 
     public Pirsus2 robot = new Pirsus2();
     public SampleMecanumDrive drive = null;
-    AutoOptions AO = new AutoOptions(this);
+    AutoOptionsOld AO = new AutoOptionsOld(this);
 
     OpenCvCamera camera;
     public WebcamName webcam1;
@@ -70,8 +74,6 @@ public class PirsusAuto extends LinearOpMode {
     public DropPurpleRight3 DPR3 = null;
     public DepoLoop1 depoLoop1 = null;
     public DepoLoop2 depoLoop2 = null;
-    public GiacomoStrafeToCommonPosition gSTCP = null;
-    public Park park = null;
     public SpikeToLoopBridge bridge = null;
     public Pose2d endPose;
     public boolean pathCompleted = false;
@@ -80,10 +82,9 @@ public class PirsusAuto extends LinearOpMode {
     public boolean isRed = false;
     public boolean stageSide = false;
     public boolean waitForPartner = false;
-    public boolean parkLeft = false;
+    public int parkingZone = 1;
     public boolean selectionsAreGood = false;
     public Pose2d initialPose;
-    public Pose2d newDPL2StartPose;
     public Pose2d DPL2StartPose;
     public Pose2d DPL3StartPose;
     public Pose2d DPC2StartPose;
@@ -96,8 +97,6 @@ public class PirsusAuto extends LinearOpMode {
     public Pose2d DL1StartPose;
     public Pose2d DL2StartPose;
 
-    public Pose2d gSTCPStartPose;
-    public Pose2d parkPose;
 
 
 
@@ -118,9 +117,6 @@ public class PirsusAuto extends LinearOpMode {
         DPR1 = new DropPurpleRight1(hardwareMap);
         DPR2 = new DropPurpleRight2(hardwareMap);
         DPR3 = new DropPurpleRight3(hardwareMap);
-        gSTCP = new GiacomoStrafeToCommonPosition(hardwareMap);
-        park = new Park(hardwareMap);
-
         depoLoop1 = new DepoLoop1(hardwareMap);
         depoLoop2 = new DepoLoop2(hardwareMap);
         bridge = new SpikeToLoopBridge(hardwareMap);
@@ -165,8 +161,7 @@ public class PirsusAuto extends LinearOpMode {
             stageSide = AO.selectStartLocation();         // starting near the drones or the backboard
             GlobalVariables.setSide(stageSide);
             waitForPartner = AO.selectWait();                   // wait for partner
-            parkLeft = AO.selectParkLocation();              //Choose End Park Zone
-            GlobalVariables.setParkLeft(parkLeft);
+            parkingZone = AO.parkingZone();              //Choose End Park Zone
 
             // Add new/additional auto options, so things like drive to depot, drop team marker, etc..
 
@@ -181,8 +176,8 @@ public class PirsusAuto extends LinearOpMode {
             telemetry.setAutoClear(false);
             telemetry.addLine().addData("Autonomous", "Selections");
             telemetry.addLine().addData("Alliance:", isRed ? "Red  " : "Blue  ").addData("  Robot Start Location:", stageSide ? "Stage" : "Backstage");
-            telemetry.addLine().addData("Wait for Partner:", waitForPartner ? "Yes" : "No").addData("Parking Zone:", parkLeft ? "Left  " : "Right  ");
-
+            telemetry.addLine().addData("Wait for Partner:", waitForPartner ? "Yes" : "No");
+//            telemetry.addLine().addData("Parking Zone", true); // Not Sure how to do this, will be prompt for parking zone.
             telemetry.update();
 
             // Verify that the autonomous selections are good, if so we are ready to rumble.  If not, we'll ask again.
@@ -203,26 +198,23 @@ public class PirsusAuto extends LinearOpMode {
          *
          *                      stageSide
          *
-                 |   |       t       |       f       |
-                 +-----------------------------------+
-                 |   | (-35, -60)    | (10, -60)     |
-                 | t | trapdoor      | short         |
-                 |   | park left     | park right    |
+         |   |       t       |       f       |
+         +-----------------------------------+
+         |   | (-35, -60)    | (10, -60)     |
+         | t | trapdoor      | short         |
+         |   | park left     | park right    |
          isRed   +-----------------------------------+
-                 |   | (-35, 60)     | (10, 60)      |
-                 | f | trapdoor      | short         |
-                 |   | park right    | park left     |
-                 +-----------------------------------+
+         |   | (-35, 60)     | (10, 60)      |
+         | f | trapdoor      | short         |
+         |   | park right    | park left     |
+         +-----------------------------------+
 
          */
 
         if(isRed && stageSide) { // red/stage
             initialPose = new Pose2d(-35, -60, Math.toRadians(270));
-            newDPL2StartPose = new Pose2d(-47, -30, Math.toRadians(270));
-//            DPL2StartPose = new Pose2d(-39, -30, Math.toRadians(180));
-            DPL3StartPose = new Pose2d(-35, -15, Math.toRadians(180));
-            gSTCPStartPose = new Pose2d(-35, -15, Math.toRadians(270));
-            parkPose = new Pose2d(35, -10, Math.toRadians(270));
+            DPL2StartPose = new Pose2d(-39, -30, Math.toRadians(180));
+            DPL3StartPose = new Pose2d(-35, -30, Math.toRadians(180));
             DPC2StartPose = new Pose2d(-35, -15, Math.toRadians(270));
             DPR2StartPose = new Pose2d(-32, -30, Math.toRadians(0));
             DPR3StartPose = new Pose2d(-35, -30, Math.toRadians(0));
@@ -230,7 +222,6 @@ public class PirsusAuto extends LinearOpMode {
             bridgeLineEndPose = new Vector2d(23, -7);
             bridgeSplineEndPose = new Pose2d(41, -35, Math.toRadians(180));
             bridgeAngle = Math.toRadians(0);
-            //Here is where you'll line up to deposit the yellow pixel
             DL1StartPose = new Pose2d(41, -35, Math.toRadians(0));
             DL2StartPose = new Pose2d(-60, -11.5, Math.toRadians(0));
         }
@@ -245,8 +236,6 @@ public class PirsusAuto extends LinearOpMode {
             bridgeLineEndPose = new Vector2d(23, -7);
             bridgeSplineEndPose = new Pose2d(41, -35, Math.toRadians(180));
             bridgeAngle = Math.toRadians(0);
-            //Here is where you'll line up to deposit the yellow pixel
-
             DL1StartPose = new Pose2d(41, -35, Math.toRadians(0));
             DL2StartPose = new Pose2d(-60, -11.5, Math.toRadians(0));
 
@@ -262,18 +251,13 @@ public class PirsusAuto extends LinearOpMode {
             bridgeLineEndPose = new Vector2d(23, 7);
             bridgeSplineEndPose = new Pose2d(41, 35, Math.toRadians(180));
             bridgeAngle = Math.toRadians(0);
-            //Here is where you'll line up to deposit the yellow pixel
-
             DL1StartPose = new Pose2d(41, 35, Math.toRadians(0));
             DL2StartPose = new Pose2d(-60, 11.5, Math.toRadians(0));
         }
         else { // blue/backstage
             initialPose = new Pose2d(10, 60, Math.toRadians(90));
-            newDPL2StartPose = new Pose2d(22,20, Math.toRadians(90));
-//            DPL2StartPose = new Pose2d(12, 30, Math.toRadians(0));
-            DPL3StartPose = new Pose2d(10, 15, Math.toRadians(0));
-            gSTCPStartPose = new Pose2d(22, 15, Math.toRadians(90));
-            parkPose = new Pose2d(35,15, Math.toRadians(90));
+            DPL2StartPose = new Pose2d(12, 30, Math.toRadians(0));
+            DPL3StartPose = new Pose2d(9, 30, Math.toRadians(0));
             DPC2StartPose = new Pose2d(10, 15, Math.toRadians(90));
             DPR2StartPose = new Pose2d(6, 30, Math.toRadians(180));
             DPR3StartPose = new Pose2d(10, 30, Math.toRadians(180));
@@ -281,8 +265,6 @@ public class PirsusAuto extends LinearOpMode {
             bridgeLineEndPose = new Vector2d(23, 7);
             bridgeSplineEndPose = new Pose2d(41, 35, Math.toRadians(180));
             bridgeAngle = Math.toRadians(0);
-            //Here is where you'll line up to deposit the yellow pixel
-
             DL1StartPose = new Pose2d(41, 35, Math.toRadians(0));
             DL2StartPose = new Pose2d(-60, 11.5, Math.toRadians(0));
         }
@@ -320,37 +302,28 @@ public class PirsusAuto extends LinearOpMode {
 
 
 
-
         while(opModeIsActive() && !pathCompleted) {
-
-            if(waitForPartner){
-                RRsleep(5);
-            }
 
 //            telemetryAprilTag();
 
             telemetry.update();
 
             switch(position) {
-                case 0: //Left
+                case 0:
                     if(GlobalVariables.getAllianceColour()) {
                         targetTag = 4;
                     }
                     else {
                         targetTag = 1;
                     }
-                    DPL1.doPath(initialPose, newDPL2StartPose);
+                    DPL1.doPath(initialPose, DPL2StartPose);
                     robot.setIntakeMotorPower(1.0);
-                    RRsleep(2);
+                    sleep(2000);
                     robot.setIntakeMotorPower(0.0);
-                    DPL2.doPath(newDPL2StartPose);
-                    // When stage and blue alliance -OR- backstage and red alliance, the intermediate pose is the end of step1 (the strafe left)
-                    if((GlobalVariables.getSide() && !GlobalVariables.getAllianceColour()) | (!GlobalVariables.getSide() && GlobalVariables.getAllianceColour())) { // blue/stage or red/backstage            drive.followTrajectory(step2);
-
-                        DPL3.doPath(DPL3StartPose);
-                    }
+                    DPL2.doPath(DPL2StartPose);
+                    DPL3.doPath(DPL3StartPose);
                     break;
-                case 1: // Center
+                case 1:
                     if(GlobalVariables.getAllianceColour()) {
                         targetTag = 5;
                     }
@@ -363,7 +336,7 @@ public class PirsusAuto extends LinearOpMode {
                     robot.setIntakeMotorPower(0.0);
                     DPC2.doPath(DPC2StartPose);
                     break;
-                case 2: //Right
+                case 2:
                     if(GlobalVariables.getAllianceColour()) {
                         targetTag = 6;
                     }
@@ -387,14 +360,8 @@ public class PirsusAuto extends LinearOpMode {
                     DPC1.doPath(initialPose);
                     break;
             }
-            // When stage and blue alliance -OR- backstage and red alliance, the intermediate pose is the end of step1 (the strafe left)
-            if((GlobalVariables.getSide() && !GlobalVariables.getAllianceColour()) | (!GlobalVariables.getSide() && GlobalVariables.getAllianceColour())) { // blue/stage or red/backstage
-                bridge.doPath(bridgeStartPose, bridgeLineEndPose, bridgeSplineEndPose, bridgeAngle);
-            }
-            else{
-                gSTCP.doPath(gSTCPStartPose);
-                park.doPath(parkPose);
-            }
+
+            bridge.doPath(bridgeStartPose, bridgeLineEndPose, bridgeSplineEndPose, bridgeAngle);
 
             // activate AT detection
 
@@ -589,17 +556,5 @@ public class PirsusAuto extends LinearOpMode {
 //        }
 //
 //    }
-
-    /**
-     * make the robot sleep (wait)
-     *
-     * @param timeToSleep time in nanoseconds
-     */
-    public void RRsleep(long timeToSleep) {
-        long startTime = System.nanoTime();
-        long nanoTimeToSleep = timeToSleep * 1000000000;
-        while(System.nanoTime() - startTime < nanoTimeToSleep) {
-        }
-    }
 
 }
