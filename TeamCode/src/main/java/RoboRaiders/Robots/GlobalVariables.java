@@ -31,8 +31,8 @@ public class GlobalVariables {
         return startSide;
     }
 
-    public static void setParkLeft(boolean parkLeft){ this.parkLeft = parkLeft; }
+    public static void setParkLeft(boolean inParkLeft){ parkLeft = inParkLeft; }
 
-    public static boolean getParkLeft(){return parkLeft}
+    public static boolean getParkLeft(){return parkLeft;}
 
 }

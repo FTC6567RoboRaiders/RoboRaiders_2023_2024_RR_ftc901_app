@@ -54,12 +54,16 @@ public class DropPurpleLeft2 {
 
         //These Giacomo steps will be for the strafing code on blue backstage or red stage
         Trajectory giacomoStep1 = drive.trajectoryBuilder(startPose)
-                .back(20)
+                .back(5)
                 .build();
 
         Pose2d giacomoEndPose = giacomoStep1.end();
 
-        Trajectory giacomoStep2 = drive.trajectoryBuilder(giacomoEndPose)
+        Trajectory giacomoStrafeRightStep2 = drive.trajectoryBuilder(giacomoEndPose)
+                .strafeRight(12)
+                .build();
+
+        Trajectory giacomoStrafeLeftStep2 = drive.trajectoryBuilder(giacomoEndPose)
                 .strafeLeft(12)
                 .build();
 
@@ -72,11 +76,16 @@ public class DropPurpleLeft2 {
             drive.followTrajectory(step1);
             drive.followTrajectory(step2);
         }
-        // When backstage and blue alliance -OR- red alliance and stage, the intermediate pose is the end pose of the strafe right for optimized auto
-        else{
+        // When red alliance and stage, the intermediate pose is the end pose of the strafe left for optimized auto
+        else if (GlobalVariables.getAllianceColour() && GlobalVariables.getSide() ){
             drive.followTrajectory(giacomoStep1);
-            drive.followTrajectory(giacomoStep2);
+            drive.followTrajectory(giacomoStrafeLeftStep2);
 
+        }
+        // When blue alliance and backstage strafe right
+        else if (!GlobalVariables.getAllianceColour() && !GlobalVariables.getSide() ){
+            drive.followTrajectory(giacomoStep1);
+            drive.followTrajectory(giacomoStrafeRightStep2);
         }
 
         endPose = step1.end();

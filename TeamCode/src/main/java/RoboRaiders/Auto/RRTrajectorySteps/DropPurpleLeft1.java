@@ -54,12 +54,7 @@ public class DropPurpleLeft1 {
         Trajectory step1 = drive.trajectoryBuilder(startPose)
                 .strafeLeft(15)
                 .build();
-        // Step2 align to the spike mark with a Pose2d(-34, 30, Math.toRadians(0))
-        Trajectory step2 = drive.trajectoryBuilder(intermediateEndPose)
-                .lineToLinearHeading(spikeDropPose, // line to left spikemark new Pose2d(-34, 30, Math.toRadians(0))
-                        SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
-                .build();
+
 
 
         //This is path we follow when backstage & blue alliance or stage & red alliance
@@ -67,9 +62,6 @@ public class DropPurpleLeft1 {
                 .strafeRight(12)
                 .build();
 
-        Trajectory giacomoStep2 = drive.trajectoryBuilder(intermediateEndPose)
-                .back(30)
-                .build();
 
         // When stage and blue alliance -OR- backstage and red alliance, the intermediate pose is the end of step1 (the strafe left)
         if((GlobalVariables.getSide() && !GlobalVariables.getAllianceColour()) | (!GlobalVariables.getSide() && GlobalVariables.getAllianceColour())) { // blue/stage or red/backstage
@@ -79,6 +71,16 @@ public class DropPurpleLeft1 {
         else {
             intermediateEndPose = giacomoStep1.end();
         }
+        // Step2 align to the spike mark with a Pose2d(-34, 30, Math.toRadians(0))
+        Trajectory step2 = drive.trajectoryBuilder(intermediateEndPose)
+                .lineToLinearHeading(spikeDropPose, // line to left spikemark new Pose2d(-34, 30, Math.toRadians(0))
+                        SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
+                .build();
+        Trajectory giacomoStep2 = drive.trajectoryBuilder(intermediateEndPose)
+                .back(40)
+                .build();
+
 
 
         // When stage and blue alliance -OR- backstage and red alliance, follow step 1 trajectory - strafe left 15 inches, position robot to deposit
