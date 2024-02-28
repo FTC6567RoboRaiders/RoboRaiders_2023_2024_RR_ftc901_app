@@ -18,7 +18,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import java.util.List;
 
-import RoboRaiders.Auto.AutoOptions.AutoOptionsOld;
+import RoboRaiders.Auto.AutoOptions.AutoOptions;
 import RoboRaiders.Auto.RRTrajectorySteps.DepoLoop1;
 import RoboRaiders.Auto.RRTrajectorySteps.DepoLoop2;
 import RoboRaiders.Auto.RRTrajectorySteps.DropPurpleCentre1;
@@ -34,7 +34,6 @@ import RoboRaiders.Robots.GlobalVariables;
 import RoboRaiders.Robots.Pirsus2;
 
 @Autonomous
-@Disabled
 
 //
 // This is an old copy of PirsusAuto prior to changes made 2/27/24
@@ -44,7 +43,7 @@ public class PirsusAuto extends LinearOpMode {
 
     public Pirsus2 robot = new Pirsus2();
     public SampleMecanumDrive drive = null;
-    AutoOptionsOld AO = new AutoOptionsOld(this);
+    AutoOptions AO = new AutoOptions(this);
 
     OpenCvCamera camera;
     public WebcamName webcam1;
@@ -82,7 +81,7 @@ public class PirsusAuto extends LinearOpMode {
     public boolean isRed = false;
     public boolean stageSide = false;
     public boolean waitForPartner = false;
-    public int parkingZone = 1;
+    public boolean parkLeft = false;
     public boolean selectionsAreGood = false;
     public Pose2d initialPose;
     public Pose2d DPL2StartPose;
@@ -161,7 +160,8 @@ public class PirsusAuto extends LinearOpMode {
             stageSide = AO.selectStartLocation();         // starting near the drones or the backboard
             GlobalVariables.setSide(stageSide);
             waitForPartner = AO.selectWait();                   // wait for partner
-            parkingZone = AO.parkingZone();              //Choose End Park Zone
+            parkLeft = AO.selectParkLocation();              //Choose End Park Zone
+            GlobalVariables.setParkLeft(parkLeft);
 
             // Add new/additional auto options, so things like drive to depot, drop team marker, etc..
 
@@ -177,7 +177,7 @@ public class PirsusAuto extends LinearOpMode {
             telemetry.addLine().addData("Autonomous", "Selections");
             telemetry.addLine().addData("Alliance:", isRed ? "Red  " : "Blue  ").addData("  Robot Start Location:", stageSide ? "Stage" : "Backstage");
             telemetry.addLine().addData("Wait for Partner:", waitForPartner ? "Yes" : "No");
-//            telemetry.addLine().addData("Parking Zone", true); // Not Sure how to do this, will be prompt for parking zone.
+            telemetry.addLine().addData("Wait for Partner:", waitForPartner ? "Yes" : "No").addData("Parking Zone:", parkLeft ? "Left  " : "Right  ");
             telemetry.update();
 
             // Verify that the autonomous selections are good, if so we are ready to rumble.  If not, we'll ask again.
