@@ -41,6 +41,7 @@ public class DropPurpleLeft2 {
         drive = new SampleMecanumDrive(ahwMap);
         drive.setPoseEstimate(startPose);
 
+
         Trajectory step1 = drive.trajectoryBuilder(startPose)
                 .back(3, // drive to converging position
                         SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
