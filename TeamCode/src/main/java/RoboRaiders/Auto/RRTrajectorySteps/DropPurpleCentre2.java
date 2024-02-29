@@ -1,5 +1,7 @@
 package RoboRaiders.Auto.RRTrajectorySteps;
 
+import android.provider.Settings;
+
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -42,7 +44,7 @@ public class DropPurpleCentre2 {
         drive.setPoseEstimate(startPose);
 
         Trajectory step1 = drive.trajectoryBuilder(startPose)
-                .back(5, // drive to converging position
+                .back(4.5, // drive to converging position
                         SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                 .build();

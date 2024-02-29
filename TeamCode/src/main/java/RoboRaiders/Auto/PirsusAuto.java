@@ -17,6 +17,7 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import java.util.List;
+import java.util.Vector;
 
 import RoboRaiders.Auto.AutoOptions.AutoOptions;
 import RoboRaiders.Auto.RRTrajectorySteps.DepoLoop1;
@@ -86,6 +87,7 @@ public class PirsusAuto extends LinearOpMode {
     public Pose2d initialPose;
     public Pose2d DPL2StartPose;
     public Pose2d DPL3StartPose;
+    public Vector2d DPC1LineEndPose;
     public Pose2d DPC2StartPose;
     public Pose2d DPR2StartPose;
     public Pose2d DPR3StartPose;
@@ -215,12 +217,12 @@ public class PirsusAuto extends LinearOpMode {
             initialPose = new Pose2d(-35, -60, Math.toRadians(270));
             DPL2StartPose = new Pose2d(-39, -30, Math.toRadians(180));
             DPL3StartPose = new Pose2d(-35, -30, Math.toRadians(180));
-            DPC2StartPose = new Pose2d(-35, -15, Math.toRadians(270));
+            DPC1LineEndPose = new Vector2d(-50, -13.5);
+            DPC2StartPose = new Pose2d(-35, -13.5, Math.toRadians(270)); // y was 15/-15 for all
             DPR2StartPose = new Pose2d(-32, -30, Math.toRadians(0));
             DPR3StartPose = new Pose2d(-35, -30, Math.toRadians(0));
-            bridgeStartPose = new Pose2d(-35, -7, Math.toRadians(270));
-            bridgeLineEndPose = new Vector2d(23, -7);
-            bridgeSplineEndPose = new Pose2d(41, -35, Math.toRadians(180));
+            bridgeStartPose = new Pose2d(-35, -9, Math.toRadians(270));
+            bridgeLineEndPose = new Vector2d(23, -12);
             bridgeAngle = Math.toRadians(0);
             DL1StartPose = new Pose2d(41, -35, Math.toRadians(0));
             DL2StartPose = new Pose2d(-60, -11.5, Math.toRadians(0));
@@ -229,12 +231,12 @@ public class PirsusAuto extends LinearOpMode {
             initialPose = new Pose2d(10, -60, Math.toRadians(270));
             DPL2StartPose = new Pose2d(6, -30, Math.toRadians(180));
             DPL3StartPose = new Pose2d(11, -30, Math.toRadians(180));
-            DPC2StartPose = new Pose2d(10, -15, Math.toRadians(270));
+            DPC1LineEndPose = new Vector2d(22, -13.5);
+            DPC2StartPose = new Pose2d(10, -13.5, Math.toRadians(270));
             DPR2StartPose = new Pose2d(12, -30, Math.toRadians(0));
             DPR3StartPose = new Pose2d(9, -30, Math.toRadians(0));
-            bridgeStartPose = new Pose2d(9, -7, Math.toRadians(270));
-            bridgeLineEndPose = new Vector2d(23, -7);
-            bridgeSplineEndPose = new Pose2d(41, -35, Math.toRadians(180));
+            bridgeStartPose = new Pose2d(9, -9, Math.toRadians(270));
+            bridgeLineEndPose = new Vector2d(23, -9);
             bridgeAngle = Math.toRadians(0);
             DL1StartPose = new Pose2d(41, -35, Math.toRadians(0));
             DL2StartPose = new Pose2d(-60, -11.5, Math.toRadians(0));
@@ -244,12 +246,12 @@ public class PirsusAuto extends LinearOpMode {
             initialPose = new Pose2d(-35, 60, Math.toRadians(90));
             DPL2StartPose = new Pose2d(-32, 30, Math.toRadians(0));
             DPL3StartPose = new Pose2d(-35, 30, Math.toRadians(0));
-            DPC2StartPose = new Pose2d(-35, 15, Math.toRadians(90));
+            DPC1LineEndPose = new Vector2d(-47, 14);
+            DPC2StartPose = new Pose2d(-35, 14, Math.toRadians(90));
             DPR2StartPose = new Pose2d(-39, 30, Math.toRadians(180));
             DPR3StartPose = new Pose2d(-35, 30, Math.toRadians(180));
             bridgeStartPose = new Pose2d(-35, 7, Math.toRadians(90));
             bridgeLineEndPose = new Vector2d(23, 7);
-            bridgeSplineEndPose = new Pose2d(41, 35, Math.toRadians(180));
             bridgeAngle = Math.toRadians(0);
             DL1StartPose = new Pose2d(41, 35, Math.toRadians(0));
             DL2StartPose = new Pose2d(-60, 11.5, Math.toRadians(0));
@@ -258,15 +260,28 @@ public class PirsusAuto extends LinearOpMode {
             initialPose = new Pose2d(10, 60, Math.toRadians(90));
             DPL2StartPose = new Pose2d(12, 30, Math.toRadians(0));
             DPL3StartPose = new Pose2d(9, 30, Math.toRadians(0));
-            DPC2StartPose = new Pose2d(10, 15, Math.toRadians(90));
+            DPC1LineEndPose = new Vector2d(22, 14);
+            DPC2StartPose = new Pose2d(10, 14, Math.toRadians(90));
             DPR2StartPose = new Pose2d(6, 30, Math.toRadians(180));
             DPR3StartPose = new Pose2d(10, 30, Math.toRadians(180));
             bridgeStartPose = new Pose2d(9, 7, Math.toRadians(90));
             bridgeLineEndPose = new Vector2d(23, 7);
-            bridgeSplineEndPose = new Pose2d(41, 35, Math.toRadians(180));
             bridgeAngle = Math.toRadians(0);
             DL1StartPose = new Pose2d(41, 35, Math.toRadians(0));
             DL2StartPose = new Pose2d(-60, 11.5, Math.toRadians(0));
+        }
+
+        if(GlobalVariables.getParkLeft() && GlobalVariables.getAllianceColour()) { // park left red side
+            bridgeSplineEndPose = new Pose2d(60, -11.5, Math.toRadians(180));
+        }
+        else if(!GlobalVariables.getParkLeft() && GlobalVariables.getAllianceColour()) { // park right red side
+            bridgeSplineEndPose = new Pose2d(60, -51, Math.toRadians(180));
+        }
+        else if (GlobalVariables.getParkLeft() && !GlobalVariables.getAllianceColour()) { // park left blue side
+            bridgeSplineEndPose = new Pose2d(60, 60, Math.toRadians(180));
+        }
+        else { // park right blue side
+            bridgeSplineEndPose = new Pose2d(60, 4, Math.toRadians(180));
         }
 
         robot.runWithEncoders();
@@ -330,7 +345,7 @@ public class PirsusAuto extends LinearOpMode {
                     else {
                         targetTag = 2;
                     }
-                    DPC1.doPath(initialPose);
+                    DPC1.doPath(initialPose, DPC1LineEndPose);
                     robot.setIntakeMotorPower(1.0);
                     sleep(2000);
                     robot.setIntakeMotorPower(0.0);
@@ -357,7 +372,8 @@ public class PirsusAuto extends LinearOpMode {
                     else {
                         targetTag = 2;
                     }
-                    DPC1.doPath(initialPose);
+                    DPC1.doPath(initialPose, DPC1LineEndPose);
+                    DPC2.doPath(DPC2StartPose);
                     break;
             }
 
