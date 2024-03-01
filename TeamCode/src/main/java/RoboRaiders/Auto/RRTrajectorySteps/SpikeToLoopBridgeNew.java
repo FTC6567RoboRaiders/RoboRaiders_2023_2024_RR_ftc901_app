@@ -7,6 +7,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
+import RoboRaiders.Robots.GlobalVariables;
+
 public class SpikeToLoopBridgeNew {
 
     //    order:
@@ -32,26 +34,75 @@ public class SpikeToLoopBridgeNew {
     }
 
     public Pose2d endPose;
+    public Pose2d intermediateEndPose;
+    public Pose2d firstIntEndPose;
     public SampleMecanumDrive drive = null;
 
 
 
 //    Pose2d startPose2 = new Pose2d(-35, 11.5, Math.toRadians(0));
 
-    public Pose2d doPath(Pose2d startPose, Vector2d lineToPose, Pose2d splineEndPose, double bridgeAngle) {
+    public Pose2d doPath(Pose2d startPose, Vector2d lineToPose, Vector2d lineToPose2, Vector2d lineToPose3) {
 
         drive = new SampleMecanumDrive(ahwMap);
         drive.setPoseEstimate(startPose);
 
-        Trajectory step1 = drive.trajectoryBuilder(startPose)
-//                .strafeRight(58)
-                .lineToConstantHeading(lineToPose)
-                .splineToSplineHeading(splineEndPose, bridgeAngle)
-                .build();
+        if(GlobalVariables.getAllianceColour() && GlobalVariables.getParkLeft()) {
+            Trajectory stepR1 = drive.trajectoryBuilder(startPose)
+                    .lineToConstantHeading(lineToPose)
+                    .build();
+            drive.followTrajectory(stepR1);
+            intermediateEndPose = stepR1.end();
+            Trajectory stepR3 = drive.trajectoryBuilder(intermediateEndPose)
+                    .lineToConstantHeading(lineToPose3)
+                    .build();
+            drive.followTrajectory(stepR3);
+        }
+        else if(GlobalVariables.getAllianceColour() && !GlobalVariables.getParkLeft()) {
+            Trajectory stepR1 = drive.trajectoryBuilder(startPose)
+                    .lineToConstantHeading(lineToPose)
+                    .build();
+            drive.followTrajectory(stepR1);
+            intermediateEndPose = stepR1.end();
+            Trajectory stepR2 = drive.trajectoryBuilder(intermediateEndPose)
+                    .forward(52)
+                    .build();
+            drive.followTrajectory(stepR2);
+            intermediateEndPose = stepR2.end();
+            Trajectory stepR3 = drive.trajectoryBuilder(intermediateEndPose)
+                    .lineToConstantHeading(lineToPose3)
+                    .build();
+            drive.followTrajectory(stepR3);
+        }
+        else if(!GlobalVariables.getAllianceColour() && GlobalVariables.getParkLeft()) {
+            Trajectory stepB1 = drive.trajectoryBuilder(startPose)
+                    .lineToConstantHeading(lineToPose)
+                    .build();
+            drive.followTrajectory(stepB1);
+            intermediateEndPose = stepB1.end();
+            Trajectory stepB2 = drive.trajectoryBuilder(intermediateEndPose)
+                    .forward(52)
+                    .build();
+            drive.followTrajectory(stepB2);
+            intermediateEndPose = stepB2.end();
+            Trajectory stepB3 = drive.trajectoryBuilder(intermediateEndPose)
+                    .lineToConstantHeading(lineToPose3)
+                    .build();
+            drive.followTrajectory(stepB3);
+        }
+        else {
+            Trajectory stepB1 = drive.trajectoryBuilder(startPose)
+                    .lineToConstantHeading(lineToPose)
+                    .build();
+            drive.followTrajectory(stepB1);
+            intermediateEndPose = stepB1.end();
+            Trajectory stepB3 = drive.trajectoryBuilder(intermediateEndPose)
+                    .lineToConstantHeading(lineToPose3)
+                    .build();
+            drive.followTrajectory(stepB3);
+        }
 
-        drive.followTrajectory(step1);
-
-        endPose = step1.end();
+        endPose = null;
         return endPose;
 
     }

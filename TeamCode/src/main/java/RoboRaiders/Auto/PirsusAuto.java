@@ -31,6 +31,7 @@ import RoboRaiders.Auto.RRTrajectorySteps.DropPurpleRight1;
 import RoboRaiders.Auto.RRTrajectorySteps.DropPurpleRight2;
 import RoboRaiders.Auto.RRTrajectorySteps.DropPurpleRight3;
 import RoboRaiders.Auto.RRTrajectorySteps.SpikeToLoopBridge;
+import RoboRaiders.Auto.RRTrajectorySteps.SpikeToLoopBridgeNew;
 import RoboRaiders.Robots.GlobalVariables;
 import RoboRaiders.Robots.Pirsus2;
 
@@ -74,7 +75,7 @@ public class PirsusAuto extends LinearOpMode {
     public DropPurpleRight3 DPR3 = null;
     public DepoLoop1 depoLoop1 = null;
     public DepoLoop2 depoLoop2 = null;
-    public SpikeToLoopBridge bridge = null;
+    public SpikeToLoopBridgeNew bridge = null;
     public Pose2d endPose;
     public boolean pathCompleted = false;
 
@@ -93,7 +94,9 @@ public class PirsusAuto extends LinearOpMode {
     public Pose2d DPR3StartPose;
     public Pose2d bridgeStartPose;
     public Vector2d bridgeLineEndPose;
-    public Pose2d bridgeSplineEndPose;
+    public Vector2d parkEndPose;
+    public Vector2d parkEndPose2;
+    public Vector2d parkEndPose3;
     public double bridgeAngle;
     public Pose2d DL1StartPose;
     public Pose2d DL2StartPose;
@@ -120,7 +123,7 @@ public class PirsusAuto extends LinearOpMode {
         DPR3 = new DropPurpleRight3(hardwareMap);
         depoLoop1 = new DepoLoop1(hardwareMap);
         depoLoop2 = new DepoLoop2(hardwareMap);
-        bridge = new SpikeToLoopBridge(hardwareMap);
+        bridge = new SpikeToLoopBridgeNew(hardwareMap);
 
         webcam1 = hardwareMap.get(WebcamName.class, "Webcam 1");
         cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
@@ -222,7 +225,7 @@ public class PirsusAuto extends LinearOpMode {
             DPR2StartPose = new Pose2d(-32, -30, Math.toRadians(0));
             DPR3StartPose = new Pose2d(-35, -30, Math.toRadians(0));
             bridgeStartPose = new Pose2d(-35, -9, Math.toRadians(270));
-            bridgeLineEndPose = new Vector2d(23, -12);
+            bridgeLineEndPose = new Vector2d(40, -10);
             bridgeAngle = Math.toRadians(0);
             DL1StartPose = new Pose2d(41, -35, Math.toRadians(0));
             DL2StartPose = new Pose2d(-60, -11.5, Math.toRadians(0));
@@ -236,7 +239,7 @@ public class PirsusAuto extends LinearOpMode {
             DPR2StartPose = new Pose2d(12, -30, Math.toRadians(0));
             DPR3StartPose = new Pose2d(9, -30, Math.toRadians(0));
             bridgeStartPose = new Pose2d(9, -9, Math.toRadians(270));
-            bridgeLineEndPose = new Vector2d(23, -9);
+            bridgeLineEndPose = new Vector2d(40, -10);
             bridgeAngle = Math.toRadians(0);
             DL1StartPose = new Pose2d(41, -35, Math.toRadians(0));
             DL2StartPose = new Pose2d(-60, -11.5, Math.toRadians(0));
@@ -246,12 +249,12 @@ public class PirsusAuto extends LinearOpMode {
             initialPose = new Pose2d(-35, 60, Math.toRadians(90));
             DPL2StartPose = new Pose2d(-32, 30, Math.toRadians(0));
             DPL3StartPose = new Pose2d(-35, 30, Math.toRadians(0));
-            DPC1LineEndPose = new Vector2d(-47, 14);
+            DPC1LineEndPose = new Vector2d(-50, 14);
             DPC2StartPose = new Pose2d(-35, 14, Math.toRadians(90));
             DPR2StartPose = new Pose2d(-39, 30, Math.toRadians(180));
             DPR3StartPose = new Pose2d(-35, 30, Math.toRadians(180));
             bridgeStartPose = new Pose2d(-35, 7, Math.toRadians(90));
-            bridgeLineEndPose = new Vector2d(23, 7);
+            bridgeLineEndPose = new Vector2d(40, 7);
             bridgeAngle = Math.toRadians(0);
             DL1StartPose = new Pose2d(41, 35, Math.toRadians(0));
             DL2StartPose = new Pose2d(-60, 11.5, Math.toRadians(0));
@@ -265,23 +268,28 @@ public class PirsusAuto extends LinearOpMode {
             DPR2StartPose = new Pose2d(6, 30, Math.toRadians(180));
             DPR3StartPose = new Pose2d(10, 30, Math.toRadians(180));
             bridgeStartPose = new Pose2d(9, 7, Math.toRadians(90));
-            bridgeLineEndPose = new Vector2d(23, 7);
+            bridgeLineEndPose = new Vector2d(40, 7);
             bridgeAngle = Math.toRadians(0);
             DL1StartPose = new Pose2d(41, 35, Math.toRadians(0));
             DL2StartPose = new Pose2d(-60, 11.5, Math.toRadians(0));
         }
 
         if(GlobalVariables.getParkLeft() && GlobalVariables.getAllianceColour()) { // park left red side
-            bridgeSplineEndPose = new Pose2d(60, -11.5, Math.toRadians(180));
+            parkEndPose2 = new Vector2d(40, -11.5);
+            parkEndPose3 = new Vector2d(60, -11.5);
         }
         else if(!GlobalVariables.getParkLeft() && GlobalVariables.getAllianceColour()) { // park right red side
-            bridgeSplineEndPose = new Pose2d(60, -51, Math.toRadians(180));
+            parkEndPose2 = new Vector2d(40, -56);
+            parkEndPose3 = new Vector2d(60, -58);
+
         }
         else if (GlobalVariables.getParkLeft() && !GlobalVariables.getAllianceColour()) { // park left blue side
-            bridgeSplineEndPose = new Pose2d(60, 60, Math.toRadians(180));
+            parkEndPose2 = new Vector2d(40, 56);
+            parkEndPose3 = new Vector2d(60, 56);
         }
         else { // park right blue side
-            bridgeSplineEndPose = new Pose2d(60, 4, Math.toRadians(180));
+            parkEndPose2 = new Vector2d(40, 4);
+            parkEndPose3 = new Vector2d(60, 4);
         }
 
         robot.runWithEncoders();
@@ -318,6 +326,10 @@ public class PirsusAuto extends LinearOpMode {
 
 
         while(opModeIsActive() && !pathCompleted) {
+
+            if(waitForPartner){
+                RRsleep(5);
+            }
 
 //            telemetryAprilTag();
 
@@ -377,7 +389,11 @@ public class PirsusAuto extends LinearOpMode {
                     break;
             }
 
-            bridge.doPath(bridgeStartPose, bridgeLineEndPose, bridgeSplineEndPose, bridgeAngle);
+            if(GlobalVariables.getAllianceColour() && position == 0) {
+                drive.turn(Math.toRadians(180));
+            }
+
+            bridge.doPath(bridgeStartPose, bridgeLineEndPose, parkEndPose2, parkEndPose3);
 
             // activate AT detection
 
@@ -556,6 +572,18 @@ public class PirsusAuto extends LinearOpMode {
         telemetry.addLine("PRY = Pitch, Roll & Yaw (XYZ Rotation)");
         telemetry.addLine("RBE = Range, Bearing & Elevation");
 
+    }
+
+    /**
+     * make the robot sleep (wait)
+     *
+     * @param timeToSleep time in nanoseconds
+     */
+    public void RRsleep(long timeToSleep) {
+        long startTime = System.nanoTime();
+        long nanoTimeToSleep = timeToSleep * 1000000000;
+        while(System.nanoTime() - startTime < nanoTimeToSleep) {
+        }
     }
 
 
