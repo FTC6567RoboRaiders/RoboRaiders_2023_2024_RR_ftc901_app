@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 import RoboRaiders.Robots.GlobalVariables;
 
-public class DropPurpleLeft2 {
+public class DropPurpleLeft2New {
 
     //    order:
 //    DPL1/2 or DPC or DPR1/2 < we are here
@@ -27,7 +27,7 @@ public class DropPurpleLeft2 {
 
     HardwareMap ahwMap;
 
-    public DropPurpleLeft2(HardwareMap ahwMap) {
+    public DropPurpleLeft2New(HardwareMap ahwMap) {
 
         this.ahwMap = ahwMap;
 
@@ -41,6 +41,7 @@ public class DropPurpleLeft2 {
         drive = new SampleMecanumDrive(ahwMap);
         drive.setPoseEstimate(startPose);
 
+
         Trajectory step1 = drive.trajectoryBuilder(startPose)
                 .back(3, // drive to converging position
                         SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
@@ -52,11 +53,40 @@ public class DropPurpleLeft2 {
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                 .build();
 
-        if(!GlobalVariables.getSide() && GlobalVariables.getAllianceColour()) { // red/backstage
+        //These Giacomo steps will be for the strafing code on blue backstage or red stage
+        Trajectory giacomoStep1 = drive.trajectoryBuilder(startPose)
+                .back(5)
+                .build();
+
+        Pose2d giacomoEndPose = giacomoStep1.end();
+
+        Trajectory giacomoStrafeRightStep2 = drive.trajectoryBuilder(giacomoEndPose)
+                .strafeRight(12)
+                .build();
+
+        Trajectory giacomoStrafeLeftStep2 = drive.trajectoryBuilder(giacomoEndPose)
+                .strafeLeft(12)
+                .build();
+
+
+
+
+
+        // When stage and blue alliance -OR- backstage and red alliance, the intermediate pose is the end of step1 (the strafe left)
+        if((GlobalVariables.getSide() && !GlobalVariables.getAllianceColour()) | (!GlobalVariables.getSide() && GlobalVariables.getAllianceColour())) { // blue/stage or red/backstage            drive.followTrajectory(step2);
+            drive.followTrajectory(step1);
             drive.followTrajectory(step2);
         }
-        else{
-            drive.followTrajectory(step1);
+        // When red alliance and stage, the intermediate pose is the end pose of the strafe left for optimized auto
+        else if (GlobalVariables.getAllianceColour() && GlobalVariables.getSide() ){
+            drive.followTrajectory(giacomoStep1);
+            drive.followTrajectory(giacomoStrafeLeftStep2);
+
+        }
+        // When blue alliance and backstage strafe right
+        else if (!GlobalVariables.getAllianceColour() && !GlobalVariables.getSide() ){
+            drive.followTrajectory(giacomoStep1);
+            drive.followTrajectory(giacomoStrafeRightStep2);
         }
 
         endPose = step1.end();
