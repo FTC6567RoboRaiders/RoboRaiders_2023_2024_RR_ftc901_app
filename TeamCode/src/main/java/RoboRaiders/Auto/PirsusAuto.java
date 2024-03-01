@@ -12,6 +12,7 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
+import org.opencv.android.CameraGLRendererBase;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
@@ -218,7 +219,7 @@ public class PirsusAuto extends LinearOpMode {
 
         if(isRed && stageSide) { // red/stage
             initialPose = new Pose2d(-35, -60, Math.toRadians(270));
-            DPL2StartPose = new Pose2d(-39, -30, Math.toRadians(180));
+            DPL2StartPose = new Pose2d(-38, -30, Math.toRadians(180));
             DPL3StartPose = new Pose2d(-35, -30, Math.toRadians(180));
             DPC1LineEndPose = new Vector2d(-50, -13.5);
             DPC2StartPose = new Pose2d(-35, -13.5, Math.toRadians(270)); // y was 15/-15 for all
@@ -285,11 +286,11 @@ public class PirsusAuto extends LinearOpMode {
         }
         else if (GlobalVariables.getParkLeft() && !GlobalVariables.getAllianceColour()) { // park left blue side
             parkEndPose2 = new Vector2d(40, 56);
-            parkEndPose3 = new Vector2d(60, 56);
+            parkEndPose3 = new Vector2d(60, 58);
         }
         else { // park right blue side
             parkEndPose2 = new Vector2d(40, 4);
-            parkEndPose3 = new Vector2d(60, 4);
+            parkEndPose3 = new Vector2d(60, 8);
         }
 
         robot.runWithEncoders();
@@ -344,10 +345,17 @@ public class PirsusAuto extends LinearOpMode {
                         targetTag = 1;
                     }
                     DPL1.doPath(initialPose, DPL2StartPose);
-                    robot.setIntakeMotorPower(1.0);
-                    sleep(2000);
-                    robot.setIntakeMotorPower(0.0);
+                    if(!GlobalVariables.getAllianceColour()) {
+                        robot.setIntakeMotorPower(1.0);
+                        sleep(2000);
+                        robot.setIntakeMotorPower(0.0);
+                    }
                     DPL2.doPath(DPL2StartPose);
+                    if(GlobalVariables.getAllianceColour()) {
+                        robot.setIntakeMotorPower(1.0);
+                        sleep(2000);
+                        robot.setIntakeMotorPower(0.0);
+                    }
                     DPL3.doPath(DPL3StartPose);
                     break;
                 case 1:
@@ -371,6 +379,9 @@ public class PirsusAuto extends LinearOpMode {
                         targetTag = 3;
                     }
                     DPR1.doPath(initialPose, DPR2StartPose);
+                   // if(!GlobalVariables.getAllianceColour()) {  //added by wade to move back a couple of inches prior to deposit
+                      //  DPR2.doPath(DPR2StartPose);
+                 //   }
                     robot.setIntakeMotorPower(1.0);
                     sleep(2000);
                     robot.setIntakeMotorPower(0.0);
@@ -387,10 +398,6 @@ public class PirsusAuto extends LinearOpMode {
                     DPC1.doPath(initialPose, DPC1LineEndPose);
                     DPC2.doPath(DPC2StartPose);
                     break;
-            }
-
-            if(GlobalVariables.getAllianceColour() && position == 0) {
-                drive.turn(Math.toRadians(180));
             }
 
             bridge.doPath(bridgeStartPose, bridgeLineEndPose, parkEndPose2, parkEndPose3);

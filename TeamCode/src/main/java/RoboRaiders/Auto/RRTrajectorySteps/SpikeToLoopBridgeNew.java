@@ -65,7 +65,7 @@ public class SpikeToLoopBridgeNew {
             drive.followTrajectory(stepR1);
             intermediateEndPose = stepR1.end();
             Trajectory stepR2 = drive.trajectoryBuilder(intermediateEndPose)
-                    .forward(52)
+                    .forward(50)
                     .build();
             drive.followTrajectory(stepR2);
             intermediateEndPose = stepR2.end();
@@ -81,7 +81,7 @@ public class SpikeToLoopBridgeNew {
             drive.followTrajectory(stepB1);
             intermediateEndPose = stepB1.end();
             Trajectory stepB2 = drive.trajectoryBuilder(intermediateEndPose)
-                    .forward(52)
+                    .forward(50)
                     .build();
             drive.followTrajectory(stepB2);
             intermediateEndPose = stepB2.end();
