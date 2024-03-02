@@ -47,7 +47,7 @@ public class DropPurpleLeft2 {
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                 .build();
         Trajectory step2 = drive.trajectoryBuilder(startPose)
-                .back(5, // drive to converging position
+                .back(4, // drive to converging position
                         SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                 .build();
@@ -55,7 +55,7 @@ public class DropPurpleLeft2 {
         if(!GlobalVariables.getSide() && GlobalVariables.getAllianceColour()) { // red/backstage
             drive.followTrajectory(step2);
         }
-        else{
+        else {
             drive.followTrajectory(step1);
         }
 

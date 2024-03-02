@@ -1,5 +1,7 @@
 package RoboRaiders.Auto;
 
+import android.provider.Settings;
+
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -248,13 +250,13 @@ public class PirsusAuto extends LinearOpMode {
         }
         else if(!isRed && stageSide) { // blue/stage
             initialPose = new Pose2d(-35, 60, Math.toRadians(90));
-            DPL2StartPose = new Pose2d(-32, 30, Math.toRadians(0));
+            DPL2StartPose = new Pose2d(-31, 30, Math.toRadians(0));
             DPL3StartPose = new Pose2d(-35, 30, Math.toRadians(0));
             DPC1LineEndPose = new Vector2d(-50, 14);
             DPC2StartPose = new Pose2d(-35, 14, Math.toRadians(90));
             DPR2StartPose = new Pose2d(-39, 30, Math.toRadians(180));
             DPR3StartPose = new Pose2d(-35, 30, Math.toRadians(180));
-            bridgeStartPose = new Pose2d(-35, 7, Math.toRadians(90));
+            bridgeStartPose = new Pose2d(-35, 4, Math.toRadians(90));
             bridgeLineEndPose = new Vector2d(40, 7);
             bridgeAngle = Math.toRadians(0);
             DL1StartPose = new Pose2d(41, 35, Math.toRadians(0));
@@ -262,8 +264,8 @@ public class PirsusAuto extends LinearOpMode {
         }
         else { // blue/backstage
             initialPose = new Pose2d(10, 60, Math.toRadians(90));
-            DPL2StartPose = new Pose2d(12, 30, Math.toRadians(0));
-            DPL3StartPose = new Pose2d(9, 30, Math.toRadians(0));
+            DPL2StartPose = new Pose2d(13, 30, Math.toRadians(0));
+            DPL3StartPose = new Pose2d(10, 30, Math.toRadians(0));
             DPC1LineEndPose = new Vector2d(22, 14);
             DPC2StartPose = new Pose2d(10, 14, Math.toRadians(90));
             DPR2StartPose = new Pose2d(6, 30, Math.toRadians(180));
@@ -277,7 +279,7 @@ public class PirsusAuto extends LinearOpMode {
 
         if(GlobalVariables.getParkLeft() && GlobalVariables.getAllianceColour()) { // park left red side
             parkEndPose2 = new Vector2d(40, -11.5);
-            parkEndPose3 = new Vector2d(60, -11.5);
+            parkEndPose3 = new Vector2d(59, -10);
         }
         else if(!GlobalVariables.getParkLeft() && GlobalVariables.getAllianceColour()) { // park right red side
             parkEndPose2 = new Vector2d(40, -56);
@@ -289,8 +291,8 @@ public class PirsusAuto extends LinearOpMode {
             parkEndPose3 = new Vector2d(60, 58);
         }
         else { // park right blue side
-            parkEndPose2 = new Vector2d(40, 4);
-            parkEndPose3 = new Vector2d(60, 8);
+            parkEndPose2 = new Vector2d(40, 7);
+            parkEndPose3 = new Vector2d(57, 11);
         }
 
         robot.runWithEncoders();
@@ -323,6 +325,7 @@ public class PirsusAuto extends LinearOpMode {
         elapsedTime = System.nanoTime() - startTime;
 
         position = bluePosition();
+        GlobalVariables.setPosition(position);
 
 
 
@@ -345,16 +348,17 @@ public class PirsusAuto extends LinearOpMode {
                         targetTag = 1;
                     }
                     DPL1.doPath(initialPose, DPL2StartPose);
-                    if(!GlobalVariables.getAllianceColour()) {
+                    if(GlobalVariables.getAllianceColour()) {
+                        DPL2.doPath(DPL2StartPose);
                         robot.setIntakeMotorPower(1.0);
                         sleep(2000);
                         robot.setIntakeMotorPower(0.0);
                     }
-                    DPL2.doPath(DPL2StartPose);
-                    if(GlobalVariables.getAllianceColour()) {
+                    else {
                         robot.setIntakeMotorPower(1.0);
                         sleep(2000);
                         robot.setIntakeMotorPower(0.0);
+                        DPL2.doPath(DPL2StartPose);
                     }
                     DPL3.doPath(DPL3StartPose);
                     break;
@@ -366,10 +370,19 @@ public class PirsusAuto extends LinearOpMode {
                         targetTag = 2;
                     }
                     DPC1.doPath(initialPose, DPC1LineEndPose);
-                    robot.setIntakeMotorPower(1.0);
-                    sleep(2000);
-                    robot.setIntakeMotorPower(0.0);
-                    DPC2.doPath(DPC2StartPose);
+                    if(GlobalVariables.getAllianceColour() && GlobalVariables.getSide()) {
+                        robot.setIntakeMotorPower(1.0);
+                        sleep(2000);
+                        robot.setIntakeMotorPower(0.0);
+                        DPC2.doPath(DPC2StartPose);
+                        DPC2.doPath(DPC2StartPose);
+                    }
+                    else {
+                        robot.setIntakeMotorPower(1.0);
+                        sleep(2000);
+                        robot.setIntakeMotorPower(0.0);
+                        DPC2.doPath(DPC2StartPose);
+                    }
                     break;
                 case 2:
                     if(GlobalVariables.getAllianceColour()) {
@@ -379,13 +392,18 @@ public class PirsusAuto extends LinearOpMode {
                         targetTag = 3;
                     }
                     DPR1.doPath(initialPose, DPR2StartPose);
-                   // if(!GlobalVariables.getAllianceColour()) {  //added by wade to move back a couple of inches prior to deposit
-                      //  DPR2.doPath(DPR2StartPose);
-                 //   }
-                    robot.setIntakeMotorPower(1.0);
-                    sleep(2000);
-                    robot.setIntakeMotorPower(0.0);
-                    DPR2.doPath(DPR2StartPose);
+                    if(GlobalVariables.getSide()) {
+                        DPR2.doPath(DPR2StartPose);
+                        robot.setIntakeMotorPower(1.0);
+                        sleep(2000);
+                        robot.setIntakeMotorPower(0.0);
+                    }
+                    else {
+                        robot.setIntakeMotorPower(1.0);
+                        sleep(2000);
+                        robot.setIntakeMotorPower(0.0);
+                        DPR2.doPath(DPR2StartPose);
+                    }
                     DPR3.doPath(DPR3StartPose);
                     break;
                 default:

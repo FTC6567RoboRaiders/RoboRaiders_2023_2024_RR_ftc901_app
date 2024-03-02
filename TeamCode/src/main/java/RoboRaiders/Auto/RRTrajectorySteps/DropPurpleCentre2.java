@@ -53,9 +53,16 @@ public class DropPurpleCentre2 {
                         SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                 .build();
+        Trajectory step3 = drive.trajectoryBuilder(startPose).back(3, // drive to converging position
+                        SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
+                .build();
 
-        if(GlobalVariables.getAllianceColour()) {
+        if(GlobalVariables.getAllianceColour() && !GlobalVariables.getSide()) {
             drive.followTrajectory(step2);
+        }
+        else if(GlobalVariables.getAllianceColour() && GlobalVariables.getSide()) {
+            drive.followTrajectory(step3);
         }
         else {
             drive.followTrajectory(step1);

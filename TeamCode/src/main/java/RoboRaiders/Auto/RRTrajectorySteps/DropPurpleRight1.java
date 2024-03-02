@@ -53,8 +53,11 @@ public class DropPurpleRight1 {
         Trajectory step3 = drive.trajectoryBuilder(startPose)
                 .strafeLeft(7)
                 .build();
+        Trajectory step1a = drive.trajectoryBuilder(step1.end())
+                .back(21)
+                .build();
         if((!GlobalVariables.getSide() && !GlobalVariables.getAllianceColour()) | (GlobalVariables.getSide() && GlobalVariables.getAllianceColour())) { // blue/backstage or red/stage
-            intermediateEndPose = step1.end();
+            intermediateEndPose = step1a.end();
         }
         else if(!GlobalVariables.getSide() && GlobalVariables.getAllianceColour()) {
             intermediateEndPose = step3.end();
@@ -62,7 +65,7 @@ public class DropPurpleRight1 {
         else {
             intermediateEndPose = startPose;
         }
-            Trajectory step2 = drive.trajectoryBuilder(intermediateEndPose)
+        Trajectory step2 = drive.trajectoryBuilder(intermediateEndPose)
                 .lineToLinearHeading(spikeDropPose, // line to right spikemark new Pose2d(-37, 30, Math.toRadians(180))
                         SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
@@ -70,6 +73,7 @@ public class DropPurpleRight1 {
 
         if((!GlobalVariables.getSide() && !GlobalVariables.getAllianceColour()) | (GlobalVariables.getSide() && GlobalVariables.getAllianceColour())) { // blue/backstage or red/stage
             drive.followTrajectory(step1);
+            drive.followTrajectory(step1a);
         }
         else if(!GlobalVariables.getSide() && GlobalVariables.getAllianceColour()) { // red/backstage
             drive.followTrajectory(step3);

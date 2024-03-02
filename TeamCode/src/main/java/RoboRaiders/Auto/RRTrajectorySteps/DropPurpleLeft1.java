@@ -50,10 +50,13 @@ public class DropPurpleLeft1 {
         drive.setPoseEstimate(startPose);
 
         Trajectory step1 = drive.trajectoryBuilder(startPose)
-                .strafeLeft(15)
+                .strafeLeft(18)
+                .build();
+        Trajectory step1a = drive.trajectoryBuilder(step1.end())
+                .back(14)
                 .build();
         if((GlobalVariables.getSide() && !GlobalVariables.getAllianceColour()) | (!GlobalVariables.getSide() && GlobalVariables.getAllianceColour())) { // blue/stage or red/backstage
-            intermediateEndPose = step1.end();
+            intermediateEndPose = step1a.end();
         }
         else {
             intermediateEndPose = startPose;
@@ -63,12 +66,20 @@ public class DropPurpleLeft1 {
                         SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                 .build();
+        Trajectory step3 = drive.trajectoryBuilder(step2.end())
+                .back(1)
+                .build();
 
         if((GlobalVariables.getSide() && !GlobalVariables.getAllianceColour()) | (!GlobalVariables.getSide() && GlobalVariables.getAllianceColour())) { // blue/stage or red/backstage
             drive.followTrajectory(step1);
+            drive.followTrajectory(step1a);
         }
         else {}
         drive.followTrajectory(step2);
+//        if(GlobalVariables.getAllianceColour() && !GlobalVariables.getSide()) {
+//
+//        }
+        drive.followTrajectory(step3);
 
         endPose = step1.end();
 

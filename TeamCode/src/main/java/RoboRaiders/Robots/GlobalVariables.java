@@ -6,6 +6,7 @@ public class GlobalVariables {
     private static boolean allianceColour = false; // true - red | false - blue
     private static boolean startSide = false; // true - stage | false - backstage
     private static boolean parkLeft = false; //true - Left | false - right
+    private static int position = 1;
 
     public static void setAutoHeading(double heading) {
         autoHeading = heading;
@@ -31,8 +32,20 @@ public class GlobalVariables {
         return startSide;
     }
 
-    public static void setParkLeft(boolean inParkLeft){ parkLeft = inParkLeft; }
+    public static void setParkLeft(boolean inParkLeft) {
+        parkLeft = inParkLeft;
+    }
 
-    public static boolean getParkLeft(){return parkLeft;}
+    public static boolean getParkLeft() {
+        return parkLeft;
+    }
+
+    public static void setPosition(int inputPosition) {
+        position = inputPosition;
+    }
+
+    public static int getPosition() {
+        return position;
+    }
 
 }

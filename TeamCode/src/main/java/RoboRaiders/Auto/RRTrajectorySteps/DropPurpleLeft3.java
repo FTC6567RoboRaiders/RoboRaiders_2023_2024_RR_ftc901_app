@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
+import RoboRaiders.Robots.GlobalVariables;
 import RoboRaiders.Robots.PirsusMkII;
 
 public class DropPurpleLeft3 {
@@ -52,6 +53,9 @@ public class DropPurpleLeft3 {
 
         drive.followTrajectory(step1);
         drive.turn(Math.toRadians(90));
+        if(GlobalVariables.getSide() && !GlobalVariables.getAllianceColour() && GlobalVariables.getPosition() == 0) {
+            drive.turn(Math.toRadians(2));
+        }
 
     }
 
