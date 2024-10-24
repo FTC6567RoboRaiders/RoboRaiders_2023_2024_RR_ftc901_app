@@ -38,7 +38,7 @@ public class DropPurpleCentre2 {
     public Pose2d endPose;
     public SampleMecanumDrive drive = null;
 
-    public Pose2d doPath(Pose2d startPose) {
+    public Pose2d doPath(Pose2d startPose, boolean checkIfTrue) {
 
         drive = new SampleMecanumDrive(ahwMap);
         drive.setPoseEstimate(startPose);
@@ -53,19 +53,30 @@ public class DropPurpleCentre2 {
                         SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                 .build();
-        Trajectory step3 = drive.trajectoryBuilder(startPose).back(3, // drive to converging position
+        Trajectory step3 = drive.trajectoryBuilder(startPose)
+                .back(2, // drive to converging position
                         SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                 .build();
-
-        if(GlobalVariables.getAllianceColour() && !GlobalVariables.getSide()) {
-            drive.followTrajectory(step2);
-        }
-        else if(GlobalVariables.getAllianceColour() && GlobalVariables.getSide()) {
-            drive.followTrajectory(step3);
+        Trajectory step156= drive.trajectoryBuilder(startPose)
+//                .back(48, // drive to converging position
+//                        SampleMecanumDrive.getVelocityConstraint(30, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+//                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
+                .forward(3)
+                .build();
+        if(checkIfTrue) {
+            drive.followTrajectory(step156);
         }
         else {
-            drive.followTrajectory(step1);
+            if(GlobalVariables.getAllianceColour() && !GlobalVariables.getSide()) {
+                drive.followTrajectory(step2);
+            }
+            else if(GlobalVariables.getAllianceColour() && GlobalVariables.getSide()) {
+                drive.followTrajectory(step3);
+            }
+            else {
+                drive.followTrajectory(step1);
+            }
         }
 
         endPose = step1.end();

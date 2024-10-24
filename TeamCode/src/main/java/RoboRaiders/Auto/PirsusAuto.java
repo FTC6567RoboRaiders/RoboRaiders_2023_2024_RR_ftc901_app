@@ -35,6 +35,7 @@ import RoboRaiders.Auto.RRTrajectorySteps.DropPurpleRight2;
 import RoboRaiders.Auto.RRTrajectorySteps.DropPurpleRight3;
 import RoboRaiders.Auto.RRTrajectorySteps.SpikeToLoopBridge;
 import RoboRaiders.Auto.RRTrajectorySteps.SpikeToLoopBridgeNew;
+import RoboRaiders.Auto.RRTrajectorySteps.centreFixRedStage;
 import RoboRaiders.Robots.GlobalVariables;
 import RoboRaiders.Robots.Pirsus2;
 
@@ -79,6 +80,7 @@ public class PirsusAuto extends LinearOpMode {
     public DepoLoop1 depoLoop1 = null;
     public DepoLoop2 depoLoop2 = null;
     public SpikeToLoopBridgeNew bridge = null;
+    public centreFixRedStage CFRS = null;
     public Pose2d endPose;
     public boolean pathCompleted = false;
 
@@ -354,6 +356,12 @@ public class PirsusAuto extends LinearOpMode {
                         sleep(2000);
                         robot.setIntakeMotorPower(0.0);
                     }
+//                    else if(!GlobalVariables.getAllianceColour() && GlobalVariables.getSide()) {
+//                        DPL2.doPath(DPL2StartPose);
+//                        robot.setIntakeMotorPower(1.0);
+//                        sleep(2000);
+//                        robot.setIntakeMotorPower(0.0);
+//                    }
                     else {
                         robot.setIntakeMotorPower(1.0);
                         sleep(2000);
@@ -374,14 +382,38 @@ public class PirsusAuto extends LinearOpMode {
                         robot.setIntakeMotorPower(1.0);
                         sleep(2000);
                         robot.setIntakeMotorPower(0.0);
-                        DPC2.doPath(DPC2StartPose);
-                        DPC2.doPath(DPC2StartPose);
+                        DPC2.doPath(DPC2StartPose, true);
+                        DPC2.doPath(DPC2StartPose, false);
+                        DPC2.doPath(DPC2StartPose, false);
+                        DPC2.doPath(DPC2StartPose, false);
+                    }
+                    else if(GlobalVariables.getAllianceColour() && !GlobalVariables.getSide()) {
+                        robot.setIntakeMotorPower(1.0);
+                        sleep(2000);
+                        robot.setIntakeMotorPower(0.0);
+                        DPC2.doPath(DPC2StartPose, true);
+                        DPC2.doPath(DPC2StartPose, false);
+                    }
+                    else if(!GlobalVariables.getAllianceColour() && !GlobalVariables.getSide()){
+                        robot.setIntakeMotorPower(1.0);
+                        sleep(2000);
+                        robot.setIntakeMotorPower(0.0);
+                        DPC2.doPath(DPC2StartPose, true);
+                        DPC2.doPath(DPC2StartPose, false);
+                    }
+                    else if(!GlobalVariables.getAllianceColour() && GlobalVariables.getSide()){
+                        robot.setIntakeMotorPower(1.0);
+                        sleep(2000);
+                        robot.setIntakeMotorPower(0.0);
+                        DPC2.doPath(DPC2StartPose, true);
+                        DPC2.doPath(DPC2StartPose, false);
                     }
                     else {
                         robot.setIntakeMotorPower(1.0);
                         sleep(2000);
                         robot.setIntakeMotorPower(0.0);
-                        DPC2.doPath(DPC2StartPose);
+
+                        DPC2.doPath(DPC2StartPose, false);
                     }
                     break;
                 case 2:
@@ -414,11 +446,11 @@ public class PirsusAuto extends LinearOpMode {
                         targetTag = 2;
                     }
                     DPC1.doPath(initialPose, DPC1LineEndPose);
-                    DPC2.doPath(DPC2StartPose);
+                    DPC2.doPath(DPC2StartPose, false);
                     break;
             }
 
-            bridge.doPath(bridgeStartPose, bridgeLineEndPose, parkEndPose2, parkEndPose3);
+//            bridge.doPath(bridgeStartPose, bridgeLineEndPose, parkEndPose2, parkEndPose3);
 
             // activate AT detection
 

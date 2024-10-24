@@ -51,9 +51,9 @@ public class StevesPipeline2 extends OpenCvPipeline {
     private ArrayList<MatOfPoint> foundContours;
 
     // HSV values for blue and red we want
-    private double[] blueHSVThresholdHue = {56.0, 180.0};
-    private double[] blueHSVThresholdSaturation = {50.0, 255.0};
-    private double[] blueHSVThresholdValue = {50.0, 255.0};
+    private double[] blueHSVThresholdHue = {56.0, 180.0}; //56, 180
+    private double[] blueHSVThresholdSaturation = {93.0, 255.0}; //50, 255
+    private double[] blueHSVThresholdValue = {134.0, 255.0}; //50, 255
 
     private double[] redHSVThresholdHue = {0.0, 20.473209195046536};
     private double[] redHSVThresholdHue2 = {140.0, 180.0};
